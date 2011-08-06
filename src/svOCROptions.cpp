@@ -7,7 +7,7 @@
 *****************************************************/
 
 /********************  HEADERS  *********************/
-#include "svOptions.h"
+#include "svOCROptions.h"
 #include <argp.h>
 #include <cstdlib>
 #include <iostream>
@@ -45,37 +45,37 @@ static const struct argp_option RS_OPTIONS[] = {
 };
 
 /*******************  FUNCTION  *********************/
-svOptions::svOptions()
+svOCROptions::svOCROptions()
 {
 	this->init();
 }
 
 /*******************  FUNCTION  *********************/
-void svOptions::init(void)
+void svOCROptions::init(void)
 {
 	this->paramSaveEach = false;
 	this->paramSkipUnknown = false;
-	this->calcHeuristique = false;
+	this->calcHeuristic = false;
 	this->displayDist = false;
-	this->testHeuristique = false;
+	this->testHeuristic = false;
 	this->optimiseCoefs = false;
 }
 
 /*******************  FUNCTION  *********************/
-void svOptions::loadParameters(int argc, char * argv[])
+void svOCROptions::loadParameters(int argc, char * argv[])
 {
-	const argp RS_ARGP_OPTS = { RS_OPTIONS, svOptions::parseOptions, RS_ARGS_DOC, RS_ARGP_DOC };
+	const argp RS_ARGP_OPTS = { RS_OPTIONS, svOCROptions::parseOptions, RS_ARGS_DOC, RS_ARGP_DOC };
 	argp_parse (&RS_ARGP_OPTS, argc, argv, 0, 0, this);
 	doInternal();
 }
 
 /*******************  FUNCTION  *********************/
 /* Parse a single option. */
-error_t svOptions::parseOptions(int key, char *arg, struct argp_state *state)
+error_t svOCROptions::parseOptions(int key, char *arg, struct argp_state *state)
 {
 	/* Get the input argument from argp_parse, which we
 	know is a pointer to our arguments structure. */
-	struct svOptions *options = (svOptions*)state->input;
+	struct svOCROptions *options = (svOCROptions*)state->input;
 
 	switch (key)
 	{
@@ -102,7 +102,7 @@ error_t svOptions::parseOptions(int key, char *arg, struct argp_state *state)
 			options->addEmptyMarkTo = arg;
 			break;
 		case 'c':
-			options->calcHeuristique = true;
+			options->calcHeuristic = true;
 			break;
 		case 'C':
 			options->ch = arg;
@@ -111,7 +111,7 @@ error_t svOptions::parseOptions(int key, char *arg, struct argp_state *state)
 			options->displayDist = true;
 			break;
 		case 'T':
-			options->testHeuristique = true;
+			options->testHeuristic = true;
 			options->dbsToTests.push_back(arg);
 			break;
 		case 'O':
@@ -122,7 +122,7 @@ error_t svOptions::parseOptions(int key, char *arg, struct argp_state *state)
 			options->coefs = arg;
 			break;
 		case 'e':
-			options->useHeuristiques = true;
+			options->useHeuristics = true;
 			break;
 		case ARGP_KEY_ARG:
 			options->batch.push_back(arg);
@@ -136,7 +136,7 @@ error_t svOptions::parseOptions(int key, char *arg, struct argp_state *state)
 }
 
 /*******************  FUNCTION  *********************/
-void svOptions::displayOptions(void) const
+void svOCROptions::displayOptions(void) const
 {
 	cout << "=============== OPTIONS =================" << endl;
 	cout << "save_each     (-s) : " << this->paramSaveEach << endl;
@@ -165,14 +165,14 @@ void svOptions::displayOptions(void) const
 }
 
 /*******************  FUNCTION  *********************/
-void svOptions::doInternal(void)
+void svOCROptions::doInternal(void)
 {
 	if (this->inputFileList != "")
 		this->loadInputFileList();
 }
 
 /*******************  FUNCTION  *********************/
-void svOptions::loadInputFileList(void)
+void svOCROptions::loadInputFileList(void)
 {
 	char buffer[4096];
 	char * res;
@@ -200,122 +200,122 @@ void svOptions::loadInputFileList(void)
 }
 
 /*******************  FUNCTION  *********************/
-const std::list<std::string>& svOptions::getBatch(void) const
+const std::list<std::string>& svOCROptions::getBatch(void) const
 {
 	return this->batch;
 }
 
 /*******************  FUNCTION  *********************/
-const std::list<std::string> &svOptions::getDbs(void) const
+const std::list<std::string> &svOCROptions::getDbs(void) const
 {
 	return this->dbs;
 }
 
 /*******************  FUNCTION  *********************/
-std::string svOptions::getOutputDb(void) const
+std::string svOCROptions::getOutputDb(void) const
 {
 	return this->outputDb;
 }
 
 /*******************  FUNCTION  *********************/
-bool svOptions::hasOutputDb(void) const
+bool svOCROptions::hasOutputDb(void) const
 {
 	return (this->outputDb!="");
 }
 
 /*******************  FUNCTION  *********************/
-bool svOptions::hasSaveEach(void) const
+bool svOCROptions::hasSaveEach(void) const
 {
 	return this->paramSaveEach;
 }
 
 /*******************  FUNCTION  *********************/
-bool svOptions::hasSkipUnknown(void) const
+bool svOCROptions::hasSkipUnknown(void) const
 {
 	return this->paramSkipUnknown;
 }
 
 /*******************  FUNCTION  *********************/
-std::string svOptions::getSkipString(void) const
+std::string svOCROptions::getSkipString(void) const
 {
 	return this->paramSkipWith;
 }
 
 /*******************  FUNCTION  *********************/
-bool svOptions::hasAddMark(void) const
+bool svOCROptions::hasAddMark(void) const
 {
 	return (this->addEmptyMarkTo!="");
 }
 
 /*******************  FUNCTION  *********************/
-std::string svOptions::getFileToMark(void) const
+std::string svOCROptions::getFileToMark(void) const
 {
 	return this->addEmptyMarkTo;
 }
 
 /*******************  FUNCTION  *********************/
-bool svOptions::hasCalcHeuristique(void) const
+bool svOCROptions::hasCalcHeuristic(void) const
 {
-	return this->calcHeuristique;
+	return this->calcHeuristic;
 }
 
 /*******************  FUNCTION  *********************/
-bool svOptions::hasHeuristiqueChar(void) const
+bool svOCROptions::hasHeuristicChar(void) const
 {
 	return ch!="";
 }
 
 /*******************  FUNCTION  *********************/
-float svOptions::getOptimizeMaxParam(void) const
+float svOCROptions::getOptimizeMaxParam(void) const
 {
 	return this->optimiseWithMax;
 }
 
 /*******************  FUNCTION  *********************/
-std::string svOptions::getHeuristiqueChar(void) const
+std::string svOCROptions::getHeuristicChar(void) const
 {
 	return ch;
 }
 
 /*******************  FUNCTION  *********************/
-bool svOptions::hasDisplayDist(void) const
+bool svOCROptions::hasDisplayDist(void) const
 {
 	return this->displayDist;
 }
 
 /*******************  FUNCTION  *********************/
-bool svOptions::hasTestHeuristique(void) const
+bool svOCROptions::hasTestHeuristic(void) const
 {
-	return this->testHeuristique;
+	return this->testHeuristic;
 }
 
 /*******************  FUNCTION  *********************/
-const std::list<std::string> & svOptions::getDbToTestHeuristique(void) const
+const std::list<std::string> & svOCROptions::getDbToTestHeuristic(void) const
 {
 	return this->dbsToTests;
 }
 
 /*******************  FUNCTION  *********************/
-bool svOptions::hasOptimizeCoefs(void) const
+bool svOCROptions::hasOptimizeCoefs(void) const
 {
 	return this->optimiseCoefs;
 }
 
 /*******************  FUNCTION  *********************/
-std::string svOptions::getCoefs(void) const
+std::string svOCROptions::getCoefs(void) const
 {
 	return coefs;
 }
 
 /*******************  FUNCTION  *********************/
-bool svOptions::hasCoefs(void) const
+bool svOCROptions::hasCoefs(void) const
 {
 	return (coefs!="");
 }
 
 /*******************  FUNCTION  *********************/
-bool svOptions::hasUseHeuristiques(void) const
+bool svOCROptions::hasUseHeuristics(void) const
 {
-	return useHeuristiques;
+	return useHeuristics;
 }
 

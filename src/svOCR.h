@@ -12,13 +12,13 @@
 /********************  HEADERS  *********************/
 #include "svCharDb.h"
 #include "svExtractedChar.h"
-#include "svOptions.h"
+#include "svOCROptions.h"
 
 /*********************  CLASS  **********************/
 class svOCR
 {
 	public:
-		svOCR(const svOptions & options);
+		svOCR(const svOCROptions & options);
 		std::string runOnImage(std::string path);
 		bool loadDb(std::string filename);
 		bool saveDb(std::string filename);
@@ -26,7 +26,7 @@ class svOCR
 		std::string requestUnknown(svExtractedChar & extrChr,std::string & hash);
 		bool isMaj(std::string & value);
 		svCharDb db;
-		const svOptions * options;
+		const svOCROptions * options;
 		int majSize;
 };
 

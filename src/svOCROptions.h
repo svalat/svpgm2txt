@@ -15,10 +15,10 @@
 #include <argp.h>
 
 /*********************  CLASS  **********************/
-class svOptions
+class svOCROptions
 {
 	public:
-		svOptions();
+		svOCROptions();
 		void loadParameters(int argc, char * argv[]);
 		void displayOptions(void) const;
 		const std::list<std::string> & getBatch(void) const;
@@ -30,17 +30,17 @@ class svOptions
 		std::string getSkipString(void) const;
 		bool hasAddMark(void) const;
 		std::string getFileToMark(void) const;
-		bool hasCalcHeuristique(void) const;
-		bool hasHeuristiqueChar(void) const;
-		std::string getHeuristiqueChar(void) const;
+		bool hasCalcHeuristic(void) const;
+		bool hasHeuristicChar(void) const;
+		std::string getHeuristicChar(void) const;
 		bool hasDisplayDist(void) const;
-		bool hasTestHeuristique(void) const;
-		const std::list<std::string> & getDbToTestHeuristique(void) const;
+		bool hasTestHeuristic(void) const;
+		const std::list<std::string> & getDbToTestHeuristic(void) const;
 		bool hasOptimizeCoefs(void) const;
 		float getOptimizeMaxParam(void) const;
 		std::string getCoefs(void) const;
 		bool hasCoefs(void) const;
-		bool hasUseHeuristiques(void) const;
+		bool hasUseHeuristics(void) const;
 	private:
 		static error_t parseOptions(int key, char *arg, struct argp_state *state);
 		void doInternal(void);
@@ -54,15 +54,15 @@ class svOptions
 		bool paramSkipUnknown;
 		std::string paramSkipWith;
 		std::string addEmptyMarkTo;
-		bool calcHeuristique;
+		bool calcHeuristic;
 		std::string ch;
 		bool displayDist;
-		bool testHeuristique;
+		bool testHeuristic;
 		std::list<std::string> dbsToTests;
 		bool optimiseCoefs;
 		float optimiseWithMax;
 		std::string coefs;
-		bool useHeuristiques;
+		bool useHeuristics;
 };
 
 #endif

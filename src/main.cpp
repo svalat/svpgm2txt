@@ -10,7 +10,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <sys/time.h>
-#include "svOptions.h"
+#include "svOCROptions.h"
 #include "svHeuristique.h"
 #include "svOCR.h"
 
@@ -48,7 +48,7 @@ bool writeOnFile(std::string fname,std::string value)
 }
 
 /*******************  FUNCTION  *********************/
-void normalRun(const svOptions & options)
+void normalRun(const svOCROptions & options)
 {
 	//loading DBS
 	svOCR ocr(options);
@@ -75,7 +75,7 @@ void normalRun(const svOptions & options)
 }
 
 /*******************  FUNCTION  *********************/
-void addMark(const svOptions & options)
+void addMark(const svOCROptions & options)
 {
 	cout << "Add mark to DB " << options.getFileToMark()  << endl;
 	svCharDb db;
@@ -85,7 +85,7 @@ void addMark(const svOptions & options)
 }
 
 /*******************  FUNCTION  *********************/
-void calcHeuristique(const svOptions & options)
+void calcHeuristic(const svOCROptions & options)
 {
 	svCharDb db;
 	//load dbs
@@ -98,13 +98,13 @@ void calcHeuristique(const svOptions & options)
 	svHeuristique heur;
 	for(list<svDicEntry>::const_iterator it=lst.begin();it!=lst.end();it++)
 	{
-		if (!options.hasHeuristiqueChar() || options.getHeuristiqueChar()==it->value || options.getHeuristiqueChar()==it->hash)
+		if (!options.hasHeuristicChar() || options.getHeuristicChar()==it->value || options.getHeuristicChar()==it->hash)
 		{
 			heur.buildFromHash(it->hash,it->majSize);
 			cout << "#======== " << it->value << " ========" << endl << heur;
 			cout << "#hash = " << it->hash << endl;
 			cout << "#CDEF = {" << heur.getCDefinition() << ",\"" << it->value << "\"}," << endl;
-			if (options.hasHeuristiqueChar() && options.hasDisplayDist())
+			if (options.hasHeuristicChar() && options.hasDisplayDist())
 				db.displayDistWithAll(heur);
 		}
 	}
@@ -180,7 +180,7 @@ TestResStruct runTest(svCharDb & ref,svCharDb & test,bool verbose=true)
 }
 
 /*******************  FUNCTION  *********************/
-void testHeuristique(const svOptions & options)
+void testHeuristic(const svOCROptions & options)
 {
 	svCharDb db;
 	//load dbs
@@ -190,7 +190,7 @@ void testHeuristique(const svOptions & options)
 
 	svCharDb dbToTest;
 	//load dbs
-	const list<string> & dbs2 = options.getDbToTestHeuristique();
+	const list<string> & dbs2 = options.getDbToTestHeuristic();
 	for(list<string>::const_iterator it=dbs2.begin();it!=dbs2.end();it++)
 		dbToTest.load(*it);
 
@@ -207,7 +207,7 @@ void testHeuristique(const svOptions & options)
 }
 
 /*******************  FUNCTION  *********************/
-float searchCutPoint(svOptions & options,float * coefs,svCharDb &db,svCharDb & dbToTest)
+float searchCutPoint(svOCROptions & options,float * coefs,svCharDb &db,svCharDb & dbToTest)
 {
 	float res=0.01;
 	float pok=100;
@@ -220,7 +220,7 @@ float searchCutPoint(svOptions & options,float * coefs,svCharDb &db,svCharDb & d
 }
 
 /*******************  FUNCTION  *********************/
-void searchCoefs(svOptions & options)
+void searchCoefs(svOCROptions & options)
 {
 	svCharDb db;
 	//load dbs
@@ -230,7 +230,7 @@ void searchCoefs(svOptions & options)
 
 	svCharDb dbToTest;
 	//load dbs
-	const list<string> & dbs2 = options.getDbToTestHeuristique();
+	const list<string> & dbs2 = options.getDbToTestHeuristic();
 	for(list<string>::const_iterator it=dbs2.begin();it!=dbs2.end();it++)
 		dbToTest.load(*it);
 
@@ -267,7 +267,7 @@ void searchCoefs(svOptions & options)
 /*******************  FUNCTION  *********************/
 int main(int argc, char *argv[])
 {
-	svOptions options;
+	svOCROptions options;
 	options.loadParameters(argc,argv);
 	//options.displayOptions();
 
@@ -276,12 +276,12 @@ int main(int argc, char *argv[])
 
 	if (options.hasAddMark())
 		addMark(options);
-	else if (options.hasCalcHeuristique())
-		calcHeuristique(options);
-	else if (options.hasTestHeuristique() && options.hasOptimizeCoefs())
+	else if (options.hasCalcHeuristic())
+		calcHeuristic(options);
+	else if (options.hasTestHeuristic() && options.hasOptimizeCoefs())
 		searchCoefs(options);
-	else if (options.hasTestHeuristique())
-		testHeuristique(options);
+	else if (options.hasTestHeuristic())
+		testHeuristic(options);
 	else
 		normalRun(options);
 	return EXIT_SUCCESS;

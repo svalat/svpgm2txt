@@ -15,7 +15,7 @@
 using namespace std;
 
 /*******************  FUNCTION  *********************/
-svOCR::svOCR(const svOptions & options)
+svOCR::svOCR(const svOCROptions & options)
 {
 	this->options = & options;
 	this->majSize = 0;
@@ -85,7 +85,7 @@ std::string svOCR::requestUnknown(svExtractedChar & extrChr,std::string & hash)
 {
 	std::string value;
 	bool found =false;
-	if (options->hasUseHeuristiques())
+	if (options->hasUseHeuristics())
 	{
 		svHeuristique heur;
 		svHeuristiqueAnswer ans;
