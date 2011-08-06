@@ -91,7 +91,7 @@ std::string svOCR::requestUnknown(svExtractedChar & extrChr,std::string & hash)
 		svHeuristiqueAnswer ans;
 		heur.buildFromExtractedChar(extrChr,majSize);
 		ans = db.askToGodOfChar(heur);
-		cout << "Heuristique say " << ans.ans1 << " with dist " << ans.dist1 << endl;
+		cout << "Heuristic say " << ans.ans1 << " with dist " << ans.dist1 << endl;
 		if (ans.hasSome && heur.isAccepted(ans))
 		{
 			cout << "It was accepted" << endl;
