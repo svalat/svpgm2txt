@@ -18,29 +18,30 @@ using namespace std;
 
 /*********************  CONSTS  *********************/
 const char * argp_program_version="svPgm2Txt version " VERSION;
-const char *argp_program_bug_address = "<sebastien.valat@gmail.com>";
+const char *argp_program_bug_address = "<sebastien.valat.dev@orange.fr>";
 /* Program documentation. */
-static const char RS_ARGP_DOC[] ="svPgm1Txt -- Utilitaire d'extraction de texte depuis un fichier PGM.";
+static const char RS_ARGP_DOC[] ="svPgm1Txt -- Tools for text extarction from PFM files (OCR).";
 /* A description of the arguments we accept. */
 static const char RS_ARGS_DOC[] = "file1 file2...";
 /* The options we understand. */
 static const struct argp_option RS_OPTIONS[] = {
-	{"save-each",    's',      NULL,      0,  "Sauvegarde le dictionnaire à la fin de chaque fichier." },
-	{"unknown",      'u',  "STRING",      0,  "Remplace toutes les lettre inconnues par STRING plutôt que demander à l'utilisateur." },
-	{"db",           'd',    "FILE",      0,  "Ajoute la base de donner à la liste des bases de recherche de caractères." },
-	{"output-db",    'o',    "FILE",      0,  "Definit le fichier dans lequel sauvegarder la nouvelle base de donnée "
-	                                          "(elle cumulera toutes les bases utilisées en entrée)." },
-	{"list",         'l',    "FILE",      0,  "Fournit une fichier contenant la liste des fichiers à traiter." },
-	{"mark",         'm',    "FILE",      0,  "Ajoute simplement une entrée vide à la fin de la base de donnée pour servir de repère"
-	                                          "(par exemple pour de la validation de base)."},
-	{"calc",         'c',      NULL,      0,  "Calcule les heuristiques des lettres de la base de donnée"},
-	{"char",         'C',    "CHAR",      0,  "N'affiche que les heuristiques de la lettre demandée"},
-	{"dist",         'D',      NULL,      0,  "Affiche la distance du caractère sélectionné par C à la liste des heuristiques disponibles"},
-	{"test",         'T',    "FILE",      0,  "Test les lettres de la base de donnée avec les heuristiques"},
-	{"optimize",     'O',     "MAX",      0,  "Applique les test d'heuristiques en boucle pour optimiser les coefs (utilisé avec -T pour "
-	                                          "founir les cas test et -d pour les références supplémentaires au références internes.)"},
-	{"coefs",        'E',  "STRING",      0,  "Fournit les 35 coefs pour l'heuristique (générés avec -O)"},
-	{"heuristiques", 'e',      NULL,      0,  "Active l'utilisation des heuristiques pour les nouveaux caractères"},
+	{"save-each",    's',      NULL,      0,  "Save char db after each PGM files." },
+	{"unknown",      'u',  "STRING",      0,  "Replace all unknown letters by 'STRING' instead of asking to the user." },
+	{"db",           'd',    "FILE",      0,  "Add the given DB file for character recognition." },
+	{"output-db",    'o',    "FILE",      0,  "Define the file in which to save the final DB which will cumulate all input"
+	                                          "DB plus new entries created by the scan." },
+	{"list",         'l',    "FILE",      0,  "Provide a file listing PGM files to process.." },
+	{"mark",         'm',    "FILE",      0,  "Add an empty entry at the end of the DB."
+	                                          "(For exemple to mark DB validation)."},
+	{"calc",         'c',      NULL,      0,  "Generate heuristics parameter for the letters given in the DB."},
+	{"char",         'C',    "CHAR",      0,  "Only display heuristics from the given character."},
+	{"dist",         'D',      NULL,      0,  "Display the distance between the char selected with -C and the list of"
+	                                          "available heuristics."},
+	{"test",         'T',    "FILE",      0,  "Test all letters from the given file to validate an heuristics."},
+	{"optimize",     'O',     "MAX",      0,  "Apply heuristics tests in loop to optimise coefs. It can be used with -T"
+	                                          "option to provide test case and -d to provide more references than internal once."},
+	{"coefs",        'E',  "STRING",      0,  "Provide the 35 coefs for heuristics (generated with -O option)"},
+	{"heuristics",   'e',      NULL,      0,  "Enable usage of heusitics for new character instead of requesting to the user."},
 	{ 0 }
 };
 

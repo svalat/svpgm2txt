@@ -15,6 +15,12 @@
 #include <argp.h>
 
 /*********************  CLASS  **********************/
+/**
+ * This class manage the program confirugation. Informations will be setup by using program aguement
+ * and propagate in the application by this class.
+ * @brief Class to manage program options
+ * @author Sébastien Valat
+**/
 class svOCROptions
 {
 	public:
