@@ -1,0 +1,23 @@
+######################################################
+#            PROJECT  : svPgm2Txt                    #
+#            VERSION  : 1.0                          #
+#            DATE     : 08/2011                      #
+#            AUTHOR   : Valat Sébastien              #
+#            LICENSE  : CeCILL-C                     #
+######################################################
+
+Current dependencies for this project are :
+
+ - BUILD \
+         + gcc/g++         (tested version 4.5)
+         + cmake           (tested version 2.8)
+         + make            (tested version 3.81)
+ - RUN \
+
+Tested systèmes are :
+
+ - Ubuntu 11.04 x86_64
+
+Tested compilers are :
+
+ - gcc/g++ 4.5

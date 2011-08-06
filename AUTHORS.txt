@@ -1,0 +1,10 @@
+######################################################
+#            PROJECT  : svPgm2Txt                    #
+#            VERSION  : 1.0                          #
+#            DATE     : 08/2011                      #
+#            AUTHOR   : Valat Sébastien              #
+#            LICENSE  : CeCILL-C                     #
+######################################################
+
+Valat Sébastien <sebastien.valat.dev@orange.fr>
+
