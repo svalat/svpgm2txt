@@ -13,10 +13,10 @@
 #include "image.h"
 
 /*********************  CLASS  **********************/
-class svLine
+class svOCRLine
 {
 	public:
-		svLine();
+		svOCRLine();
 		bool buildLine(image & img,unsigned int startPoint);
 		void drawBorderOnPicture(void);
 		int getStart(void) const;

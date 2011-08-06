@@ -21,7 +21,7 @@ svChar::svChar()
 }
 
 /*******************  FUNCTION  *********************/
-bool svChar::buildChar(svLine & line,int start)
+bool svChar::buildChar(svOCRLine & line,int start)
 {
 	if (line.getIsOk()==false)
 		return false;
@@ -201,7 +201,7 @@ int svChar::getHeight(void) const
 }
 
 /*******************  FUNCTION  *********************/
-svLine * svChar::getLine(void)
+svOCRLine * svChar::getLine(void)
 {
 	return this->line;
 }

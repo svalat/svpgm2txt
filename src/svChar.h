@@ -11,7 +11,7 @@
 
 /********************  HEADERS  *********************/
 #include "image.h"
-#include "svLine.h"
+#include "svOCRLine.h"
 #include "svGlobalConfig.h"
 
 /*********************  CLASS  **********************/
@@ -19,7 +19,7 @@ class svChar
 {
 	public:
 		svChar();
-		bool buildChar(svLine & line,int start);
+		bool buildChar(svOCRLine & line,int start);
 		void drawBorderOnPicture(void);
 		int getStart(void) const;
 		int getEnd(void) const;
@@ -29,7 +29,7 @@ class svChar
 		bool getIsOk(void) const;
 		int getWidth(void) const;
 		int getHeight(void) const;
-		svLine * getLine(void);
+		svOCRLine * getLine(void);
 		int getMStart(void);
 	private:
 		void init();
@@ -37,7 +37,7 @@ class svChar
 		bool isEmptyLine(int pos,int angle);
 		int angle;
 		image * img;
-		svLine * line;
+		svOCRLine * line;
 		int start;
 		int end;
 		bool isOk;

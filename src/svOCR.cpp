@@ -32,7 +32,7 @@ std::string svOCR::runOnImage(std::string path)
 		return "";
 	}
 
-	svLine line;
+	svOCRLine line;
 	svChar chr;
 	svExtractedChar extrChr;
 	string res;

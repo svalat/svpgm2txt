@@ -7,17 +7,17 @@
 *****************************************************/
 
 /********************  HEADERS  *********************/
-#include "svLine.h"
+#include "svOCRLine.h"
 #include "svGlobalConfig.h"
 
 /*******************  FUNCTION  *********************/
-svLine::svLine()
+svOCRLine::svOCRLine()
 {
 	this->init();
 }
 
 /*******************  FUNCTION  *********************/
-void svLine::init()
+void svOCRLine::init()
 {
 	this->img = NULL;
 	this->ystart = 0;
@@ -26,7 +26,7 @@ void svLine::init()
 }
 
 /*******************  FUNCTION  *********************/
-bool svLine::buildLine(image & img,unsigned int startPoint)
+bool svOCRLine::buildLine(image & img,unsigned int startPoint)
 {
 	this->img = & img;
 	this->isOk=false;
@@ -53,7 +53,7 @@ bool svLine::buildLine(image & img,unsigned int startPoint)
 }
 
 /*******************  FUNCTION  *********************/
-int svLine::getHeight(void) const
+int svOCRLine::getHeight(void) const
 {
 	if (isOk)
 		return this->yend-this->ystart;
@@ -62,7 +62,7 @@ int svLine::getHeight(void) const
 }
 
 /*******************  FUNCTION  *********************/
-void svLine::drawBorderOnPicture(void)
+void svOCRLine::drawBorderOnPicture(void)
 {
 	if (this->isOk == false || this->img == NULL)
 		return;
@@ -71,25 +71,25 @@ void svLine::drawBorderOnPicture(void)
 }
 
 /*******************  FUNCTION  *********************/
-int svLine::getStart(void) const
+int svOCRLine::getStart(void) const
 {
 	return this->ystart;
 }
 
 /*******************  FUNCTION  *********************/
-int svLine::getEnd(void) const
+int svOCRLine::getEnd(void) const
 {
 	return this->yend;
 }
 
 /*******************  FUNCTION  *********************/
-image * svLine::getImage(void)
+image * svOCRLine::getImage(void)
 {
 	return this->img;
 }
 
 /*******************  FUNCTION  *********************/
-bool svLine::getIsOk(void) const
+bool svOCRLine::getIsOk(void) const
 {
 	return this->isOk;
 }
