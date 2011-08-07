@@ -1,5 +1,7 @@
 This is a simple test case to valid
 the svPgm2Txt usability
-It provide a short text based on 5
-lines.
-Test 0 and O recognition.
+It provide a short text of 7 lines.
+- Test 0 and O recognition or œ.
+- Test a full italic line
+- Test a mixed italic line
+- Test some special chars : " @ . ! ? $ / ; ' * ?
