@@ -20,7 +20,8 @@ using namespace std;
 const char * argp_program_version="svPgm2Txt version " VERSION;
 const char *argp_program_bug_address = "<sebastien.valat.dev@orange.fr>";
 /* Program documentation. */
-static const char RS_ARGP_DOC[] ="svPgm1Txt -- Tools for text extarction from PGM files (OCR).";
+static const char RS_ARGP_DOC[] ="svPgm1Txt -- Tools for text extarction from PGM files (OCR). "
+"It's based on perfect text formatting to simplify implementation so didn't support scanned documents.";
 /* A description of the arguments we accept. */
 static const char RS_ARGS_DOC[] = "file1 file2...";
 /* The options we understand. */
