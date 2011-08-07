@@ -6,8 +6,8 @@
              LICENSE  : CeCILL-C
 *****************************************************/
 
-#ifndef SV_CHAR_DB_H
-#define SV_CHAR_DB_H
+#ifndef SVOCR_CHAR_DB_H
+#define SVOCR_CHAR_DB_H
 
 /********************  HEADERS  *********************/
 #include <list>
@@ -15,7 +15,7 @@
 #include "svOCRHeuristic.h"
 
 /********************  MACRO  ***********************/
-#define SV_DB_NOT_FOUND "--**== HASH NOT FOUND ==**--"
+#define SVOCR_DB_NOT_FOUND "--**== HASH NOT FOUND ==**--"
 
 /*********************  STRUCT  *********************/
 struct svDicEntry
@@ -27,6 +27,11 @@ struct svDicEntry
 };
 
 /*********************  CLASS  **********************/
+/**
+ * Database of known character, this is done to search exact identification via hashing methods.
+ * @brief Database of known characters.
+ * @author Valat Sébastien
+**/
 class svCharDb
 {
 	public:
@@ -40,7 +45,7 @@ class svCharDb
 		svOCRHeuristicAnswer askToGodOfChar(svOCRHeuristic & heur,bool testMode=false);
 		void displayDistWithAll(svOCRHeuristic & heur);
 	protected:
-		void addHeuristique(std::string hash,int majSize,std::string value);
+		void addHeuristic(std::string hash,int majSize,std::string value);
 		void loadInternalHeurDb(void);
 		std::list<svDicEntry> dic;
 		std::list<svOCRHeuristicSimple> heurDb;

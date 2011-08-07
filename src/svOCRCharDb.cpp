@@ -7,7 +7,7 @@
 *****************************************************/
 
 /********************  HEADERS  *********************/
-#include "svCharDb.h"
+#include "svOCRCharDb.h"
 #include <iostream>
 #include <cstdio>
 
@@ -34,20 +34,20 @@ void svCharDb::addEntry(std::string hash,int majSize,std::string value,bool addT
 	entry.majSize = majSize;
 	if (majSize<=0)
 		return;
-	//test si le hash est deja present
+	//test if hash is already present in DB
 	res = this->getValue(hash);
-	if (res == SV_DB_NOT_FOUND)
+	if (res == SVOCR_DB_NOT_FOUND)
 	{
 		dic.push_back(entry);
 		if (addToHeur==true)
-			addHeuristique(hash,majSize,value);
+			addHeuristic(hash,majSize,value);
 	} else if (res!=value) {
 		cerr << "Try de redefine an entry with different value : " << res << " != " << value << endl;
 	}
 }
 
 /*******************  FUNCTION  *********************/
-void svCharDb::addHeuristique(std::string hash,int majSize,std::string value)
+void svCharDb::addHeuristic(std::string hash,int majSize,std::string value)
 {
 	if (hash[0]=='i')
 		return;
@@ -61,11 +61,11 @@ void svCharDb::addHeuristique(std::string hash,int majSize,std::string value)
 string svCharDb::getValue(std::string hash)
 {
 	if (hash[0]=='i')
-		return SV_DB_NOT_FOUND;
+		return SVOCR_DB_NOT_FOUND;
 	for (list<svDicEntry>::iterator it=dic.begin();it!=dic.end();it++)
 		if (it->hash==hash)
 			return it->value;
-	return SV_DB_NOT_FOUND;
+	return SVOCR_DB_NOT_FOUND;
 }
 
 /*******************  FUNCTION  *********************/
@@ -111,7 +111,7 @@ bool svCharDb::load(std::string filename)
 			entry.value=buffer2;
 			entry.majSize=majSize;
 			this->dic.push_back(entry);
-			this->addHeuristique(entry.hash,majSize,entry.value);
+			this->addHeuristic(entry.hash,majSize,entry.value);
 		}
 		line++;
 	}

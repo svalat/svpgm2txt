@@ -53,7 +53,7 @@ std::string svOCR::runOnImage(std::string path)
 			//get the string
 			hash=extrChr.getHash(majSize);
 			cur=this->db.getValue(hash);
-			if (cur==SV_DB_NOT_FOUND)
+			if (cur==SVOCR_DB_NOT_FOUND)
 				cur = requestUnknown(extrChr,hash);
 
 			//check space

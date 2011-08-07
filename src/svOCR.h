@@ -10,7 +10,7 @@
 #define SCOCR_OCR
 
 /********************  HEADERS  *********************/
-#include "svCharDb.h"
+#include "svOCRCharDb.h"
 #include "svOCRExtractedChar.h"
 #include "svOCROptions.h"
 
