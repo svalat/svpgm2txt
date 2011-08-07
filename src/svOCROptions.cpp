@@ -319,4 +319,3 @@ bool svOCROptions::hasUseHeuristics(void) const
 {
 	return useHeuristics;
 }
-

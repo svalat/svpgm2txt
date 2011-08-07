@@ -30,7 +30,7 @@ struct TestResStruct
 	float minBad;
 	float maxOk;
 	float distMins;
-	float maxGood[SV_HEUR_NB_COORD];
+	float maxGood[SVOCR_HEUR_NB_COORD];
 };
 
 /*******************  FUNCTION  *********************/
@@ -121,7 +121,7 @@ TestResStruct runTest(svCharDb & ref,svCharDb & test,bool verbose=true)
 	int i;
 	if (verbose)
 	{
-		for (i=0;i<SV_HEUR_NB_COORD;i++)
+		for (i=0;i<SVOCR_HEUR_NB_COORD;i++)
 			stat.maxGood[i]=0.0;
 	}
 	for(list<svDicEntry>::const_iterator it=lst.begin();it!=lst.end();it++)
@@ -146,7 +146,7 @@ TestResStruct runTest(svCharDb & ref,svCharDb & test,bool verbose=true)
 					printf("Bonne réponse : %s ( %f ) or %s ( %f ) must be %s ",res.ans1.c_str(),res.dist1,res.ans2.c_str(),res.dist2,it->value.c_str());
 					//heur.printCoordDists(*res.heur1);
 					cout << endl;
-					for (i=0;i<SV_HEUR_NB_COORD;i++)
+					for (i=0;i<SVOCR_HEUR_NB_COORD;i++)
 						if (stat.maxGood[i] < res.coordDist[i])
 							stat.maxGood[i] = res.coordDist[i];
 				}
@@ -196,7 +196,7 @@ void testHeuristic(const svOCROptions & options)
 
 	TestResStruct stat = runTest(db,dbToTest);
 
-	for (int i=0;i<SV_HEUR_NB_COORD;i++)
+	for (int i=0;i<SVOCR_HEUR_NB_COORD;i++)
 		cout << stat.maxGood[i] << ",";
 	cout << endl;
 
@@ -235,7 +235,7 @@ void searchCoefs(svOCROptions & options)
 		dbToTest.load(*it);
 
 	TestResStruct stat,max;
-	float coefs[SV_HEUR_NB_COEFS];
+	float coefs[SVOCR_HEUR_NB_COEFS];
 	timeval t;
 	gettimeofday(&t,NULL);
 	srand(t.tv_usec);
@@ -257,7 +257,7 @@ void searchCoefs(svOCROptions & options)
 	printf("End with : %d/%d = %f %%\n",
 		   max.cntOk,max.cntTot,100.0*(float)max.cntOk/(float)max.cntTot);
 	//cout << "float SV_COEFS[SV_HEUR_NB_COORD] = {";
-	for (int i=0;i<SV_HEUR_NB_COEFS;i++)
+	for (int i=0;i<SVOCR_HEUR_NB_COEFS;i++)
 		cout << coefs[i] << ",";
 	//cout << "};";
 	cout << endl;

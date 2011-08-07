@@ -6,8 +6,8 @@
              LICENSE  : CeCILL-C
 *****************************************************/
 
-#ifndef SV_LINE_H
-#define SV_LINE_H
+#ifndef SVOCR_LINE_H
+#define SVOCR_LINE_H
 
 /********************  HEADERS  *********************/
 #include "image.h"

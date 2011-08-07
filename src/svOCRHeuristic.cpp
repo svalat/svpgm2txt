@@ -11,16 +11,16 @@
 #include <cmath>
 
 /********************  MACRO  ***********************/
-#define DEUX(x) x,x
-#define QAUTRE(x) x,x,x,x
-#define HUIT(x) QAUTRE(x),QAUTRE(x)
+#define DUPL2(x) x,x
+#define DUPL4(x) x,x,x,x
+#define DUPL8(x) DUPL4(x),DUPL4(x)
 #define NORME(x) sqrt((x)*(x))
 #define SQR(x) ((x)*(x))
-#define SET_DEUX(x,val) (x)[0]=(x)[1]=val;
-#define SET_QUATRE(x,val) (x)[0]=(x)[1]=(x)[2]=(x)[3]=val;
-#define SET_HUIT(x,val) SET_QUATRE((x),SET_QUATRE((x+4),val))
+#define SET_DUPL2(x,val) (x)[0]=(x)[1]=val;
+#define SET_DUPL4(x,val) (x)[0]=(x)[1]=(x)[2]=(x)[3]=val;
+#define SET_DUPL8(x,val) SET_DUPL4((x),SET_DUPL4((x+4),val))
 
-// float SV_COEFS[SV_HEUR_NB_COEFS] =
+// float SVOCR_COEFS[SV_HEUR_NB_COEFS] =
 // {
 // 	0.0,
 // 	0.0,
@@ -37,7 +37,7 @@
 // 	QAUTRE(0.0),
 // 	0.0};
 
-// float SV_COEFS[SV_HEUR_NB_COEFS] =
+// float SVOCR_COEFS[SV_HEUR_NB_COEFS] =
 // {
 // 	3.8,
 // 	9.1,
@@ -56,7 +56,7 @@
 	0.0, 0.0, 0.0, 0.0};*/
 
 /********************  GLOBALS  *********************/
-float SV_COEFS[SV_HEUR_NB_COEFS] =
+float SVOCR_COEFS[SVOCR_HEUR_NB_COEFS] =
 {.19003,1.09526,6741.97,9.1971,9.1971,9.1971,9.1971,0.714952,0.714952,0.714952,0.714952,3.88212,3.88212,3.88212,3.88212,9.31876,9.31876,9.31876,9.31876,9.36332,9.36332,5.63171,5.63171,8.86417,8.86417,8.86417,8.86417,6.34806,6.34806,4.36893,4.36893,8.81758,8.81758,8.81758,8.81758,9873.37,8};
 
 /*******************  FUNCTION  *********************/
@@ -204,42 +204,42 @@ void svOCRHeuristic::init()
 void svOCRHeuristic::setRandomCoefs(float max)
 {
 	//for (int i=0;i<SV_HEUR_NB_COORD;i++)
-	//	SV_COEFS[i] = max * rand() / (RAND_MAX + 1.0);
+	//	SVOCR_COEFS[i] = max * rand() / (RAND_MAX + 1.0);
 
-	SV_COEFS[0] = max * rand() / (RAND_MAX + 1.0);
-	SV_COEFS[1] = max * rand() / (RAND_MAX + 1.0);
-	SV_COEFS[2] = 10000.0*max * rand() / (RAND_MAX + 1.0);
-	SET_QUATRE(SV_COEFS+3,max * rand() / (RAND_MAX + 1.0));
-	SET_QUATRE(SV_COEFS+7,max * rand() / (RAND_MAX + 1.0));
-	SET_QUATRE(SV_COEFS+11,max * rand() / (RAND_MAX + 1.0));
-	SET_QUATRE(SV_COEFS+15,max * rand() / (RAND_MAX + 1.0));
-	SET_DEUX(SV_COEFS+19,max * rand() / (RAND_MAX + 1.0));
-	SET_DEUX(SV_COEFS+21,max * rand() / (RAND_MAX + 1.0));
-	SET_QUATRE(SV_COEFS+23,max * rand() / (RAND_MAX + 1.0));
-	SET_DEUX(SV_COEFS+27,max * rand() / (RAND_MAX + 1.0));
-	SET_DEUX(SV_COEFS+29,max * rand() / (RAND_MAX + 1.0));
-	SET_QUATRE(SV_COEFS+31,max * rand() / (RAND_MAX + 1.0));
-	SV_COEFS[SV_HEUR_NB_COORD-1] = 10000.0*max * rand() / (RAND_MAX + 1.0);
+	SVOCR_COEFS[0] = max * rand() / (RAND_MAX + 1.0);
+	SVOCR_COEFS[1] = max * rand() / (RAND_MAX + 1.0);
+	SVOCR_COEFS[2] = 10000.0*max * rand() / (RAND_MAX + 1.0);
+	SET_DUPL4(SVOCR_COEFS+3,max * rand() / (RAND_MAX + 1.0));
+	SET_DUPL4(SVOCR_COEFS+7,max * rand() / (RAND_MAX + 1.0));
+	SET_DUPL4(SVOCR_COEFS+11,max * rand() / (RAND_MAX + 1.0));
+	SET_DUPL4(SVOCR_COEFS+15,max * rand() / (RAND_MAX + 1.0));
+	SET_DUPL2(SVOCR_COEFS+19,max * rand() / (RAND_MAX + 1.0));
+	SET_DUPL2(SVOCR_COEFS+21,max * rand() / (RAND_MAX + 1.0));
+	SET_DUPL4(SVOCR_COEFS+23,max * rand() / (RAND_MAX + 1.0));
+	SET_DUPL2(SVOCR_COEFS+27,max * rand() / (RAND_MAX + 1.0));
+	SET_DUPL2(SVOCR_COEFS+29,max * rand() / (RAND_MAX + 1.0));
+	SET_DUPL4(SVOCR_COEFS+31,max * rand() / (RAND_MAX + 1.0));
+	SVOCR_COEFS[SVOCR_HEUR_NB_COORD-1] = 10000.0*max * rand() / (RAND_MAX + 1.0);
 
-// 	SV_COEFS[3] = max * rand() / (RAND_MAX + 1.0);
-// 	SV_COEFS[4]=SV_COEFS[5]=SV_COEFS[6]=SV_COEFS[3];
+// 	SVOCR_COEFS[3] = max * rand() / (RAND_MAX + 1.0);
+// 	SVOCR_COEFS[4]=SVOCR_COEFS[5]=SVOCR_COEFS[6]=SVOCR_COEFS[3];
 
-// 	SV_COEFS[7] = max * rand() / (RAND_MAX + 1.0);
-// 	SV_COEFS[8]=SV_COEFS[9]=SV_COEFS[10]=SV_COEFS[7];
+// 	SVOCR_COEFS[7] = max * rand() / (RAND_MAX + 1.0);
+// 	SVOCR_COEFS[8]=SVOCR_COEFS[9]=SVOCR_COEFS[10]=SVOCR_COEFS[7];
 
-// 	SV_COEFS[11] = max * rand() / (RAND_MAX + 1.0);
-// 	SV_COEFS[12]=SV_COEFS[13]=SV_COEFS[14]=SV_COEFS[11];
+// 	SVOCR_COEFS[11] = max * rand() / (RAND_MAX + 1.0);
+// 	SVOCR_COEFS[12]=SVOCR_COEFS[13]=SVOCR_COEFS[14]=SVOCR_COEFS[11];
 
-// 	SV_COEFS[15] = max * rand() / (RAND_MAX + 1.0);
-// 	SV_COEFS[16]=SV_COEFS[17]=SV_COEFS[18]=SV_COEFS[19]=SV_COEFS[15];
-// 	SV_COEFS[20]=SV_COEFS[21]=SV_COEFS[22]=SV_COEFS[15];
+// 	SVOCR_COEFS[15] = max * rand() / (RAND_MAX + 1.0);
+// 	SVOCR_COEFS[16]=SVOCR_COEFS[17]=SVOCR_COEFS[18]=SVOCR_COEFS[19]=SVOCR_COEFS[15];
+// 	SVOCR_COEFS[20]=SVOCR_COEFS[21]=SVOCR_COEFS[22]=SVOCR_COEFS[15];
 //
-// 	SV_COEFS[23] = max * rand() / (RAND_MAX + 1.0);
-// 	SV_COEFS[24]=SV_COEFS[25]=SV_COEFS[26]=SV_COEFS[27]=SV_COEFS[23];
-// 	SV_COEFS[28]=SV_COEFS[29]=SV_COEFS[30]=SV_COEFS[23];
+// 	SVOCR_COEFS[23] = max * rand() / (RAND_MAX + 1.0);
+// 	SVOCR_COEFS[24]=SVOCR_COEFS[25]=SVOCR_COEFS[26]=SVOCR_COEFS[27]=SVOCR_COEFS[23];
+// 	SVOCR_COEFS[28]=SVOCR_COEFS[29]=SVOCR_COEFS[30]=SVOCR_COEFS[23];
 //
-// 	SV_COEFS[31] = max * rand() / (RAND_MAX + 1.0);
-// 	SV_COEFS[32]=SV_COEFS[33]=SV_COEFS[34]=SV_COEFS[31];
+// 	SVOCR_COEFS[31] = max * rand() / (RAND_MAX + 1.0);
+// 	SVOCR_COEFS[32]=SVOCR_COEFS[33]=SVOCR_COEFS[34]=SVOCR_COEFS[31];
 }
 
 /*******************  FUNCTION  *********************/
@@ -251,19 +251,19 @@ void svOCRHeuristic::setCoefs(std::string value)
 	{
 		if (value[i]==',')
 		{
-			SV_COEFS[cnt] = atof(tmp.c_str());
-			cout << "COEF[" << cnt << "] = " << SV_COEFS[cnt] << endl;
+			SVOCR_COEFS[cnt] = atof(tmp.c_str());
+			cout << "COEF[" << cnt << "] = " << SVOCR_COEFS[cnt] << endl;
 			tmp="";
 			cnt++;
 		} else {
 			tmp+=value[i];
 		}
 	}
-	SV_COEFS[cnt++] = atof(tmp.c_str());
-	if (cnt!=SV_HEUR_NB_COEFS)
+	SVOCR_COEFS[cnt++] = atof(tmp.c_str());
+	if (cnt!=SVOCR_HEUR_NB_COEFS)
 	{
-		cerr << "Vous devez fournir "<< SV_HEUR_NB_COEFS <<" flotant pour les coefs.\n" << endl;
-		cerr << "Vous n'en avez fournit que " << cnt << endl;
+		cerr << "You need to provide "<< SVOCR_HEUR_NB_COEFS <<" float numbers as coefs.\n" << endl;
+		cerr << "You only provided " << cnt << endl;
 		exit(1);
 	}
 }
@@ -271,8 +271,8 @@ void svOCRHeuristic::setCoefs(std::string value)
 /*******************  FUNCTION  *********************/
 void svOCRHeuristic::copyCoefs(float * dest)
 {
-	for (int i=0;i<SV_HEUR_NB_COEFS;i++)
-		dest[i]=SV_COEFS[i];
+	for (int i=0;i<SVOCR_HEUR_NB_COEFS;i++)
+		dest[i]=SVOCR_COEFS[i];
 }
 
 /*******************  FUNCTION  *********************/
@@ -425,7 +425,7 @@ void svOCRHeuristic::setCoord(float coord[15])
 		hsegm[i] = coord[15+i];
 		vsegm[i] = coord[23+i];
 	}
-	ratioToMaj = coord[SV_HEUR_NB_COORD-1];
+	ratioToMaj = coord[SVOCR_HEUR_NB_COORD-1];
 }
 
 /*******************  FUNCTION  *********************/
@@ -435,7 +435,7 @@ svOCRHeuristicSimple svOCRHeuristic::getSimple()
 	simple.coord[0] = fillingLevel;
 	simple.coord[1] = aspect;
 	simple.coord[2] = vertpos;
-	simple.coord[SV_HEUR_NB_COORD-1] = ratioToMaj;
+	simple.coord[SVOCR_HEUR_NB_COORD-1] = ratioToMaj;
 	for (int i=0;i<4;i++)
 	{
 		simple.coord[3+i] = cell[i];
@@ -458,9 +458,9 @@ float svOCRHeuristic::getDistanceTo(const svOCRHeuristicSimple & simple,float * 
 	float res = 0.0;
 	float tmp;
 	svOCRHeuristicSimple simple2 = this->getSimple();
-	for (int i=0;i<SV_HEUR_NB_COORD;i++)
+	for (int i=0;i<SVOCR_HEUR_NB_COORD;i++)
 	{
-		tmp = SQR(SV_COEFS[i]*(simple.coord[i] - simple2.coord[i]));
+		tmp = SQR(SVOCR_COEFS[i]*(simple.coord[i] - simple2.coord[i]));
 		if (coordDist!=NULL)
 			coordDist[i]=tmp;
 		res+= tmp;
@@ -473,7 +473,7 @@ void svOCRHeuristic::printCoordDists(const svOCRHeuristicSimple & simple)
 {
 	svOCRHeuristicSimple simple2 = this->getSimple();
 	float diff;
-	for (int i=0;i<SV_HEUR_NB_COORD;i++)
+	for (int i=0;i<SVOCR_HEUR_NB_COORD;i++)
 	{
 		diff = simple.coord[i]-simple2.coord[i];
 		if (diff >= 0)
@@ -486,14 +486,14 @@ void svOCRHeuristic::printCoordDists(const svOCRHeuristicSimple & simple)
 /*******************  FUNCTION  *********************/
 void svOCRHeuristic::setCoefs(float * value)
 {
-	for (int i=0;i<SV_HEUR_NB_COEFS;i++)
-		SV_COEFS[i]=value[i];
+	for (int i=0;i<SVOCR_HEUR_NB_COEFS;i++)
+		SVOCR_COEFS[i]=value[i];
 }
 
 /*******************  FUNCTION  *********************/
 bool svOCRHeuristic::applyCut(float * coordDist)
 {
-	float max[SV_HEUR_NB_COORD]={0.00401238,0.65352,0,21.1467,30.7743,12.6951,47.3046,0.127789,0.0887424,0.511156,0.511156,6.69816,3.1934,15.0709,15.0709,204.169,347.357,241.22,186.801,350.687,87.6718,0,0,139.686,427.789,314.294,377.01,362.681,161.191,0,0,77.7497,77.7497,77.7497,77.7497,243708};
+	float max[SVOCR_HEUR_NB_COORD]={0.00401238,0.65352,0,21.1467,30.7743,12.6951,47.3046,0.127789,0.0887424,0.511156,0.511156,6.69816,3.1934,15.0709,15.0709,204.169,347.357,241.22,186.801,350.687,87.6718,0,0,139.686,427.789,314.294,377.01,362.681,161.191,0,0,77.7497,77.7497,77.7497,77.7497,243708};
 
 	for (int i=0;i<3;i++)
 		if (max[i]!=0.0 && coordDist[i] > max[i]*1.1)
@@ -504,7 +504,7 @@ bool svOCRHeuristic::applyCut(float * coordDist)
 /*******************  FUNCTION  *********************/
 bool svOCRHeuristic::isAccepted(svOCRHeuristicAnswer & ans)
 {
-	if (ans.hasSome && ans.dist1<SV_COEFS[SV_HEUR_NB_COORD])
+	if (ans.hasSome && ans.dist1<SVOCR_COEFS[SVOCR_HEUR_NB_COORD])
 		return true;
 	else
 		return false;

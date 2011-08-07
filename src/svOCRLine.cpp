@@ -40,7 +40,7 @@ bool svOCRLine::buildLine(image & img,unsigned int startPoint)
 	this->ystart = startPoint-2;
 
 	//search bottom point
-	while (!img.hlineIsEmpty(startPoint) || startPoint-this->ystart<SV_MIN_LINE_HEIGHT)
+	while (!img.hlineIsEmpty(startPoint) || startPoint-this->ystart<SVOCR_MIN_LINE_HEIGHT)
 	{
 		if (startPoint >= this->img->lheight)
 			return false;
@@ -66,8 +66,8 @@ void svOCRLine::drawBorderOnPicture(void)
 {
 	if (this->isOk == false || this->img == NULL)
 		return;
-	this->img->line2(0,ystart,img->lwidth,ystart,SV_DRAW_BORDER_COLOR);
-	this->img->line2(0,yend,img->lwidth,yend,SV_DRAW_BORDER_COLOR);
+	this->img->line2(0,ystart,img->lwidth,ystart,SVOCR_DRAW_BORDER_COLOR);
+	this->img->line2(0,yend,img->lwidth,yend,SVOCR_DRAW_BORDER_COLOR);
 }
 
 /*******************  FUNCTION  *********************/

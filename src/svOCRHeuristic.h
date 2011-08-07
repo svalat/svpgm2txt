@@ -6,28 +6,29 @@
              LICENSE  : CeCILL-C
 *****************************************************/
 
-#ifndef SV_HEURISTIQUE_H
-#define SV_HEURISTIQUE_H
+#ifndef SVOCR_HEURISTIQUE_H
+#define SVOCR_HEURISTIQUE_H
 
 /********************  HEADERS  *********************/
 #include "svExtractedChar.h"
 #include <ostream>
 
-#define SV_HEUR_NB_COORD 36
-#define SV_HEUR_INTERNAL_DB_SIZE 0
-#define SV_HEUR_NB_COEFS SV_HEUR_NB_COORD+1
+/********************  MACRO  ***********************/
+#define SVOCR_HEUR_NB_COORD 36
+#define SVOCR_HEUR_INTERNAL_DB_SIZE 0
+#define SVOCR_HEUR_NB_COEFS SVOCR_HEUR_NB_COORD+1
 
 /*********************  STRUCT  *********************/
 struct svOCRHeuristicSimpleBase
 {
-	float coord[SV_HEUR_NB_COORD];
+	float coord[SVOCR_HEUR_NB_COORD];
 	const char * value;
 };
 
 /*********************  STRUCT  *********************/
 struct svOCRHeuristicSimple
 {
-	float coord[SV_HEUR_NB_COORD];
+	float coord[SVOCR_HEUR_NB_COORD];
 	std::string value;
 };
 
@@ -41,7 +42,7 @@ struct svOCRHeuristicAnswer
 	std::string ans2;
 	const svOCRHeuristicSimple * heur2;
 	bool hasSome;
-	float coordDist[SV_HEUR_NB_COORD];
+	float coordDist[SVOCR_HEUR_NB_COORD];
 };
 
 /*********************  CLASS  **********************/

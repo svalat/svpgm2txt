@@ -44,7 +44,7 @@ void svExtractedChar::buildExtractedChar(svChar & source)
 	this->source = &source;
 
 	this->img.setSize(source.getWidth(),source.getHeight());
-	this->img.clear(SV_CLEAR_WITH_COLOR);
+	this->img.clear(SVOCR_CLEAR_WITH_COLOR);
 	for (int y=0;y<source.getHeight();y++)
 		for (int x=0;x<source.getWidth();x++)
 		{

@@ -24,7 +24,7 @@ class svChar
 		int getStart(void) const;
 		int getEnd(void) const;
 		void reset(void);
-		void whiteTheChar(COLOR color=SV_WHITE_CHAR_WITH_COLOR);
+		void whiteTheChar(COLOR color=SVOCR_WHITE_CHAR_WITH_COLOR);
 		image * getImage(void);
 		bool getIsOk(void) const;
 		int getWidth(void) const;

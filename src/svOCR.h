@@ -6,8 +6,8 @@
              LICENSE  : CeCILL-C
 *****************************************************/
 
-#ifndef SV_OCR
-#define SV_OCR
+#ifndef SCOCR_OCR
+#define SCOCR_OCR
 
 /********************  HEADERS  *********************/
 #include "svCharDb.h"

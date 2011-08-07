@@ -35,7 +35,7 @@ bool svChar::buildChar(svOCRLine & line,int start)
 	int min = 0;
 	int anglemin = 0;
 	int res;
-	for (int i=1;i<SV_CHAR_ANGLE_MAX;i++)
+	for (int i=1;i<SVOCR_CHAR_ANGLE_MAX;i++)
 	{
 		res = this->buildChar(start,line.getHeight()/i);
 		if (min==0 || (res!=0 && res<min))
@@ -69,8 +69,8 @@ void svChar::drawBorderOnPicture(void)
 			delta++;
 			cnt=0;
 		}
-		this->img->setColor(start+delta,y,SV_DRAW_BORDER_COLOR);
-		this->img->setColor(end+delta,y,SV_DRAW_BORDER_COLOR);
+		this->img->setColor(start+delta,y,SVOCR_DRAW_BORDER_COLOR);
+		this->img->setColor(end+delta,y,SVOCR_DRAW_BORDER_COLOR);
 	}
 }
 
@@ -95,7 +95,7 @@ void svChar::whiteTheChar(COLOR color)
 			cnt=0;
 		}
 		for (int x=start;x<end;x++)
-			if (img->getColor(x+delta,y)<SV_WHILE_CHAR_LIMIT)
+			if (img->getColor(x+delta,y)<SVOCR_WHILE_CHAR_LIMIT)
 				img->setColor(x+delta,y,color);
 	}
 }
@@ -128,7 +128,7 @@ int svChar::buildChar(int start,int angle)
 	this->start = start;
 
 	//find starting point
-	while (!isEmptyLine(start,angle) || start-this->start<SV_MIN_CHAR_WIDTH)
+	while (!isEmptyLine(start,angle) || start-this->start<SVOCR_MIN_CHAR_WIDTH)
 	{
 		start++;
 		if (start >= (int)img->lwidth)
@@ -154,7 +154,7 @@ bool svChar::isEmptyLine(int pos,int angle)
 			delta++;
 			cnt=0;
 		}
-		if (img->getColor(pos+delta,y)<SV_EMPTY_LINE_COLOR_LIMIT)
+		if (img->getColor(pos+delta,y)<SVOCR_EMPTY_LINE_COLOR_LIMIT)
 			return false;
 	}
 

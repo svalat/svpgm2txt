@@ -6,8 +6,8 @@
              LICENSE  : CeCILL-C
 *****************************************************/
 
-#ifndef SV_OPTIONS_H
-#define SV_OPTIONS_H
+#ifndef SVOCR_OPTIONS_H
+#define SVOCR_OPTIONS_H
 
 /********************  HEADERS  *********************/
 #include <string>
