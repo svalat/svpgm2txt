@@ -10,3 +10,6 @@
 set(SVPGM2TXT_SOUCRES main.cpp svOCROptions.cpp svOCR.cpp svOCRLine.cpp svOCRHeuristic.cpp 
 	svOCRExtractedChar.cpp svOCRCharDb.cpp svOCRChar.cpp svOCRImage.cpp svOCRPgmHeader.cpp)
 add_executable(svpgm2txt ${SVPGM2TXT_SOUCRES})
+
+##################### INSTALL ########################
+INSTALL(TARGETS svpgm2txt RUNTIME DESTINATION bin)

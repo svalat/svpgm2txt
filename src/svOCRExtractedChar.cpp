@@ -187,7 +187,7 @@ std::string svOCRExtractedChar::getHash(int majSize)
 		}
 	}
 	*(cur++)=SVOCR_SUMCHARCONVERT[tmp];
-	cur+=sprintf(cur,"%04d",majSize);
+	//cur+=sprintf(cur,"%04d",majSize);
 	*(cur)='\0';
 	return buffer;
 }

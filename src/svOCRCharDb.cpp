@@ -63,8 +63,10 @@ string svCharDb::getValue(std::string hash)
 	if (hash[0]=='i')
 		return SVOCR_DB_NOT_FOUND;
 	for (list<svDicEntry>::iterator it=dic.begin();it!=dic.end();it++)
+	{
 		if (it->hash==hash)
 			return it->value;
+	}
 	return SVOCR_DB_NOT_FOUND;
 }
 
@@ -74,7 +76,7 @@ bool svCharDb::save(std::string filename)
 	FILE * fp = fopen(filename.c_str(),"w");
 	if (!fp)
 	{
-		perror("Can't open the file : ");
+		perror(filename.c_str());
 		return false;
 	}
 	for (list<svDicEntry>::iterator it=dic.begin();it!=dic.end();it++)
@@ -95,7 +97,7 @@ bool svCharDb::load(std::string filename)
 	int majSize;
 	if (!fp)
 	{
-		perror("Can't open the file : ");
+		perror(filename.c_str());
 		return false;
 	}
 	while (!feof(fp))
