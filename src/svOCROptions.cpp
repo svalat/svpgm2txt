@@ -28,17 +28,17 @@ static const struct argp_option RS_OPTIONS[] = {
 	{"save-each",    's',      NULL,      0,  "Save char db after each PGM files." },
 	{"unknown",      'u',  "STRING",      0,  "Replace all unknown letters by 'STRING' instead of asking to the user." },
 	{"db",           'd',    "FILE",      0,  "Add the given DB file for character recognition." },
-	{"output-db",    'o',    "FILE",      0,  "Define the file in which to save the final DB which will cumulate all input"
+	{"output-db",    'o',    "FILE",      0,  "Define the file in which to save the final DB which will cumulate all input "
 	                                          "DB plus new entries created by the scan." },
 	{"list",         'l',    "FILE",      0,  "Provide a file listing PGM files to process.." },
-	{"mark",         'm',    "FILE",      0,  "Add an empty entry at the end of the DB."
+	{"mark",         'm',    "FILE",      0,  "Add an empty entry at the end of the DB. "
 	                                          "(For exemple to mark DB validation)."},
 	{"calc",         'c',      NULL,      0,  "Generate heuristics parameter for the letters given in the DB."},
 	{"char",         'C',    "CHAR",      0,  "Only display heuristics from the given character."},
-	{"dist",         'D',      NULL,      0,  "Display the distance between the char selected with -C and the list of"
+	{"dist",         'D',      NULL,      0,  "Display the distance between the char selected with -C and the list of "
 	                                          "available heuristics."},
 	{"test",         'T',    "FILE",      0,  "Test all letters from the given file to validate an heuristics."},
-	{"optimize",     'O',     "MAX",      0,  "Apply heuristics tests in loop to optimise coefs. It can be used with -T"
+	{"optimize",     'O',     "MAX",      0,  "Apply heuristics tests in loop to optimise coefs. It can be used with -T "
 	                                          "option to provide test case and -d to provide more references than internal once."},
 	{"coefs",        'E',  "STRING",      0,  "Provide the 35 coefs for heuristics (generated with -O option)"},
 	{"heuristics",   'e',      NULL,      0,  "Enable usage of heusitics for new character instead of requesting to the user."},
