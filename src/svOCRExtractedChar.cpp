@@ -7,35 +7,35 @@
 *****************************************************/
 
 /********************  HEADERS  *********************/
-#include "svExtractedChar.h"
 #include <cstdio>
 #include <cstring>
+#include "svOCRExtractedChar.h"
 #include "svOCRGlobalConfig.h"
 
 /*********************  CONSTS  *********************/
-const char SUMCHARCONVERT[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ-abcdefghijklmnopqrstuvwxyz+0123456789";
+static const char SVOCR_SUMCHARCONVERT[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ-abcdefghijklmnopqrstuvwxyz+0123456789";
 
 /*******************  FUNCTION  *********************/
-svExtractedChar::svExtractedChar(void)
+svOCRExtractedChar::svOCRExtractedChar(void)
 	:img(1,1)
 {
 	this->init();
 }
 
 /*******************  FUNCTION  *********************/
-image svExtractedChar::getImage()
+image svOCRExtractedChar::getImage()
 {
 	return this->img;
 }
 
 /*******************  FUNCTION  *********************/
-int svExtractedChar::getHeight()
+int svOCRExtractedChar::getHeight()
 {
 	return img.lheight;
 }
 
 /*******************  FUNCTION  *********************/
-void svExtractedChar::buildExtractedChar(svChar & source)
+void svOCRExtractedChar::buildExtractedChar(svChar & source)
 {
 	static int cnt=0;
 	if (source.getIsOk()==false)
@@ -62,16 +62,16 @@ void svExtractedChar::buildExtractedChar(svChar & source)
 }
 
 /*******************  FUNCTION  *********************/
-unsigned char svExtractedChar::traduct(char value)
+unsigned char svOCRExtractedChar::traduct(char value)
 {
-	for (unsigned char i=0;i<sizeof(SUMCHARCONVERT);i++)
-		if (value==SUMCHARCONVERT[i])
+	for (unsigned char i=0;i<sizeof(SVOCR_SUMCHARCONVERT);i++)
+		if (value==SVOCR_SUMCHARCONVERT[i])
 			return i;
 	return -1;
 }
 
 /*******************  FUNCTION  *********************/
-void svExtractedChar::buildImgFromHash(std::string hash,image & img)
+void svOCRExtractedChar::buildImgFromHash(std::string hash,image & img)
 {
 	//char hpos = hash[0];
 	std::string wstr = hash.substr(1,4);
@@ -107,7 +107,7 @@ void svExtractedChar::buildImgFromHash(std::string hash,image & img)
 }
 
 /*******************  FUNCTION  *********************/
-void svExtractedChar::applyCrop(void)
+void svOCRExtractedChar::applyCrop(void)
 {
 	int top=0;
 	int bottom=img.lheight-1;
@@ -152,19 +152,19 @@ void svExtractedChar::applyCrop(void)
 }
 
 /*******************  FUNCTION  *********************/
-int svExtractedChar::getXOffset()
+int svOCRExtractedChar::getXOffset()
 {
 	return xoffset;
 }
 
 /*******************  FUNCTION  *********************/
-int svExtractedChar::getXEnd()
+int svOCRExtractedChar::getXEnd()
 {
 	return xoffset+img.lwidth;
 }
 
 /*******************  FUNCTION  *********************/
-std::string svExtractedChar::getHash(int majSize)
+std::string svOCRExtractedChar::getHash(int majSize)
 {
 	char buffer[2048];
 	char * cur =buffer;
@@ -179,20 +179,20 @@ std::string svExtractedChar::getHash(int majSize)
 			tmp |= (img.getColor(x,y)>127)<<(pos++);
 			if (pos==6)
 			{
-				*(cur++)=SUMCHARCONVERT[tmp];
+				*(cur++)=SVOCR_SUMCHARCONVERT[tmp];
 				pos=0;
 				tmp=0;
 			}
 		}
 	}
-	*(cur++)=SUMCHARCONVERT[tmp];
+	*(cur++)=SVOCR_SUMCHARCONVERT[tmp];
 	cur+=sprintf(cur,"%04d",majSize);
 	*(cur)='\0';
 	return buffer;
 }
 
 /*******************  FUNCTION  *********************/
-std::string svExtractedChar::askWhatItIs(void)
+std::string svOCRExtractedChar::askWhatItIs(void)
 {
 	int startx=this->source->getStart()-40;
 	int endx=this->source->getStart()+img.lwidth+40;
@@ -233,7 +233,7 @@ std::string svExtractedChar::askWhatItIs(void)
 }
 
 /*******************  FUNCTION  *********************/
-void svExtractedChar::init()
+void svOCRExtractedChar::init()
 {
 	this->source = NULL;
 	this->hpos = 0;

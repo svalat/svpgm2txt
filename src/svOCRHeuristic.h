@@ -10,7 +10,7 @@
 #define SVOCR_HEURISTIQUE_H
 
 /********************  HEADERS  *********************/
-#include "svExtractedChar.h"
+#include "svOCRExtractedChar.h"
 #include <ostream>
 
 /********************  MACRO  ***********************/
@@ -58,7 +58,7 @@ class svOCRHeuristic
 {
 	public:
 		svOCRHeuristic();
-		void buildFromExtractedChar( svExtractedChar & ch,int majSize);
+		void buildFromExtractedChar( svOCRExtractedChar & ch,int majSize);
 		void buildFromHash(std::string hash,int majSize);
 		std::string getCDefinition(void);
 		friend std::ostream & operator << (ostream & out, const svOCRHeuristic &heur);

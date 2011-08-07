@@ -65,7 +65,7 @@ svOCRHeuristic::svOCRHeuristic()
 }
 
 /*******************  FUNCTION  *********************/
-void svOCRHeuristic::buildFromExtractedChar( svExtractedChar & ch,int majSize)
+void svOCRHeuristic::buildFromExtractedChar( svOCRExtractedChar & ch,int majSize)
 {
 	image img = ch.getImage();
 	this->buildFromImage(img,majSize);
@@ -76,7 +76,7 @@ void svOCRHeuristic::buildFromExtractedChar( svExtractedChar & ch,int majSize)
 void svOCRHeuristic::buildFromHash(std::string hash,int majSize)
 {
 	image img(1,1);
-	svExtractedChar::buildImgFromHash(hash,img);
+	svOCRExtractedChar::buildImgFromHash(hash,img);
 	this->buildFromImage(img,majSize);
 	calcVertPos(hash);
 }

@@ -34,7 +34,7 @@ std::string svOCR::runOnImage(std::string path)
 
 	svOCRLine line;
 	svChar chr;
-	svExtractedChar extrChr;
+	svOCRExtractedChar extrChr;
 	string res;
 	string hash;
 	string cur;
@@ -81,7 +81,7 @@ std::string svOCR::runOnImage(std::string path)
 }
 
 /*******************  FUNCTION  *********************/
-std::string svOCR::requestUnknown(svExtractedChar & extrChr,std::string & hash)
+std::string svOCR::requestUnknown(svOCRExtractedChar & extrChr,std::string & hash)
 {
 	std::string value;
 	bool found =false;

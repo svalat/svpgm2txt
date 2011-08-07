@@ -11,7 +11,7 @@
 
 /********************  HEADERS  *********************/
 #include "svCharDb.h"
-#include "svExtractedChar.h"
+#include "svOCRExtractedChar.h"
 #include "svOCROptions.h"
 
 /*********************  CLASS  **********************/
@@ -23,7 +23,7 @@ class svOCR
 		bool loadDb(std::string filename);
 		bool saveDb(std::string filename);
 	private:
-		std::string requestUnknown(svExtractedChar & extrChr,std::string & hash);
+		std::string requestUnknown(svOCRExtractedChar & extrChr,std::string & hash);
 		bool isMaj(std::string & value);
 		svCharDb db;
 		const svOCROptions * options;

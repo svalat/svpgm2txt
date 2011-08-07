@@ -6,18 +6,24 @@
              LICENSE  : CeCILL-C
 *****************************************************/
 
-#ifndef SV_EXTRACTED_CHAR
-#define SV_EXTRACTED_CHAR
+#ifndef SVOCR_EXTRACTED_CHAR
+#define SVOCR_EXTRACTED_CHAR
 
 /********************  HEADERS  *********************/
 #include "svChar.h"
 #include <string>
 
 /*********************  CLASS  **********************/
-class svExtractedChar
+/**
+ * Class used to manage extracted char from picture. It permit to manage them simply (displaty,
+ * search in DB char, calc hash...)
+ * @brief Represent a characte detected into a given picture.
+ * @author Sébastien Valat
+**/
+class svOCRExtractedChar
 {
 	public:
-		svExtractedChar(void);
+		svOCRExtractedChar(void);
 		void buildExtractedChar(svChar & source);
 		void applyCrop(void);
 		std::string getHash(int majSize);

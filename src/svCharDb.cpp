@@ -15,7 +15,7 @@
 using namespace std;
 
 /*********************  CONSTS  *********************/
-extern const svOCRHeuristicSimpleBase SV_INTERNAL_DB[SV_HEUR_INTERNAL_DB_SIZE];
+extern const svOCRHeuristicSimpleBase SVOCR_INTERNAL_DB[SVOCR_HEUR_INTERNAL_DB_SIZE];
 
 /*******************  FUNCTION  *********************/
 svCharDb::svCharDb()
@@ -145,7 +145,7 @@ svOCRHeuristicAnswer svCharDb::askToGodOfChar(svOCRHeuristic & heur,bool testMod
 	res.heur2 = NULL;
 	res.hasSome = false;
 	float cur = 0.0;
-	float coordDist[SV_HEUR_NB_COORD];
+	float coordDist[SVOCR_HEUR_NB_COORD];
 	for (list<svOCRHeuristicSimple>::iterator it=heurDb.begin();it!=heurDb.end();it++)
 	//for (int i=0;i<sizeof(SV_INTERNAL_DB)/sizeof(svHeuristiqueSimple);i++)
 	{
@@ -160,7 +160,7 @@ svOCRHeuristicAnswer svCharDb::askToGodOfChar(svOCRHeuristic & heur,bool testMod
 			res.heur1 = &(*it);
 			res.hasSome = true;
 			if (testMode)
-				for (int i=0;i<SV_HEUR_NB_COORD;i++)
+				for (int i=0;i<SVOCR_HEUR_NB_COORD;i++)
 					res.coordDist[i]=coordDist[i];
 		}
 	}
@@ -175,11 +175,11 @@ svOCRHeuristicAnswer svCharDb::askToGodOfChar(svOCRHeuristic & heur,bool testMod
 void svCharDb::loadInternalHeurDb(void)
 {
 	svOCRHeuristicSimple simple;
-	for (int i=0;i<sizeof(SV_INTERNAL_DB)/sizeof(svOCRHeuristicSimpleBase);i++)
+	for (int i=0;i<sizeof(SVOCR_INTERNAL_DB)/sizeof(svOCRHeuristicSimpleBase);i++)
 	{
-		for (int j=0;j<SV_HEUR_NB_COORD;j++)
-			simple.coord[j]=SV_INTERNAL_DB[i].coord[j];
-		simple.value = SV_INTERNAL_DB[i].value;
+		for (int j=0;j<SVOCR_HEUR_NB_COORD;j++)
+			simple.coord[j]=SVOCR_INTERNAL_DB[i].coord[j];
+		simple.value = SVOCR_INTERNAL_DB[i].value;
 		this->heurDb.push_back(simple);
 	}
 }
