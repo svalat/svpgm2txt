@@ -1,7 +1,7 @@
 /*****************************************************
              PROJECT  : svPgm2Txt
              VERSION  : 1.0
-             DATE     : 08/2011
+             DATE     : 2009
              AUTHOR   : Gaspard Roland
                         Valat Sébastien
              LICENSE  : CeCILL-C
