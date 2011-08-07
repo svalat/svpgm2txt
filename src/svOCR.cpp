@@ -8,7 +8,7 @@
 
 /********************  HEADERS  *********************/
 #include "svOCR.h"
-#include "image.h"
+#include "svOCRImage.h"
 #include "svOCRGlobalConfig.h"
 
 /**********************  USING  *********************/
@@ -24,7 +24,7 @@ svOCR::svOCR(const svOCROptions & options)
 /*******************  FUNCTION  *********************/
 std::string svOCR::runOnImage(std::string path)
 {
-	image img(1,1);
+	svOCRImage img(1,1);
 	if (!img.load(path.c_str()))
 	{
 		perror("");
@@ -46,7 +46,7 @@ std::string svOCR::runOnImage(std::string path)
 		while (chr.buildChar(line,chr.getEnd()+1))
 		{
 			//extract
-			chr.whiteTheChar((COLOR)1);
+			chr.whiteTheChar((SVOCR_COLOR)1);
 			extrChr.buildExtractedChar(chr);
 			extrChr.applyCrop();
 

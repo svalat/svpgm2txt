@@ -26,14 +26,14 @@ void svOCRLine::init()
 }
 
 /*******************  FUNCTION  *********************/
-bool svOCRLine::buildLine(image & img,unsigned int startPoint)
+bool svOCRLine::buildLine(svOCRImage & img,unsigned int startPoint)
 {
 	this->img = & img;
 	this->isOk=false;
 	//search to top point
 	while (img.hlineIsEmpty(startPoint))
 	{
-		if (startPoint >= this->img->lheight)
+		if (startPoint >= this->img->getHeight())
 			return false;
 		startPoint++;
 	}
@@ -42,7 +42,7 @@ bool svOCRLine::buildLine(image & img,unsigned int startPoint)
 	//search bottom point
 	while (!img.hlineIsEmpty(startPoint) || startPoint-this->ystart<SVOCR_MIN_LINE_HEIGHT)
 	{
-		if (startPoint >= this->img->lheight)
+		if (startPoint >= this->img->getHeight())
 			return false;
 		startPoint++;
 	}
@@ -66,8 +66,8 @@ void svOCRLine::drawBorderOnPicture(void)
 {
 	if (this->isOk == false || this->img == NULL)
 		return;
-	this->img->line2(0,ystart,img->lwidth,ystart,SVOCR_DRAW_BORDER_COLOR);
-	this->img->line2(0,yend,img->lwidth,yend,SVOCR_DRAW_BORDER_COLOR);
+	this->img->line(0,ystart,img->getWidth(),ystart,SVOCR_DRAW_BORDER_COLOR);
+	this->img->line(0,yend,img->getWidth(),yend,SVOCR_DRAW_BORDER_COLOR);
 }
 
 /*******************  FUNCTION  *********************/
@@ -83,7 +83,7 @@ int svOCRLine::getEnd(void) const
 }
 
 /*******************  FUNCTION  *********************/
-image * svOCRLine::getImage(void)
+svOCRImage * svOCRLine::getImage(void)
 {
 	return this->img;
 }

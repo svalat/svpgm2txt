@@ -30,14 +30,14 @@ class svOCRExtractedChar
 		std::string askWhatItIs(void);
 		int getXOffset();
 		int getXEnd();
-		image getImage();
+		svOCRImage getImage();
 		int getHeight();
-		static void buildImgFromHash(std::string hash,image & img);
+		static void buildImgFromHash(std::string hash,svOCRImage & img);
 	private:
 		static unsigned char traduct(char value);
 		void init();
 		svOCRChar * source;
-		image img;
+		svOCRImage img;
 		char hpos;
 		bool isOk;
 		int xoffset;

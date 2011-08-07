@@ -77,14 +77,14 @@ class svOCRHeuristic
 		bool applyCut(float * coordDist);
 	private:
 		void init();
-		void buildFromImage(image & img,int majSize);
-		void calcFillingLevel(image & img);
-		void calcCell(image & img);
-		void calcHSegm(image & img);
-		void calcVSegm(image & img);
-		void calcHPix(image & img);
-		void calcVPix(image & img);
-		void calcAngle(image & img);
+		void buildFromImage(svOCRImage & img,int majSize);
+		void calcFillingLevel(svOCRImage & img);
+		void calcCell(svOCRImage & img);
+		void calcHSegm(svOCRImage & img);
+		void calcVSegm(svOCRImage & img);
+		void calcHPix(svOCRImage & img);
+		void calcVPix(svOCRImage & img);
+		void calcAngle(svOCRImage & img);
 		void calcVertPos(std::string hash);
 		void fit(int pos,int max,int nbSegm,float * res,float value=1.0);
 		float fillingLevel;//Ratio of black pixel on white pixel.

@@ -9,6 +9,7 @@
 /********************  HEADERS  *********************/
 #include <cstdio>
 #include <cstring>
+#include <cstdlib>
 #include "svOCRExtractedChar.h"
 #include "svOCRGlobalConfig.h"
 
@@ -23,7 +24,7 @@ svOCRExtractedChar::svOCRExtractedChar(void)
 }
 
 /*******************  FUNCTION  *********************/
-image svOCRExtractedChar::getImage()
+svOCRImage svOCRExtractedChar::getImage()
 {
 	return this->img;
 }
@@ -31,7 +32,7 @@ image svOCRExtractedChar::getImage()
 /*******************  FUNCTION  *********************/
 int svOCRExtractedChar::getHeight()
 {
-	return img.lheight;
+	return img.getHeight();
 }
 
 /*******************  FUNCTION  *********************/
@@ -71,7 +72,7 @@ unsigned char svOCRExtractedChar::traduct(char value)
 }
 
 /*******************  FUNCTION  *********************/
-void svOCRExtractedChar::buildImgFromHash(std::string hash,image & img)
+void svOCRExtractedChar::buildImgFromHash(std::string hash,svOCRImage & img)
 {
 	//char hpos = hash[0];
 	std::string wstr = hash.substr(1,4);
@@ -110,11 +111,11 @@ void svOCRExtractedChar::buildImgFromHash(std::string hash,image & img)
 void svOCRExtractedChar::applyCrop(void)
 {
 	int top=0;
-	int bottom=img.lheight-1;
+	int bottom=img.getHeight()-1;
 	int left=0;
-	int right=img.lwidth-1;
+	int right=img.getWidth()-1;
 	static int cnt=0;
-	image copy(img);
+	svOCRImage copy(img);
 	//find up part
 	while (img.hlineIsEmpty(top))
 		top++;
@@ -131,17 +132,17 @@ void svOCRExtractedChar::applyCrop(void)
 	right++;
 	bottom++;
 
-	if (top>img.lheight/2)
+	if (top>img.getHeight()/2)
 		this->hpos = 'b';
-	else if (bottom < img.lheight/2)
+	else if (bottom < img.getHeight()/2)
 		this->hpos = 't';
 	else
 		this->hpos = 'm';
 
-	//cout << "w=" << img.lwidth << " h=" << img.lheight << " x1=" << left << " x2=" << right << " y1=" << top << " y2=" << bottom << endl;
+	//cout << "w=" << img.getWidth() << " h=" << img.getHeight() << " x1=" << left << " x2=" << right << " y1=" << top << " y2=" << bottom << endl;
 	img.setSize(right-left,bottom-top);
-	for (int y=0;y<img.lheight;y++)
-		for (int x=0;x<img.lwidth;x++)
+	for (int y=0;y<img.getHeight();y++)
+		for (int x=0;x<img.getWidth();x++)
 			img.setColor(x,y,copy.getColor(x+left,y+top));
 	cnt++;
 	char tmp[1024];
@@ -160,7 +161,7 @@ int svOCRExtractedChar::getXOffset()
 /*******************  FUNCTION  *********************/
 int svOCRExtractedChar::getXEnd()
 {
-	return xoffset+img.lwidth;
+	return xoffset+img.getWidth();
 }
 
 /*******************  FUNCTION  *********************/
@@ -169,12 +170,12 @@ std::string svOCRExtractedChar::getHash(int majSize)
 	char buffer[2048];
 	char * cur =buffer;
 	*(cur++)=hpos;
-	cur+=sprintf(cur,"%04d%04d",img.lwidth,img.lheight);
+	cur+=sprintf(cur,"%04d%04d",img.getWidth(),img.getHeight());
 	int pos=0;
 	unsigned char tmp=0;
-	for (int y=0;y<img.lheight;y++)
+	for (int y=0;y<img.getHeight();y++)
 	{
-		for (int x=0;x<img.lwidth;x++)
+		for (int x=0;x<img.getWidth();x++)
 		{
 			tmp |= (img.getColor(x,y)>127)<<(pos++);
 			if (pos==6)
@@ -195,17 +196,17 @@ std::string svOCRExtractedChar::getHash(int majSize)
 std::string svOCRExtractedChar::askWhatItIs(void)
 {
 	int startx=this->source->getStart()-40;
-	int endx=this->source->getStart()+img.lwidth+40;
-	COLOR color;
+	int endx=this->source->getStart()+img.getWidth()+40;
+	SVOCR_COLOR color;
 	if (startx<0)
 	{
 		endx-=startx;
 		startx=0;
 	}
-	if (endx>source->getImage()->lwidth)
+	if (endx>source->getImage()->getWidth())
 	{
-		startx-=endx - source->getImage()->lwidth ;
-		endx = source->getImage()->lwidth;
+		startx-=endx - source->getImage()->getWidth() ;
+		endx = source->getImage()->getWidth();
 	}
 	if (startx<0)
 		startx=0;
@@ -219,7 +220,7 @@ std::string svOCRExtractedChar::askWhatItIs(void)
 			color = source->getImage()->getColor(x,y);
 			if (color==255)
 				printf(".");
-			else if (x >= xoffset && x < xoffset + img.lwidth && img.getColor(x-xoffset,y-yoffset)==0 && color<127)
+			else if (x >= xoffset && x < xoffset + img.getWidth() && img.getColor(x-xoffset,y-yoffset)==0 && color<127)
 				printf("\e[47m#\e[0m");
 			else
 				printf("+");

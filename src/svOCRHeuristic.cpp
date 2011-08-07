@@ -9,6 +9,7 @@
 /********************  HEADERS  *********************/
 #include "svOCRHeuristic.h"
 #include <cmath>
+#include <cstdlib>
 
 /********************  MACRO  ***********************/
 #define DUPL2(x) x,x
@@ -67,7 +68,7 @@ svOCRHeuristic::svOCRHeuristic()
 /*******************  FUNCTION  *********************/
 void svOCRHeuristic::buildFromExtractedChar( svOCRExtractedChar & ch,int majSize)
 {
-	image img = ch.getImage();
+	svOCRImage img = ch.getImage();
 	this->buildFromImage(img,majSize);
 	calcVertPos(ch.getHash(majSize));
 }
@@ -75,7 +76,7 @@ void svOCRHeuristic::buildFromExtractedChar( svOCRExtractedChar & ch,int majSize
 /*******************  FUNCTION  *********************/
 void svOCRHeuristic::buildFromHash(std::string hash,int majSize)
 {
-	image img(1,1);
+	svOCRImage img(1,1);
 	svOCRExtractedChar::buildImgFromHash(hash,img);
 	this->buildFromImage(img,majSize);
 	calcVertPos(hash);
@@ -95,7 +96,7 @@ void svOCRHeuristic::calcVertPos(std::string hash)
 }
 
 /*******************  FUNCTION  *********************/
-void svOCRHeuristic::buildFromImage(image & img,int majSize)
+void svOCRHeuristic::buildFromImage(svOCRImage & img,int majSize)
 {
 	this->init();
 	this->calcFillingLevel(img);
@@ -105,79 +106,79 @@ void svOCRHeuristic::buildFromImage(image & img,int majSize)
 	this->calcHSegm(img);
 	this->calcVSegm(img);
 	this->calcAngle(img);
-	aspect = (float)img.lwidth/(float)img.lheight;
-	ratioToMaj = (float)img.lheight/(float)majSize;
+	aspect = (float)img.getWidth()/(float)img.getHeight();
+	ratioToMaj = (float)img.getHeight()/(float)majSize;
 }
 
 /*******************  FUNCTION  *********************/
-void svOCRHeuristic::calcAngle(image & img)
+void svOCRHeuristic::calcAngle(svOCRImage & img)
 {
 	angle[0]=(img.getColor(0,0)==0)?1.0:0.0;
-	angle[1]=(img.getColor(img.lwidth-1,0)==0)?1.0:0.0;
-	angle[2]=(img.getColor(0,img.lheight-1)==0)?1.0:0.0;
-	angle[3]=(img.getColor(img.lwidth-1,img.lheight-1)==0)?1.0:0.0;
+	angle[1]=(img.getColor(img.getWidth()-1,0)==0)?1.0:0.0;
+	angle[2]=(img.getColor(0,img.getHeight()-1)==0)?1.0:0.0;
+	angle[3]=(img.getColor(img.getWidth()-1,img.getHeight()-1)==0)?1.0:0.0;
 }
 
 /*******************  FUNCTION  *********************/
-void svOCRHeuristic::calcHSegm(image & img)
+void svOCRHeuristic::calcHSegm(svOCRImage & img)
 {
 	bool last;
-	for (unsigned int y=0;y<img.lheight;y++)
+	for (unsigned int y=0;y<img.getHeight();y++)
 	{
 		last=(img.getColor(0,y)==0);
-		for(unsigned int x=1;x<img.lwidth;x++)
+		for(unsigned int x=1;x<img.getWidth();x++)
 		{
 			if ((img.getColor(x,y)==0)!=last)
 			{
-				fit(y,img.lheight,4,hsegm);
+				fit(y,img.getHeight(),4,hsegm);
 				if (y==1)
 					hsegm[4]++;
-				if (y==img.lheight-1)
+				if (y==img.getHeight()-1)
 					hsegm[5]++;
 				last=!last;
 			}
 		}
 	}
 
-	hsegm[0]/=(float)img.lheight/4.0;
-	hsegm[1]/=(float)img.lheight/4.0;
-	hsegm[2]/=(float)img.lheight/4.0;
-	hsegm[3]/=(float)img.lheight/4.0;
-// 	hsegm[4]/=(float)img.lheight/4.0;
-// 	hsegm[5]/=(float)img.lheight/4.0;
-// 	hsegm[6]/=(float)img.lheight/4.0;
-// 	hsegm[7]/=(float)img.lheight/4.0;
+	hsegm[0]/=(float)img.getHeight()/4.0;
+	hsegm[1]/=(float)img.getHeight()/4.0;
+	hsegm[2]/=(float)img.getHeight()/4.0;
+	hsegm[3]/=(float)img.getHeight()/4.0;
+// 	hsegm[4]/=(float)img.getHeight()/4.0;
+// 	hsegm[5]/=(float)img.getHeight()/4.0;
+// 	hsegm[6]/=(float)img.getHeight()/4.0;
+// 	hsegm[7]/=(float)img.getHeight()/4.0;
 }
 
 /*******************  FUNCTION  *********************/
-void svOCRHeuristic::calcVSegm(image & img)
+void svOCRHeuristic::calcVSegm(svOCRImage & img)
 {
 	bool last;
-	for(unsigned int x=1;x<img.lwidth;x++)
+	for(unsigned int x=1;x<img.getWidth();x++)
 	{
 		last=(img.getColor(x,0)==0);
-		for (unsigned int y=0;y<img.lheight;y++)
+		for (unsigned int y=0;y<img.getHeight();y++)
 		{
 			if ((img.getColor(x,y)==0)!=last)
 			{
 				if (x==1)
 					vsegm[4]++;
-				if (x==img.lheight-1)
+				if (x==img.getHeight()-1)
 					vsegm[5]++;
-				fit(x,img.lwidth,4,vsegm);
+				fit(x,img.getWidth(),4,vsegm);
 				last=!last;
 			}
 		}
 	}
 
-	vsegm[0]/=(float)img.lwidth/4.0;
-	vsegm[1]/=(float)img.lwidth/4.0;
-	vsegm[2]/=(float)img.lwidth/4.0;
-	vsegm[3]/=(float)img.lwidth/4.0;
-// 	vsegm[4]/=(float)img.lwidth/4.0;
-// 	vsegm[5]/=(float)img.lwidth/4.0;
-// 	vsegm[6]/=(float)img.lwidth/4.0;
-// 	vsegm[7]/=(float)img.lwidth/4.0;
+	vsegm[0]/=(float)img.getWidth()/4.0;
+	vsegm[1]/=(float)img.getWidth()/4.0;
+	vsegm[2]/=(float)img.getWidth()/4.0;
+	vsegm[3]/=(float)img.getWidth()/4.0;
+// 	vsegm[4]/=(float)img.getWidth()/4.0;
+// 	vsegm[5]/=(float)img.getWidth()/4.0;
+// 	vsegm[6]/=(float)img.getWidth()/4.0;
+// 	vsegm[7]/=(float)img.getWidth()/4.0;
 }
 
 /*******************  FUNCTION  *********************/
@@ -276,43 +277,43 @@ void svOCRHeuristic::copyCoefs(float * dest)
 }
 
 /*******************  FUNCTION  *********************/
-void svOCRHeuristic::calcFillingLevel(image & img)
+void svOCRHeuristic::calcFillingLevel(svOCRImage & img)
 {
 	int filled = 0;
-	for (unsigned int y=0;y<img.lheight;y++)
+	for (unsigned int y=0;y<img.getHeight();y++)
 	{
-		for(unsigned int x=0;x<img.lwidth;x++)
+		for(unsigned int x=0;x<img.getWidth();x++)
 		{
 			if (img.getColor(x,y)==0)
 				filled++;
 		}
 	}
 
-	this->fillingLevel = (float)filled/(float)(img.lwidth*img.lheight);
+	this->fillingLevel = (float)filled/(float)(img.getWidth()*img.getHeight());
 }
 
 /*******************  FUNCTION  *********************/
-void svOCRHeuristic::calcCell(image & img)
+void svOCRHeuristic::calcCell(svOCRImage & img)
 {
 	float x1[2];
 	//cal int parts
-	for (unsigned int y=0;y<img.lheight;y++)
+	for (unsigned int y=0;y<img.getHeight();y++)
 	{
-		for(unsigned int x=0;x<img.lwidth;x++)
+		for(unsigned int x=0;x<img.getWidth();x++)
 		{
 			x1[0]=x1[1]=0.0;
 			if (img.getColor(x,y)==0)
 			{
-				fit(x,img.lwidth,2,x1);
-				fit(y,img.lheight,2,cell,x1[0]);
-				fit(y,img.lheight,2,cell+2,x1[1]);
+				fit(x,img.getWidth(),2,x1);
+				fit(y,img.getHeight(),2,cell,x1[0]);
+				fit(y,img.getHeight(),2,cell+2,x1[1]);
 			}
 		}
 	}
-	cell[0]/=(float)img.lwidth*(float)img.lheight/4.0;
-	cell[1]/=(float)img.lwidth*(float)img.lheight/4.0;
-	cell[2]/=(float)img.lwidth*(float)img.lheight/4.0;
-	cell[3]/=(float)img.lwidth*(float)img.lheight/4.0;
+	cell[0]/=(float)img.getWidth()*(float)img.getHeight()/4.0;
+	cell[1]/=(float)img.getWidth()*(float)img.getHeight()/4.0;
+	cell[2]/=(float)img.getWidth()*(float)img.getHeight()/4.0;
+	cell[3]/=(float)img.getWidth()*(float)img.getHeight()/4.0;
 }
 
 /*******************  FUNCTION  *********************/
@@ -339,29 +340,29 @@ void svOCRHeuristic::fit(int pos,int max,int nbSegm,float * res,float value)
 }
 
 /*******************  FUNCTION  *********************/
-void svOCRHeuristic::calcHPix(image & img)
+void svOCRHeuristic::calcHPix(svOCRImage & img)
 {
-	for (unsigned int y=0;y<img.lheight;y++)
-		for (unsigned int x=0;x<img.lwidth;x++)
+	for (unsigned int y=0;y<img.getHeight();y++)
+		for (unsigned int x=0;x<img.getWidth();x++)
 			if (img.getColor(x,y)==0)
-				fit(y,img.lheight,4,hpix);
-	hpix[0]/=(float)img.lwidth*(float)img.lheight/4.0;
-	hpix[1]/=(float)img.lwidth*(float)img.lheight/4.0;
-	hpix[2]/=(float)img.lwidth*(float)img.lheight/4.0;
-	hpix[3]/=(float)img.lwidth*(float)img.lheight/4.0;
+				fit(y,img.getHeight(),4,hpix);
+	hpix[0]/=(float)img.getWidth()*(float)img.getHeight()/4.0;
+	hpix[1]/=(float)img.getWidth()*(float)img.getHeight()/4.0;
+	hpix[2]/=(float)img.getWidth()*(float)img.getHeight()/4.0;
+	hpix[3]/=(float)img.getWidth()*(float)img.getHeight()/4.0;
 }
 
 /*******************  FUNCTION  *********************/
-void svOCRHeuristic::calcVPix(image & img)
+void svOCRHeuristic::calcVPix(svOCRImage & img)
 {
-	for (unsigned int y=0;y<img.lheight;y++)
-		for (unsigned int x=0;x<img.lwidth;x++)
+	for (unsigned int y=0;y<img.getHeight();y++)
+		for (unsigned int x=0;x<img.getWidth();x++)
 			if (img.getColor(x,y)==0)
-				fit(x,img.lwidth,4,vpix);
-	vpix[0]/=(float)img.lwidth*(float)img.lheight/4.0;
-	vpix[1]/=(float)img.lwidth*(float)img.lheight/4.0;
-	vpix[2]/=(float)img.lwidth*(float)img.lheight/4.0;
-	vpix[3]/=(float)img.lwidth*(float)img.lheight/4.0;
+				fit(x,img.getWidth(),4,vpix);
+	vpix[0]/=(float)img.getWidth()*(float)img.getHeight()/4.0;
+	vpix[1]/=(float)img.getWidth()*(float)img.getHeight()/4.0;
+	vpix[2]/=(float)img.getWidth()*(float)img.getHeight()/4.0;
+	vpix[3]/=(float)img.getWidth()*(float)img.getHeight()/4.0;
 }
 
 /*******************  FUNCTION  *********************/

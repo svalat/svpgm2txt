@@ -81,7 +81,7 @@ void svOCRChar::reset(void)
 }
 
 /*******************  FUNCTION  *********************/
-void svOCRChar::whiteTheChar(COLOR color)
+void svOCRChar::whiteTheChar(SVOCR_COLOR color)
 {
 	if (isOk==false)
 		return;
@@ -122,7 +122,7 @@ int svOCRChar::buildChar(int start,int angle)
 	while (isEmptyLine(start,angle))
 	{
 		start++;
-		if (start >= (int)img->lwidth)
+		if (start >= (int)img->getWidth())
 			return 0;
 	}
 	this->start = start;
@@ -131,7 +131,7 @@ int svOCRChar::buildChar(int start,int angle)
 	while (!isEmptyLine(start,angle) || start-this->start<SVOCR_MIN_CHAR_WIDTH)
 	{
 		start++;
-		if (start >= (int)img->lwidth)
+		if (start >= (int)img->getWidth())
 			return 0;
 	}
 	this->end = start;
@@ -174,7 +174,7 @@ int svOCRChar::getEnd(void) const
 }
 
 /*******************  FUNCTION  *********************/
-image * svOCRChar::getImage(void)
+svOCRImage * svOCRChar::getImage(void)
 {
 	return this->img;
 }

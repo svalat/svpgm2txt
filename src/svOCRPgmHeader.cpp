@@ -7,10 +7,11 @@
 *****************************************************/
 
 /********************  HEADERS  *********************/
-#include "pgmHeader.h"
+#include "svOCRPgmHeader.h"
+#include <cstdlib>
 
 /*******************  FUNCTION  *********************/
-pgmHeader::pgmHeader(void)
+svOCRPgmHeader::svOCRPgmHeader(void)
 {
 	magNumber=BAD_FORMAT;
 	width=0;
@@ -19,7 +20,7 @@ pgmHeader::pgmHeader(void)
 }
 
 /*******************  FUNCTION  *********************/
-pgmHeader::pgmHeader(const pgmHeader & value)
+svOCRPgmHeader::svOCRPgmHeader(const svOCRPgmHeader & value)
 {
 	magNumber=value.magNumber;
 	width=value.width;
@@ -29,16 +30,30 @@ pgmHeader::pgmHeader(const pgmHeader & value)
 }
 
 /*******************  FUNCTION  *********************/
-pgmHeader::~pgmHeader(void)
+svOCRPgmHeader::~svOCRPgmHeader(void)
 {
 }
 
 /*******************  FUNCTION  *********************/
-magiqueNumber pgmHeader::checkMagiqueNumber(FILE *fp)
+bool svOCRPgmHeader::isWhitespace(char value)
+{
+	int i = 0;
+	while (WHITESPACE[i] != '\0')
+	{
+		
+		if (value == WHITESPACE[i])
+			return true;
+		i++;
+	}
+	return false;
+}
+
+/*******************  FUNCTION  *********************/
+svOCRMagiqueNumber svOCRPgmHeader::checkMagiqueNumber(FILE *fp)
 {
 	char buffer[4];
 	fread(buffer,sizeof(char), 3, fp);
-	if (!(buffer[0]=='P' && (buffer[1]=='5' || buffer[1]=='2') && IS_WHITESPACE(buffer[2])))
+	if (!(buffer[0]=='P' && (buffer[1]=='5' || buffer[1]=='2') && isWhitespace(buffer[2])))
 		return BAD_FORMAT;
 	if (buffer[1]=='2')
 		return PLAINE_MODE;
@@ -47,7 +62,7 @@ magiqueNumber pgmHeader::checkMagiqueNumber(FILE *fp)
 }
 
 /*******************  FUNCTION  *********************/
-bool pgmHeader::load(FILE *fp)
+bool svOCRPgmHeader::load(FILE *fp)
 {
 	if (fp==NULL)
 		return false;
@@ -58,7 +73,7 @@ bool pgmHeader::load(FILE *fp)
 	int size=fread(buffer,sizeof(char),PGM_BUFFER_SIZE,fp);
 	buffer[size]='\0';
 	int pos=0;
-	chaine tmp;
+	std::string tmp;
 	int i=0;
 	while (i<3)
 		{
@@ -70,13 +85,13 @@ bool pgmHeader::load(FILE *fp)
 				switch (i)
 				{
 					case 0:
-						width=tmp.toInt();
+						width=atoi(tmp.c_str());
 						break;
 					case 1:
-						height=tmp.toInt();
+						height=atoi(tmp.c_str());
 						break;
 					case 2:
-						greyMax=tmp.toInt();
+						greyMax=atoi(tmp.c_str());
 						break;
 				}
 				i++;
@@ -85,46 +100,32 @@ bool pgmHeader::load(FILE *fp)
 	fseek(fp,pos+3,SEEK_SET);
 	return true;
 }
-/**
-  * [#] [c] [o] [m] [m] [e] [n] [t]
-  * [\n] [\n]          //space
-  * [2] [0] [0]   //largeur
-  * [ ]		  //space
-  * [2] [0] [0]   //hauteur
-  * [ ]		  //space
-  * [2] [5] [5]	  //maximum grey value
-  * [\n]	  //space
-  * []....        //data
- **/
 
 /*******************  FUNCTION  *********************/
-bool pgmHeader::save(FILE *fp)
+bool svOCRPgmHeader::save(FILE *fp)
 {
 	if (fp==NULL || magNumber==BAD_FORMAT)
 		return false;
 	//magic number
 	fprintf(fp,"P%c\n",magNumber);
-	fprintf(fp,"#%s\n",comment.getstr());
+	fprintf(fp,"#%s\n",comment.c_str());
 	fprintf(fp,"%d %d %d\n",width,height,greyMax);
 	return true;
 }
 
 /*******************  FUNCTION  *********************/
-chaine pgmHeader::getNextParam(char *s,int &pos)
+std::string svOCRPgmHeader::getNextParam(char *s,int &pos)
 {
-	chaine result;
+	std::string result;
 	if (s==NULL || pos<0)
 		return result;
-	while (IS_WHITESPACE(s[pos]))
+	while (isWhitespace(s[pos]))
 		pos++;
 	int debut=pos;
-	while (!IS_WHITESPACE(s[pos]) || (s[pos]==' ' && s[debut]=='#'))
+	while (!isWhitespace(s[pos]) || (s[pos]==' ' && s[debut]=='#'))
 		pos++;
 	s[pos]='\0';
-	result.change(s+debut);
+	result = s+debut;
 	pos++;
 	return result;
 }
-
-//   *           |
-//  [ ] [#] [c] [ ] [d] [\n] ...[\0] 

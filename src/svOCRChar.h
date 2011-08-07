@@ -10,7 +10,7 @@
 #define SV_CHAR_H
 
 /********************  HEADERS  *********************/
-#include "image.h"
+#include "svOCRImage.h"
 #include "svOCRLine.h"
 #include "svOCRGlobalConfig.h"
 
@@ -24,8 +24,8 @@ class svOCRChar
 		int getStart(void) const;
 		int getEnd(void) const;
 		void reset(void);
-		void whiteTheChar(COLOR color=SVOCR_WHITE_CHAR_WITH_COLOR);
-		image * getImage(void);
+		void whiteTheChar(SVOCR_COLOR color=SVOCR_WHITE_CHAR_WITH_COLOR);
+		svOCRImage * getImage(void);
 		bool getIsOk(void) const;
 		int getWidth(void) const;
 		int getHeight(void) const;
@@ -36,7 +36,7 @@ class svOCRChar
 		int buildChar(int start,int angle);
 		bool isEmptyLine(int pos,int angle);
 		int angle;
-		image * img;
+		svOCRImage * img;
 		svOCRLine * line;
 		int start;
 		int end;

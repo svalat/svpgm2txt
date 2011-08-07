@@ -10,7 +10,7 @@
 #define SVOCR_LINE_H
 
 /********************  HEADERS  *********************/
-#include "image.h"
+#include "svOCRImage.h"
 
 /*********************  CLASS  **********************/
 /**
@@ -22,16 +22,16 @@ class svOCRLine
 {
 	public:
 		svOCRLine();
-		bool buildLine(image & img,unsigned int startPoint);
+		bool buildLine(svOCRImage & img,unsigned int startPoint);
 		void drawBorderOnPicture(void);
 		int getStart(void) const;
 		int getEnd(void) const;
-		image * getImage(void);
+		svOCRImage * getImage(void);
 		bool getIsOk(void) const;
 		int getHeight(void) const;
 	private:
 		void init();
-		image * img;
+		svOCRImage * img;
 		int ystart;
 		int yend;
 		bool isOk;

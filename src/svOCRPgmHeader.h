@@ -11,35 +11,33 @@
 
 /********************  HEADERS  *********************/
 #include <stdio.h>
-#include "chaine.h"
+#include <string>
 
 /********************  MACRO  ***********************/
 #define WHITESPACE " \t\r\n"
-#define IS_WHITESPACE(c) chaine::contain(c,WHITESPACE)
 #define PGM_BUFFER_SIZE 256
 
 /********************  ENUM  ************************/
-enum magiqueNumber {BAD_FORMAT=170,PLAINE_MODE='2',BINARY_MODE='5'};
+enum svOCRMagiqueNumber {BAD_FORMAT=170,PLAINE_MODE='2',BINARY_MODE='5'};
 
 /*********************  CLASS  **********************/
-class pgmHeader
+class svOCRPgmHeader
 {
 	public:
-		pgmHeader(void);
-		pgmHeader(const pgmHeader & value);
-		~pgmHeader(void);
+		svOCRPgmHeader(void);
+		svOCRPgmHeader(const svOCRPgmHeader & value);
+		~svOCRPgmHeader(void);
 		bool load(FILE *fp);
 		bool save(FILE *fp);
-		static chaine getNextParam(char *s,int &pos);
+		static std::string getNextParam(char *s,int &pos);
 		
-		magiqueNumber magNumber;
+		svOCRMagiqueNumber magNumber;
 		int width,height;
 		int greyMax;
-		chaine comment;		
+		std::string comment;		
 	private:
-		magiqueNumber checkMagiqueNumber(FILE *fp);
-		
-
+		svOCRMagiqueNumber checkMagiqueNumber(FILE *fp);
+		static bool isWhitespace(char value);
 };
 
 #endif
