@@ -7,7 +7,7 @@
 *****************************************************/
 
 /********************  HEADERS  *********************/
-#include "svChar.h"
+#include "svOCRChar.h"
 #include <iostream>
 #include "svOCRGlobalConfig.h"
 
@@ -15,13 +15,13 @@
 using namespace std;
 
 /*******************  FUNCTION  *********************/
-svChar::svChar()
+svOCRChar::svOCRChar()
 {
 	this->init();
 }
 
 /*******************  FUNCTION  *********************/
-bool svChar::buildChar(svOCRLine & line,int start)
+bool svOCRChar::buildChar(svOCRLine & line,int start)
 {
 	if (line.getIsOk()==false)
 		return false;
@@ -56,7 +56,7 @@ bool svChar::buildChar(svOCRLine & line,int start)
 }
 
 /*******************  FUNCTION  *********************/
-void svChar::drawBorderOnPicture(void)
+void svOCRChar::drawBorderOnPicture(void)
 {
 	if (isOk==false)
 		return;
@@ -75,13 +75,13 @@ void svChar::drawBorderOnPicture(void)
 }
 
 /*******************  FUNCTION  *********************/
-void svChar::reset(void)
+void svOCRChar::reset(void)
 {
 	this->init();
 }
 
 /*******************  FUNCTION  *********************/
-void svChar::whiteTheChar(COLOR color)
+void svOCRChar::whiteTheChar(COLOR color)
 {
 	if (isOk==false)
 		return;
@@ -101,7 +101,7 @@ void svChar::whiteTheChar(COLOR color)
 }
 
 /*******************  FUNCTION  *********************/
-void svChar::init()
+void svOCRChar::init()
 {
 	angle = 0;
 	img = NULL;
@@ -112,7 +112,7 @@ void svChar::init()
 }
 
 /*******************  FUNCTION  *********************/
-int svChar::buildChar(int start,int angle)
+int svOCRChar::buildChar(int start,int angle)
 {
 	if (this->line == NULL || this->img == NULL)
 		return 0;
@@ -141,7 +141,7 @@ int svChar::buildChar(int start,int angle)
 }
 
 /*******************  FUNCTION  *********************/
-bool svChar::isEmptyLine(int pos,int angle)
+bool svOCRChar::isEmptyLine(int pos,int angle)
 {
 	if (img==NULL || line ==NULL)
 		return false;
@@ -162,37 +162,37 @@ bool svChar::isEmptyLine(int pos,int angle)
 }
 
 /*******************  FUNCTION  *********************/
-int svChar::getStart(void) const
+int svOCRChar::getStart(void) const
 {
 	return this->start;
 }
 
 /*******************  FUNCTION  *********************/
-int svChar::getEnd(void) const
+int svOCRChar::getEnd(void) const
 {
 	return this->end;
 }
 
 /*******************  FUNCTION  *********************/
-image * svChar::getImage(void)
+image * svOCRChar::getImage(void)
 {
 	return this->img;
 }
 
 /*******************  FUNCTION  *********************/
-bool svChar::getIsOk(void) const
+bool svOCRChar::getIsOk(void) const
 {
 	return this->isOk;
 }
 
 /*******************  FUNCTION  *********************/
-int svChar::getWidth(void) const
+int svOCRChar::getWidth(void) const
 {
 	return end-start+line->getHeight()/(angle);
 }
 
 /*******************  FUNCTION  *********************/
-int svChar::getHeight(void) const
+int svOCRChar::getHeight(void) const
 {
 	if (line==NULL)
 		return 0;
@@ -201,13 +201,13 @@ int svChar::getHeight(void) const
 }
 
 /*******************  FUNCTION  *********************/
-svOCRLine * svChar::getLine(void)
+svOCRLine * svOCRChar::getLine(void)
 {
 	return this->line;
 }
 
 /*******************  FUNCTION  *********************/
-int svChar::getMStart(void)
+int svOCRChar::getMStart(void)
 {
 	return this->start+line->getHeight()/(angle+1)/2;
 }

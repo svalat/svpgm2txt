@@ -33,7 +33,7 @@ std::string svOCR::runOnImage(std::string path)
 	}
 
 	svOCRLine line;
-	svChar chr;
+	svOCRChar chr;
 	svOCRExtractedChar extrChr;
 	string res;
 	string hash;

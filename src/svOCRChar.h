@@ -15,10 +15,10 @@
 #include "svOCRGlobalConfig.h"
 
 /*********************  CLASS  **********************/
-class svChar
+class svOCRChar
 {
 	public:
-		svChar();
+		svOCRChar();
 		bool buildChar(svOCRLine & line,int start);
 		void drawBorderOnPicture(void);
 		int getStart(void) const;

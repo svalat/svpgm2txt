@@ -10,7 +10,7 @@
 #define SVOCR_EXTRACTED_CHAR
 
 /********************  HEADERS  *********************/
-#include "svChar.h"
+#include "svOCRChar.h"
 #include <string>
 
 /*********************  CLASS  **********************/
@@ -24,7 +24,7 @@ class svOCRExtractedChar
 {
 	public:
 		svOCRExtractedChar(void);
-		void buildExtractedChar(svChar & source);
+		void buildExtractedChar(svOCRChar & source);
 		void applyCrop(void);
 		std::string getHash(int majSize);
 		std::string askWhatItIs(void);
@@ -36,7 +36,7 @@ class svOCRExtractedChar
 	private:
 		static unsigned char traduct(char value);
 		void init();
-		svChar * source;
+		svOCRChar * source;
 		image img;
 		char hpos;
 		bool isOk;

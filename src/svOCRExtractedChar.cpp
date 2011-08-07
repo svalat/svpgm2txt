@@ -35,7 +35,7 @@ int svOCRExtractedChar::getHeight()
 }
 
 /*******************  FUNCTION  *********************/
-void svOCRExtractedChar::buildExtractedChar(svChar & source)
+void svOCRExtractedChar::buildExtractedChar(svOCRChar & source)
 {
 	static int cnt=0;
 	if (source.getIsOk()==false)
