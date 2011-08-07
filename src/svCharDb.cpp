@@ -15,7 +15,7 @@
 using namespace std;
 
 /*********************  CONSTS  *********************/
-extern const svHeuristiqueSimpleBase SV_INTERNAL_DB[SV_HEUR_INTERNAL_DB_SIZE];
+extern const svOCRHeuristicSimpleBase SV_INTERNAL_DB[SV_HEUR_INTERNAL_DB_SIZE];
 
 /*******************  FUNCTION  *********************/
 svCharDb::svCharDb()
@@ -51,7 +51,7 @@ void svCharDb::addHeuristique(std::string hash,int majSize,std::string value)
 {
 	if (hash[0]=='i')
 		return;
-	svHeuristique heur;
+	svOCRHeuristic heur;
 	heur.buildFromHash(hash,majSize);
 	heur.setValue(value);
 	heurDb.push_back(heur.getSimple());
@@ -134,9 +134,9 @@ std::list<svDicEntry> svCharDb::getDic()
 }
 
 /*******************  FUNCTION  *********************/
-svHeuristiqueAnswer svCharDb::askToGodOfChar(svHeuristique & heur,bool testMode)
+svOCRHeuristicAnswer svCharDb::askToGodOfChar(svOCRHeuristic & heur,bool testMode)
 {
-	svHeuristiqueAnswer res;
+	svOCRHeuristicAnswer res;
 	string * val1=NULL;
 	string * val2=NULL;
 	res.dist1 = 10000000000000000.0;
@@ -146,7 +146,7 @@ svHeuristiqueAnswer svCharDb::askToGodOfChar(svHeuristique & heur,bool testMode)
 	res.hasSome = false;
 	float cur = 0.0;
 	float coordDist[SV_HEUR_NB_COORD];
-	for (list<svHeuristiqueSimple>::iterator it=heurDb.begin();it!=heurDb.end();it++)
+	for (list<svOCRHeuristicSimple>::iterator it=heurDb.begin();it!=heurDb.end();it++)
 	//for (int i=0;i<sizeof(SV_INTERNAL_DB)/sizeof(svHeuristiqueSimple);i++)
 	{
 		cur = heur.getDistanceTo(*it,coordDist);
@@ -174,8 +174,8 @@ svHeuristiqueAnswer svCharDb::askToGodOfChar(svHeuristique & heur,bool testMode)
 /*******************  FUNCTION  *********************/
 void svCharDb::loadInternalHeurDb(void)
 {
-	svHeuristiqueSimple simple;
-	for (int i=0;i<sizeof(SV_INTERNAL_DB)/sizeof(svHeuristiqueSimpleBase);i++)
+	svOCRHeuristicSimple simple;
+	for (int i=0;i<sizeof(SV_INTERNAL_DB)/sizeof(svOCRHeuristicSimpleBase);i++)
 	{
 		for (int j=0;j<SV_HEUR_NB_COORD;j++)
 			simple.coord[j]=SV_INTERNAL_DB[i].coord[j];
@@ -185,13 +185,13 @@ void svCharDb::loadInternalHeurDb(void)
 }
 
 /*******************  FUNCTION  *********************/
-void svCharDb::displayDistWithAll(svHeuristique & heur)
+void svCharDb::displayDistWithAll(svOCRHeuristic & heur)
 {
 	float min = 100000000000.0;
 	string * val = NULL;
 	float cur;
 	int i=0;
-	for (list<svHeuristiqueSimple>::iterator it=heurDb.begin();it!=heurDb.end();it++)
+	for (list<svOCRHeuristicSimple>::iterator it=heurDb.begin();it!=heurDb.end();it++)
 	//for (int i=0;i<sizeof(SV_INTERNAL_DB)/sizeof(svHeuristiqueSimple);i++)
 	{
 		cur = heur.getDistanceTo(*it,NULL);

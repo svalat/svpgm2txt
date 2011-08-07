@@ -10,7 +10,7 @@
 #include "svExtractedChar.h"
 #include <cstdio>
 #include <cstring>
-#include "svGlobalConfig.h"
+#include "svOCRGlobalConfig.h"
 
 /*********************  CONSTS  *********************/
 const char SUMCHARCONVERT[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ-abcdefghijklmnopqrstuvwxyz+0123456789";

@@ -18,53 +18,61 @@
 #define SV_HEUR_NB_COEFS SV_HEUR_NB_COORD+1
 
 /*********************  STRUCT  *********************/
-struct svHeuristiqueSimpleBase
+struct svOCRHeuristicSimpleBase
 {
 	float coord[SV_HEUR_NB_COORD];
 	const char * value;
 };
 
 /*********************  STRUCT  *********************/
-struct svHeuristiqueSimple
+struct svOCRHeuristicSimple
 {
 	float coord[SV_HEUR_NB_COORD];
 	std::string value;
 };
 
 /*********************  STRUCT  *********************/
-struct svHeuristiqueAnswer
+struct svOCRHeuristicAnswer
 {
 	float dist1;
 	std::string ans1;
-	const svHeuristiqueSimple * heur1;
+	const svOCRHeuristicSimple * heur1;
 	float dist2;
 	std::string ans2;
-	const svHeuristiqueSimple * heur2;
+	const svOCRHeuristicSimple * heur2;
 	bool hasSome;
 	float coordDist[SV_HEUR_NB_COORD];
 };
 
 /*********************  CLASS  **********************/
-class svHeuristique
+/**
+ * Class used to implement unknwon character regnition base on some heuristics which evaluate
+ * the distance of an unknown char to those provided by char DB. It may permit to autoselect
+ * new chars translation. (not perfect but interesting test).
+ * It may be better to use fourrier transform recognition, but it was funny to test this approach.
+ * @brief Implementation of an heuristic for unknown character recognition.
+ * @author Sébastien Valat.
+**/
+class svOCRHeuristic
 {
 	public:
-		svHeuristique();
+		svOCRHeuristic();
 		void buildFromExtractedChar( svExtractedChar & ch,int majSize);
 		void buildFromHash(std::string hash,int majSize);
 		std::string getCDefinition(void);
-		friend std::ostream & operator << (ostream & out, const svHeuristique &heur);
+		friend std::ostream & operator << (ostream & out, const svOCRHeuristic &heur);
 		std::string getValue(void);
 		void setValue(std::string value);
 		void setCoord(float coord[15]);
-		svHeuristiqueSimple getSimple();
-		float getDistanceTo(const svHeuristiqueSimple & simple,float * coordDist);
+		svOCRHeuristicSimple getSimple();
+		float getDistanceTo(const svOCRHeuristicSimple & simple,float * coordDist);
 		void displayDistWithAll(void);
 		static void setRandomCoefs(float max);
 		static void copyCoefs(float * dest);
 		static void setCoefs(std::string value);
 		static void setCoefs(float * value);
-		bool isAccepted(svHeuristiqueAnswer & ans);
-		void printCoordDists(const svHeuristiqueSimple & simple);
+		bool isAccepted(svOCRHeuristicAnswer & ans);
+		void printCoordDists(const svOCRHeuristicSimple & simple);
 		bool applyCut(float * coordDist);
 	private:
 		void init();
@@ -78,12 +86,12 @@ class svHeuristique
 		void calcAngle(image & img);
 		void calcVertPos(std::string hash);
 		void fit(int pos,int max,int nbSegm,float * res,float value=1.0);
-		float fillingLevel;//rapport pixel noir sur blanc
-		float hsegm[8];//nombre de segment horizontal
-		float vsegm[8];//nombre de segment vertical
-		float hpix[4];//nombre de pixel noir sur la ligne;
-		float vpix[4];//nombre de pixel noir sur la colonne;
-		float cell[4];//nombre de pixel noir pour un découpage en 4 cellules
+		float fillingLevel;//Ratio of black pixel on white pixel.
+		float hsegm[8];//Number of horizontal segments.
+		float vsegm[8];//Number of vertical segments.
+		float hpix[4];//Number of black pixel on the selected line.
+		float vpix[4];//Number of black pixel on the selected column.
+		float cell[4];//Number of block pixel on each parts of the image by spliting it in 4 parts.
 		float angle[4];
 		float aspect;
 		float vertpos;

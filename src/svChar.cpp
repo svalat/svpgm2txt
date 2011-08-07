@@ -9,7 +9,7 @@
 /********************  HEADERS  *********************/
 #include "svChar.h"
 #include <iostream>
-#include "svGlobalConfig.h"
+#include "svOCRGlobalConfig.h"
 
 /**********************  USING  *********************/
 using namespace std;

@@ -7,7 +7,7 @@
 *****************************************************/
 
 /********************  HEADERS  *********************/
-#include "svHeuristique.h"
+#include "svOCRHeuristic.h"
 #include <cmath>
 
 /********************  MACRO  ***********************/
@@ -60,12 +60,12 @@ float SV_COEFS[SV_HEUR_NB_COEFS] =
 {.19003,1.09526,6741.97,9.1971,9.1971,9.1971,9.1971,0.714952,0.714952,0.714952,0.714952,3.88212,3.88212,3.88212,3.88212,9.31876,9.31876,9.31876,9.31876,9.36332,9.36332,5.63171,5.63171,8.86417,8.86417,8.86417,8.86417,6.34806,6.34806,4.36893,4.36893,8.81758,8.81758,8.81758,8.81758,9873.37,8};
 
 /*******************  FUNCTION  *********************/
-svHeuristique::svHeuristique()
+svOCRHeuristic::svOCRHeuristic()
 {
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::buildFromExtractedChar( svExtractedChar & ch,int majSize)
+void svOCRHeuristic::buildFromExtractedChar( svExtractedChar & ch,int majSize)
 {
 	image img = ch.getImage();
 	this->buildFromImage(img,majSize);
@@ -73,7 +73,7 @@ void svHeuristique::buildFromExtractedChar( svExtractedChar & ch,int majSize)
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::buildFromHash(std::string hash,int majSize)
+void svOCRHeuristic::buildFromHash(std::string hash,int majSize)
 {
 	image img(1,1);
 	svExtractedChar::buildImgFromHash(hash,img);
@@ -82,7 +82,7 @@ void svHeuristique::buildFromHash(std::string hash,int majSize)
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::calcVertPos(std::string hash)
+void svOCRHeuristic::calcVertPos(std::string hash)
 {
 	if (hash[0]=='t')
 		vertpos = 1.0;
@@ -95,7 +95,7 @@ void svHeuristique::calcVertPos(std::string hash)
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::buildFromImage(image & img,int majSize)
+void svOCRHeuristic::buildFromImage(image & img,int majSize)
 {
 	this->init();
 	this->calcFillingLevel(img);
@@ -110,7 +110,7 @@ void svHeuristique::buildFromImage(image & img,int majSize)
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::calcAngle(image & img)
+void svOCRHeuristic::calcAngle(image & img)
 {
 	angle[0]=(img.getColor(0,0)==0)?1.0:0.0;
 	angle[1]=(img.getColor(img.lwidth-1,0)==0)?1.0:0.0;
@@ -119,7 +119,7 @@ void svHeuristique::calcAngle(image & img)
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::calcHSegm(image & img)
+void svOCRHeuristic::calcHSegm(image & img)
 {
 	bool last;
 	for (unsigned int y=0;y<img.lheight;y++)
@@ -150,7 +150,7 @@ void svHeuristique::calcHSegm(image & img)
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::calcVSegm(image & img)
+void svOCRHeuristic::calcVSegm(image & img)
 {
 	bool last;
 	for(unsigned int x=1;x<img.lwidth;x++)
@@ -181,7 +181,7 @@ void svHeuristique::calcVSegm(image & img)
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::init()
+void svOCRHeuristic::init()
 {
 	fillingLevel = 0.0;
 	aspect = 0.0;
@@ -201,7 +201,7 @@ void svHeuristique::init()
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::setRandomCoefs(float max)
+void svOCRHeuristic::setRandomCoefs(float max)
 {
 	//for (int i=0;i<SV_HEUR_NB_COORD;i++)
 	//	SV_COEFS[i] = max * rand() / (RAND_MAX + 1.0);
@@ -243,7 +243,7 @@ void svHeuristique::setRandomCoefs(float max)
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::setCoefs(std::string value)
+void svOCRHeuristic::setCoefs(std::string value)
 {
 	string tmp = "";
 	int cnt=0;
@@ -269,14 +269,14 @@ void svHeuristique::setCoefs(std::string value)
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::copyCoefs(float * dest)
+void svOCRHeuristic::copyCoefs(float * dest)
 {
 	for (int i=0;i<SV_HEUR_NB_COEFS;i++)
 		dest[i]=SV_COEFS[i];
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::calcFillingLevel(image & img)
+void svOCRHeuristic::calcFillingLevel(image & img)
 {
 	int filled = 0;
 	for (unsigned int y=0;y<img.lheight;y++)
@@ -292,7 +292,7 @@ void svHeuristique::calcFillingLevel(image & img)
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::calcCell(image & img)
+void svOCRHeuristic::calcCell(image & img)
 {
 	float x1[2];
 	//cal int parts
@@ -316,7 +316,7 @@ void svHeuristique::calcCell(image & img)
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::fit(int pos,int max,int nbSegm,float * res,float value)
+void svOCRHeuristic::fit(int pos,int max,int nbSegm,float * res,float value)
 {
 	float dsplit = (float)max/(float)nbSegm;
 	float dx;
@@ -339,7 +339,7 @@ void svHeuristique::fit(int pos,int max,int nbSegm,float * res,float value)
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::calcHPix(image & img)
+void svOCRHeuristic::calcHPix(image & img)
 {
 	for (unsigned int y=0;y<img.lheight;y++)
 		for (unsigned int x=0;x<img.lwidth;x++)
@@ -352,7 +352,7 @@ void svHeuristique::calcHPix(image & img)
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::calcVPix(image & img)
+void svOCRHeuristic::calcVPix(image & img)
 {
 	for (unsigned int y=0;y<img.lheight;y++)
 		for (unsigned int x=0;x<img.lwidth;x++)
@@ -365,7 +365,7 @@ void svHeuristique::calcVPix(image & img)
 }
 
 /*******************  FUNCTION  *********************/
-std::string svHeuristique::getCDefinition(void)
+std::string svOCRHeuristic::getCDefinition(void)
 {
 	char buffer[4096];
 	char * cur=buffer;
@@ -382,7 +382,7 @@ std::string svHeuristique::getCDefinition(void)
 }
 
 /*******************  FUNCTION  *********************/
-std::ostream & operator << (ostream & out, const svHeuristique &heur)
+std::ostream & operator << (ostream & out, const svOCRHeuristic &heur)
 {
 	out << "#fillingLevel = " << heur.fillingLevel << endl;
 	out << "#cells        = " << heur.cell[0] << " , " << heur.cell[1] << " , " << heur.cell[2] << " , " << heur.cell[3] << endl;
@@ -396,19 +396,19 @@ std::ostream & operator << (ostream & out, const svHeuristique &heur)
 }
 
 /*******************  FUNCTION  *********************/
-std::string svHeuristique::getValue(void)
+std::string svOCRHeuristic::getValue(void)
 {
 	return value;
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::setValue(std::string value)
+void svOCRHeuristic::setValue(std::string value)
 {
 	this->value = value;
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::setCoord(float coord[15])
+void svOCRHeuristic::setCoord(float coord[15])
 {
 	fillingLevel = coord[0];
 	aspect = coord[1];
@@ -429,9 +429,9 @@ void svHeuristique::setCoord(float coord[15])
 }
 
 /*******************  FUNCTION  *********************/
-svHeuristiqueSimple svHeuristique::getSimple()
+svOCRHeuristicSimple svOCRHeuristic::getSimple()
 {
-	svHeuristiqueSimple simple;
+	svOCRHeuristicSimple simple;
 	simple.coord[0] = fillingLevel;
 	simple.coord[1] = aspect;
 	simple.coord[2] = vertpos;
@@ -453,11 +453,11 @@ svHeuristiqueSimple svHeuristique::getSimple()
 }
 
 /*******************  FUNCTION  *********************/
-float svHeuristique::getDistanceTo(const svHeuristiqueSimple & simple,float * coordDist)
+float svOCRHeuristic::getDistanceTo(const svOCRHeuristicSimple & simple,float * coordDist)
 {
 	float res = 0.0;
 	float tmp;
-	svHeuristiqueSimple simple2 = this->getSimple();
+	svOCRHeuristicSimple simple2 = this->getSimple();
 	for (int i=0;i<SV_HEUR_NB_COORD;i++)
 	{
 		tmp = SQR(SV_COEFS[i]*(simple.coord[i] - simple2.coord[i]));
@@ -469,9 +469,9 @@ float svHeuristique::getDistanceTo(const svHeuristiqueSimple & simple,float * co
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::printCoordDists(const svHeuristiqueSimple & simple)
+void svOCRHeuristic::printCoordDists(const svOCRHeuristicSimple & simple)
 {
-	svHeuristiqueSimple simple2 = this->getSimple();
+	svOCRHeuristicSimple simple2 = this->getSimple();
 	float diff;
 	for (int i=0;i<SV_HEUR_NB_COORD;i++)
 	{
@@ -484,14 +484,14 @@ void svHeuristique::printCoordDists(const svHeuristiqueSimple & simple)
 }
 
 /*******************  FUNCTION  *********************/
-void svHeuristique::setCoefs(float * value)
+void svOCRHeuristic::setCoefs(float * value)
 {
 	for (int i=0;i<SV_HEUR_NB_COEFS;i++)
 		SV_COEFS[i]=value[i];
 }
 
 /*******************  FUNCTION  *********************/
-bool svHeuristique::applyCut(float * coordDist)
+bool svOCRHeuristic::applyCut(float * coordDist)
 {
 	float max[SV_HEUR_NB_COORD]={0.00401238,0.65352,0,21.1467,30.7743,12.6951,47.3046,0.127789,0.0887424,0.511156,0.511156,6.69816,3.1934,15.0709,15.0709,204.169,347.357,241.22,186.801,350.687,87.6718,0,0,139.686,427.789,314.294,377.01,362.681,161.191,0,0,77.7497,77.7497,77.7497,77.7497,243708};
 
@@ -502,7 +502,7 @@ bool svHeuristique::applyCut(float * coordDist)
 }
 
 /*******************  FUNCTION  *********************/
-bool svHeuristique::isAccepted(svHeuristiqueAnswer & ans)
+bool svOCRHeuristic::isAccepted(svOCRHeuristicAnswer & ans)
 {
 	if (ans.hasSome && ans.dist1<SV_COEFS[SV_HEUR_NB_COORD])
 		return true;

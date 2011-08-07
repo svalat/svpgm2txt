@@ -8,7 +8,7 @@
 
 /********************  HEADERS  *********************/
 #include "svOCRLine.h"
-#include "svGlobalConfig.h"
+#include "svOCRGlobalConfig.h"
 
 /*******************  FUNCTION  *********************/
 svOCRLine::svOCRLine()

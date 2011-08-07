@@ -13,6 +13,11 @@
 #include "image.h"
 
 /*********************  CLASS  **********************/
+/**
+ * Provide a representatino of a text line detected on a given picture.
+ * @brief Class used to represent a text line detected on a picture.
+ * @author Valat Sébastien
+**/
 class svOCRLine
 {
 	public:

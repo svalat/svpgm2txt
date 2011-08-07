@@ -11,7 +11,7 @@
 #include <cstdlib>
 #include <sys/time.h>
 #include "svOCROptions.h"
-#include "svHeuristique.h"
+#include "svOCRHeuristic.h"
 #include "svOCR.h"
 
 /**********************  USING  *********************/
@@ -95,7 +95,7 @@ void calcHeuristic(const svOCROptions & options)
 
 	//get list
 	list<svDicEntry> lst = db.getDic();
-	svHeuristique heur;
+	svOCRHeuristic heur;
 	for(list<svDicEntry>::const_iterator it=lst.begin();it!=lst.end();it++)
 	{
 		if (!options.hasHeuristicChar() || options.getHeuristicChar()==it->value || options.getHeuristicChar()==it->hash)
@@ -115,8 +115,8 @@ TestResStruct runTest(svCharDb & ref,svCharDb & test,bool verbose=true)
 {
 	//get list
 	list<svDicEntry> lst = test.getDic();
-	svHeuristique heur;
-	svHeuristiqueAnswer res;
+	svOCRHeuristic heur;
+	svOCRHeuristicAnswer res;
 	TestResStruct stat={0,0,0,0,0.0,0.0,0.0,0.0,0.0};
 	int i;
 	if (verbose)
@@ -244,12 +244,12 @@ void searchCoefs(svOCROptions & options)
 	max.maxOk = 100000000000000000.0;
 	for (int i=0;i<400;i++)
 	{
-		svHeuristique::setRandomCoefs(options.getOptimizeMaxParam());
+		svOCRHeuristic::setRandomCoefs(options.getOptimizeMaxParam());
 	 	stat = runTest(db,dbToTest,false);
 		if (stat.cntOk > max.cntOk*0.95 && stat.meanDist > max.meanDist)
 		{
 			max=stat;
-			svHeuristique::copyCoefs(coefs);
+			svOCRHeuristic::copyCoefs(coefs);
 			printf("Run %d, get new max %f %%, with mean dist %f, minBad=%f , maxOk=%f\n",i,100.0*max.cntOk/max.cntTot,max.meanDist,max.minBad,max.maxOk);
 		}
 	}
@@ -272,7 +272,7 @@ int main(int argc, char *argv[])
 	//options.displayOptions();
 
 	if (options.hasCoefs())
-		svHeuristique::setCoefs(options.getCoefs());
+		svOCRHeuristic::setCoefs(options.getCoefs());
 
 	if (options.hasAddMark())
 		addMark(options);

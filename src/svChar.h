@@ -12,7 +12,7 @@
 /********************  HEADERS  *********************/
 #include "image.h"
 #include "svOCRLine.h"
-#include "svGlobalConfig.h"
+#include "svOCRGlobalConfig.h"
 
 /*********************  CLASS  **********************/
 class svChar

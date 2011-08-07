@@ -9,7 +9,7 @@
 /********************  HEADERS  *********************/
 #include "svOCR.h"
 #include "image.h"
-#include "svGlobalConfig.h"
+#include "svOCRGlobalConfig.h"
 
 /**********************  USING  *********************/
 using namespace std;
@@ -87,8 +87,8 @@ std::string svOCR::requestUnknown(svExtractedChar & extrChr,std::string & hash)
 	bool found =false;
 	if (options->hasUseHeuristics())
 	{
-		svHeuristique heur;
-		svHeuristiqueAnswer ans;
+		svOCRHeuristic heur;
+		svOCRHeuristicAnswer ans;
 		heur.buildFromExtractedChar(extrChr,majSize);
 		ans = db.askToGodOfChar(heur);
 		cout << "Heuristic say " << ans.ans1 << " with dist " << ans.dist1 << endl;

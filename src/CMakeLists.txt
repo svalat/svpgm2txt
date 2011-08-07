@@ -7,6 +7,6 @@
 ######################################################
 
 ##################### TARGETS ########################
-set(SVPGM2TXT_SOUCRES main.cpp svOCROptions.cpp svOCR.cpp svOCRLine.cpp svHeuristique.cpp 
+set(SVPGM2TXT_SOUCRES main.cpp svOCROptions.cpp svOCR.cpp svOCRLine.cpp svOCRHeuristic.cpp 
 	svExtractedChar.cpp svCharDb.cpp svChar.cpp image.cpp chaine.cpp pgmHeader.cpp)
 add_executable(svpgm2txt ${SVPGM2TXT_SOUCRES})

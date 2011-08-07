@@ -12,7 +12,7 @@
 /********************  HEADERS  *********************/
 #include <list>
 #include <string>
-#include "svHeuristique.h"
+#include "svOCRHeuristic.h"
 
 /********************  MACRO  ***********************/
 #define SV_DB_NOT_FOUND "--**== HASH NOT FOUND ==**--"
@@ -37,13 +37,13 @@ class svCharDb
 		bool load(std::string filename);
 		void addEmptyMark(void);
 		std::list<svDicEntry> getDic();
-		svHeuristiqueAnswer askToGodOfChar(svHeuristique & heur,bool testMode=false);
-		void displayDistWithAll(svHeuristique & heur);
+		svOCRHeuristicAnswer askToGodOfChar(svOCRHeuristic & heur,bool testMode=false);
+		void displayDistWithAll(svOCRHeuristic & heur);
 	protected:
 		void addHeuristique(std::string hash,int majSize,std::string value);
 		void loadInternalHeurDb(void);
 		std::list<svDicEntry> dic;
-		std::list<svHeuristiqueSimple> heurDb;
+		std::list<svOCRHeuristicSimple> heurDb;
 };
 
 #endif
