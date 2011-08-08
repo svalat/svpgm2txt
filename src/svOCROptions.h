@@ -48,6 +48,7 @@ class svOCROptions
 		bool hasCoefs(void) const;
 		bool hasUseHeuristics(void) const;
 		int getWhitespaceWidth(void) const;
+		static std::string getUserDbFile(void);
 	private:
 		static error_t parseOptions(int key, char *arg, struct argp_state *state);
 		void doInternal(void);

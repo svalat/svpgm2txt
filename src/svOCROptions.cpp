@@ -45,6 +45,7 @@ static const struct argp_option RS_OPTIONS[] = {
 	{"coefs",        'E',  "STRING",      0,  "Provide the 35 coefs for heuristics (generated with -O option)"},
 	{"heuristics",   'e',      NULL,      0,  "Enable usage of heusitics for new character instead of requesting to the user."},
 	{"whitespace",   'w', "INTEGER",      0,  "Setup width threshold for white space detection (default is 5)."},
+	{"userdb",       'U',      NULL,      0,  "Use default user DB : equlivalent to -o and -d on $HOME/.svpgm2txt.db."},
 	{ 0 }
 };
 
@@ -105,6 +106,10 @@ error_t svOCROptions::parseOptions(int key, char *arg, struct argp_state *state)
 			break;
 		case 'o':
 			options->outputDb = arg;
+			break;
+		case 'U':
+			options->outputDb = svOCROptions::getUserDbFile();
+			options->dbs.push_back(options->outputDb);
 			break;
 		case 'l':
 			options->inputFileList = arg;
@@ -335,4 +340,12 @@ bool svOCROptions::hasUseHeuristics(void) const
 int svOCROptions::getWhitespaceWidth(void ) const
 {
 	return whitespaceWidth;
+}
+
+/*******************  FUNCTION  *********************/
+string svOCROptions::getUserDbFile(void )
+{
+	string tmp = getenv("HOME");
+	tmp += "/.svpgm2txt.db";
+	return tmp;
 }
