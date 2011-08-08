@@ -9,7 +9,7 @@ URL:            file:///svpgm2txt/%{name}-%{version}.tar.gz
 Source0:        %{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  cmake, gcc-c++
+BuildRequires:  cmake, gcc-c++, gzip
 Requires:       
 
 %description
@@ -36,7 +36,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_bindir}/*
-#%{_datadir}/*
+%{_datadir}/*
 %doc
 
 

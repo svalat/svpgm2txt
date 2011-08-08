@@ -44,7 +44,7 @@ $> svpgm2txt -d db.txt test-data-ascii.pgm
 
 4) Reuse DB and complete it by saving after each picture file :
 
-$> svpgm2txt -s -odb.txt -d db.txt test-data-ascii.pgm
+$> svpgm2txt -s -o db.txt -d db.txt test-data-ascii.pgm
 
 5) Convert multiple files :
 

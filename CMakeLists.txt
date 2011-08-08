@@ -35,3 +35,6 @@ INCLUDE(CPack)
 ###################### CONTENT #######################
 add_subdirectory(src)
 add_subdirectory(test)
+if (NOT DISABLE_MANPAGES)
+	add_subdirectory(manpages)
+endif(NOT DISABLE_MANPAGES)

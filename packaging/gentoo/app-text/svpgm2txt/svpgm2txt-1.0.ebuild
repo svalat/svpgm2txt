@@ -15,5 +15,5 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE=""
 
-DEPEND=""
+DEPEND="gzip"
 RDEPEND=""

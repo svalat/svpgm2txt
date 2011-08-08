@@ -1,0 +1,140 @@
+."######################################################
+."#            PROJECT  : svPgm2Txt                    #
+."#            VERSION  : 1.0                          #
+."#            DATE     : 2009                         #
+."#            AUTHOR   : Valat Sébastien              #
+."#            LICENSE  : CeCILL-C                     #
+."######################################################
+."""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.TH svpgm2txt 1  "August 8, 2011" "version 1.0" "USER COMMANDS"
+
+."""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.SH NAME
+svpgm2txt \- Simple OCR to extract text from PGM image files juste like pgm2txt original command but without relying on GOCR.
+
+."""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.SH SYNOPSIS
+.B svpgm2txt
+svpgm2txt [OPTIONS] file1.pdm file2.pgm...
+
+."""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.SH DESCRIPTION
+If you have already use the pgm2txt (http://subtitleripper.sourceforge.net/) command to extract perfect text from image files, you may be exceed by number of error it produce (0 vs O....). Those errors are mainly due to usage of GOCR (http://jocr.sourceforge.net/) as caracter recognition. GOCR is a generic tool, so can handle large type of text, but such complexity limit his efficiency.
+.PP
+When trying to convert perfect formed text, we can done some assumptions about reproductibility over the text. This is what I done while writing svpgm2txt. I use the perfect text formatting limitation to simplify the implementation. When I say perfect formatting I mean not scanned document, but numerical text insert into images, so where identical characters are bit to bit similar.
+.PP
+With such perfect formed characters we can apply a bit to bit testing which is less flexible but largly sufficent in our case. So, the major difficulty rely on text splitting and extraction of separated characters. On well formed text it can be implemented in a simple way which was used in this software by cutting on empty horizontal lines and column with a variable angle to handle italic fonts.
+.PP
+It permit to certainly identify all characters with a small reference database which can be filled over time. The only exception is the problem of upper caps I and lower caps l which use the same bit representation in fonts such as arial. But GOCR do not work better on this bad case. A spell checker can fix this issue in post treatment or we can wrote a script to quickly fix frequent patterns.
+.PP
+Supported input format are :
+    * Gray PGM file in ASCII format
+    * Gray PGM file in binary format
+."""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.SH OPTIONS
+
+.TP
+.B \-c, \-\-calc
+Generate heuristics parameter for the letters given in the DB. This is more a trick to test the
+heuristic system, you may not need to use this option for normal usage.
+.TP
+.B \-C, \-\-char=CHAR
+Only display heuristics from the given character. This is more a trick to test the
+heuristic system, you may not need to use this option for normal usage.
+.TP
+.B \-d, \-\-db=FILE
+Add the given DB file for character recognition. You can merge multiple databases by using \-d multiple
+times.
+.TP
+.B \-D, \-\-dist
+Display the distance between the char selected with \-C and the list of available heuristics.
+This is more a trick to test the heuristic system, you may not need to use this option for normal usage.
+.TP
+.B \-e, \-\-heuristics
+Enable usage of heusitics for new character instead of requesting to the user. This functionality is
+experimental, it didn't work perfectly. For better usage, you need to build a large database first
+then recompute with coefs with \-\-optimize.
+.TP
+.B \-E, \-\-coefs=STRING
+Provide the 35 coefs for heuristics (generated with \-O option). This is the cut parameters on distances
+computed by the heuristic system.
+.TP
+.B \-l, \-\-list=FILE
+Provide a file listing PGM files to process. Each file must be separated by a line break.
+.TP
+.B \-m, \-\-mark=FILE
+Add an empty entry at the end of the DB. (For exemple to mark DB validation).
+.TP
+.B \-o, \-\-output-db=FILE
+Define the file in which to save the final DB which will cumulate all input DB plus new entries created by the scan.
+.TP
+.B \-O, \-\-optimize=MAX
+Apply heuristics tests in loop to optimise coefs. It must be used with \-T option to provide test case and \-d to provide more references than internal once.
+.TP
+.B \-s, \-\-save-each
+Save char db after each PGM files.
+.TP
+.B \-T, \-\-test=FILE
+Test all letters from the given file to validate an heuristics.
+.TP
+.B \-u, \-\-unknown=STRING
+Replace all unknown letters by 'STRING' instead of asking to the user.
+.TP
+.B \-U, \-\-userdb
+Use default user DB : equlivalent to \-o and \-d on $HOME/.svpgm2txt.db.
+.TP
+.B \-w, \-\-whitespace=INTEGER
+Setup width threshold for white space detection (default is 5).
+.TP
+.B \-?, \-\-help
+Give this help list
+.TP
+.B \-\-usage
+Give a short usage message.
+.TP
+.B \-V, \-\-version
+Print program version.
+
+."""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.SH EXAMPLES
+.TP
+Extract text from PGM without using character DB  (will ask for all new chars) :
+.B svpgm2txt 
+test\-data\-ascii.pgm
+.PP
+.TP
+Save the DB generated by first usage :
+.B svpgm2txt
+\-o db.txt test\-data\-ascii.pgm
+.PP
+.TP
+Reuse the DB without saving new entries :
+.B svpgm2txt
+\-d db.txt test\-data\-ascii.pgm
+.PP
+.TP
+Reuse DB and complete it by saving after each picture file :
+.B svpgm2txt
+\-s \-o db.txt -d db.txt test\-data\-ascii.pgm
+.PP
+.TP
+Convert multiple files :
+.B svpgm2txt
+\-d db.txt *.pgm
+.PP
+.TP
+Use default DB in $HOME/.svpgm2txt.db and save after each file :
+.B svpgm2txt
+\-U -s *.pgm
+.PP
+."""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.SH EXIT STATUS
+svpgm2txt returns a zero exist status if it succeeds to extract all given files. 
+Non zero is returned in case of failure.
+
+."""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.SH AUTHOR
+Sebastien Valat
+
+."""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.SH SEE ALSO
