@@ -7,6 +7,20 @@
 ######################################################
 
 
+TABLE OF CONTENT :
+__________________
+
+   - I.   SOURCE ARCHIVE
+   - II.  UBUNTU
+   - III. DEBIAN
+   - IV.  GENTOO WITHOUT LAYMAN
+   - V.   FEDORA
+
+
+INTRODUCTION :
+______________
+
+
 
 This directory contain the requierd files to build the project on distributions, please read this 
 file before using it.
@@ -15,6 +29,8 @@ file before using it.
 
 I. SOURCE ARCHIVE :
 ___________________
+
+
 
 To generate a source archive, as we use git for repository, you just need to execute :
 
@@ -93,8 +109,18 @@ Some extra links about ubuntu packaging :
 
 
 
-III. GENTOO WITHOUT LAYMAN :
-____________________________
+III. DEBIAN :
+_____________
+
+
+
+The process was not tested but it may be the same way than ubuntu.
+
+
+
+
+IV. GENTOO WITHOUT LAYMAN :
+___________________________
 
 
 
@@ -145,3 +171,56 @@ Or you can simply run :
 --------------------------------------------------------------------
 
 Now you can export your OVERLAY with svn or git to share it with the world.
+
+
+
+
+V. FEDORA :
+___________
+
+
+
+To build packages for Fedora (tested on Fedora 12), you must install de rpm dev tools, please read 
+the fedora doc to do it. You may install : 
+ * rpmdevtools
+ * cmake
+ * gcc-c++
+ * git support if you ar using the git tree
+
+Some URL which can help : 
+ * http://doc.fedora-fr.org/wiki/La_cr%C3%A9ation_de_RPM_pour_les_nuls_:_Cr%C3%A9ation_du_fichier_SPEC_et_du_Paquetage
+ * http://fedoraproject.org/wiki/PackageMaintainers
+ * http://fedoraproject.org/wiki/How_to_create_an_RPM_package
+ * http://fedoraproject.org/wiki/Docs/Drafts/BuildingPackagesGuide
+ * https://fedoraproject.org/wiki/A_Short_RPM_Tutorial
+ * http://fedoraproject.org/wiki/How_to_create_a_GNU_Hello_RPM_package
+
+Start as for other packaging by building your tarball :
+
+--------------------------------------------------------------------
+$user> git archive --prefix=svpgm2txt-1.0/ v1.0 | gzip > YOUR_LOCATION/svpgm2txt-1.0.tar.gz
+--------------------------------------------------------------------
+
+Check if you already hale the "rpmbuild" dir in your home directory, if not, please use 
+
+--------------------------------------------------------------------
+$user> rpmdev-setuptree
+--------------------------------------------------------------------
+
+Now copy the tarball to rpmbuild sources dir and .spec file to spec dir :
+
+--------------------------------------------------------------------
+$user> cp YOUR_LOCATION/svpgm2txt-1.0.tar.gz ~/rpmbuild/SOURCES
+$user> cp packaging/fedora/svpgm2txt.spec ~/rpmbuild/SPECS
+--------------------------------------------------------------------
+
+Now you can go into SPECS dir and run the build command :
+
+--------------------------------------------------------------------
+$user> cd ~/rpmbuild/SPECS
+$user> rpmbuild -ba svpgm2txt.spec
+--------------------------------------------------------------------
+
+Now you may get *.rpm files in RPMS and SRPMS dirs.
+
+
