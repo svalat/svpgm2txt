@@ -1,0 +1,12 @@
+svpgm2txt (1.1~git1) unstable; urgency=low
+
+  * CURRENT DEVEL VERSION FROM GIT REPOSITORY (branch master)
+
+ -- Sébastien Valat <sebastien.valat.dev@orange.fr>  Mon, 08 Aug 2011 11:33:26 +0200
+
+svpgm2txt (1.0-1) unstable; urgency=low
+
+  * First version published on github.
+  * Minimal usability.
+
+ -- Sébastien Valat <sebastien.valat.dev@orange.fr>  Mon, 07 Aug 2011 20:33:26 +0200
