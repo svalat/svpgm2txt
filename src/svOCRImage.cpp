@@ -87,7 +87,7 @@ void svOCRImage::copy(const svOCRImage &image)
 	if (image.bitmap==NULL)
 		return;
 	this->setSize(image.lwidth,image.lheight);
-	int i=0;
+	unsigned int i=0;
 	while (i<lheight*lwidth)
 		{
 		this->bitmap[i]=image.bitmap[i];
@@ -98,7 +98,7 @@ void svOCRImage::copy(const svOCRImage &image)
 /*******************  FUNCTION  *********************/
 SVOCR_COLOR svOCRImage::getColor(int x,int y)const
 {
-	if (x>lwidth || x<0 || y>lheight || y<0)
+	if (x>(int)lwidth || x<0 || y>(int)lheight || y<0)
 		return SVOCR_DEFAULT_COLOR;
 	return this->bitmap[coord(x,y)];
 }
@@ -106,7 +106,7 @@ SVOCR_COLOR svOCRImage::getColor(int x,int y)const
 /*******************  FUNCTION  *********************/
 void svOCRImage::setColor(int x, int y, SVOCR_COLOR value)
 {
-	if (x>lwidth || x<0 || y>lheight || y<0)
+	if (x>(int)lwidth || x<0 || y>(int)lheight || y<0)
 		return;
 	this->bitmap[coord(x,y)]=value;
 }
@@ -150,8 +150,8 @@ void svOCRImage::line(int xi,int yi,int xf,int yf,SVOCR_COLOR color)
 /*******************  FUNCTION  *********************/
 void svOCRImage::clear(SVOCR_COLOR color)
 {
-	for (int y=0;y<lheight;y++)
-		for (int x=0;x<lwidth;x++)
+	for (unsigned int y=0;y<lheight;y++)
+		for (unsigned int x=0;x<lwidth;x++)
 			{
 			this->bitmap[coord(x,y)]=color;
 			}
@@ -161,18 +161,18 @@ void svOCRImage::clear(SVOCR_COLOR color)
 void svOCRImage::print()const
 {
 	char buffer[lwidth+4];
-	for (int x=0;x<lwidth+2;x++) cout << '-';cout << endl;
-	for (int y=0;y<lheight;y++)
+	for (unsigned int x=0;x<lwidth+2;x++) cout << '-';cout << endl;
+	for (unsigned int y=0;y<lheight;y++)
 		{
 		buffer[0]='|';
-		for (int x=0;x<lwidth;x++)
+		for (unsigned int x=0;x<lwidth;x++)
 			buffer[x+1]=colorConversionTable[this->bitmap[coord(x,y)]];
 		buffer[lwidth+1]='|';
 		buffer[lwidth+2]='\n';
 		buffer[lwidth+3]='\0';
 		cout << buffer;
 		}
-	for (int x=0;x<lwidth+2;x++) cout << '-';cout << endl;
+	for (unsigned int x=0;x<lwidth+2;x++) cout << '-';cout << endl;
 }
 
 /*******************  FUNCTION  *********************/
@@ -198,7 +198,7 @@ bool svOCRImage::save(const char *path)
 /*******************  FUNCTION  *********************/
 bool svOCRImage::save(const std::string &path)
 {
-	save(path.c_str());
+	return save(path.c_str());
 }
 
 /*******************  FUNCTION  *********************/
@@ -214,7 +214,7 @@ bool svOCRImage::load(const char *path)
 		return false;
 	if (head.greyMax>(1<<8*sizeof(SVOCR_COLOR)))
 		return false;
-	int size;
+	size_t size;
 	this->setSize(head.width,head.height);
 	if (head.magNumber==BINARY_MODE)
 		size=fread(this->bitmap,sizeof(SVOCR_COLOR),lheight*lwidth,fp);
@@ -241,7 +241,7 @@ int svOCRImage::loadP2(FILE *fp)
 	buffer[0]='\0';
 	std::string tmp;
 	int pos=0;
-	int i=0;
+	unsigned int i=0;
 	while (i<lheight*lwidth)
 		{
 			if (buffer[pos]=='\0')
@@ -264,9 +264,9 @@ int svOCRImage::loadP2(FILE *fp)
 /*******************  FUNCTION  *********************/
 bool svOCRImage::vlineIsEmpty(int x)
 {
-	if (x > this->lwidth )
+	if (x > (int)this->lwidth )
 		return false;
-	for (int i=0;i<this->lheight;i++)
+	for (int i=0;i<(int)this->lheight;i++)
 		if (this->getColor(x,i)<127)
 			return false;
 	return true;
@@ -276,9 +276,9 @@ bool svOCRImage::vlineIsEmpty(int x)
 /*******************  FUNCTION  *********************/
 bool svOCRImage::hlineIsEmpty(int y)
 {
-	if (y > this->lheight )
+	if (y >(int) this->lheight )
 		return false;
-	for (int i=0;i<this->lwidth;i++)
+	for (int i=0;i<(int)this->lwidth;i++)
 		if (this->getColor(i,y)<127)
 			return false;
 	return true;

@@ -177,7 +177,7 @@ svOCRHeuristicAnswer svCharDb::askToGodOfChar(svOCRHeuristic & heur,bool testMod
 void svCharDb::loadInternalHeurDb(void)
 {
 	svOCRHeuristicSimple simple;
-	for (int i=0;i<sizeof(SVOCR_INTERNAL_DB)/sizeof(svOCRHeuristicSimpleBase);i++)
+	for (unsigned int i=0;i<sizeof(SVOCR_INTERNAL_DB)/sizeof(svOCRHeuristicSimpleBase);i++)
 	{
 		for (int j=0;j<SVOCR_HEUR_NB_COORD;j++)
 			simple.coord[j]=SVOCR_INTERNAL_DB[i].coord[j];

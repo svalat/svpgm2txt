@@ -132,17 +132,17 @@ void svOCRExtractedChar::applyCrop(void)
 	right++;
 	bottom++;
 
-	if (top>img.getHeight()/2)
+	if (top > (int)img.getHeight()/2)
 		this->hpos = 'b';
-	else if (bottom < img.getHeight()/2)
+	else if (bottom < (int)img.getHeight()/2)
 		this->hpos = 't';
 	else
 		this->hpos = 'm';
 
 	//cout << "w=" << img.getWidth() << " h=" << img.getHeight() << " x1=" << left << " x2=" << right << " y1=" << top << " y2=" << bottom << endl;
 	img.setSize(right-left,bottom-top);
-	for (int y=0;y<img.getHeight();y++)
-		for (int x=0;x<img.getWidth();x++)
+	for (int y=0;y<(int)img.getHeight();y++)
+		for (int x=0;x<(int)img.getWidth();x++)
 			img.setColor(x,y,copy.getColor(x+left,y+top));
 	cnt++;
 	char tmp[1024];
@@ -173,9 +173,9 @@ std::string svOCRExtractedChar::getHash(int majSize)
 	cur+=sprintf(cur,"%04d%04d",img.getWidth(),img.getHeight());
 	int pos=0;
 	unsigned char tmp=0;
-	for (int y=0;y<img.getHeight();y++)
+	for (int y=0;y<(int)img.getHeight();y++)
 	{
-		for (int x=0;x<img.getWidth();x++)
+		for (int x=0;x<(int)img.getWidth();x++)
 		{
 			tmp |= (img.getColor(x,y)>127)<<(pos++);
 			if (pos==6)
@@ -203,7 +203,7 @@ std::string svOCRExtractedChar::askWhatItIs(void)
 		endx-=startx;
 		startx=0;
 	}
-	if (endx>source->getImage()->getWidth())
+	if (endx>(int)source->getImage()->getWidth())
 	{
 		startx-=endx - source->getImage()->getWidth() ;
 		endx = source->getImage()->getWidth();
@@ -220,7 +220,7 @@ std::string svOCRExtractedChar::askWhatItIs(void)
 			color = source->getImage()->getColor(x,y);
 			if (color==255)
 				printf(".");
-			else if (x >= xoffset && x < xoffset + img.getWidth() && img.getColor(x-xoffset,y-yoffset)==0 && color<127)
+			else if (x >= xoffset && x < xoffset + (int)img.getWidth() && img.getColor(x-xoffset,y-yoffset)==0 && color<127)
 				printf("\e[47m#\e[0m");
 			else
 				printf("+");
