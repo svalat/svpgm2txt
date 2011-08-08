@@ -21,7 +21,7 @@ using namespace std;
 const char * argp_program_version="svPgm2Txt version " VERSION;
 const char *argp_program_bug_address = "<sebastien.valat.dev@orange.fr>";
 /* Program documentation. */
-static const char RS_ARGP_DOC[] ="svPgm1Txt -- Tools for text extarction from PGM files (OCR). "
+static const char RS_ARGP_DOC[] ="svPgm1Txt -- Tools for text extraction from PGM files (OCR). "
 "It's based on perfect text formatting to simplify implementation so didn't support scanned documents.";
 /* A description of the arguments we accept. */
 static const char RS_ARGS_DOC[] = "file1 file2...";
@@ -34,18 +34,18 @@ static const struct argp_option RS_OPTIONS[] = {
 	                                          "DB plus new entries created by the scan." },
 	{"list",         'l',    "FILE",      0,  "Provide a file listing PGM files to process.." },
 	{"mark",         'm',    "FILE",      0,  "Add an empty entry at the end of the DB. "
-	                                          "(For exemple to mark DB validation)."},
+	                                          "(For example to mark DB validation)."},
 	{"calc",         'c',      NULL,      0,  "Generate heuristics parameter for the letters given in the DB."},
 	{"char",         'C',    "CHAR",      0,  "Only display heuristics from the given character."},
 	{"dist",         'D',      NULL,      0,  "Display the distance between the char selected with -C and the list of "
 	                                          "available heuristics."},
 	{"test",         'T',    "FILE",      0,  "Test all letters from the given file to validate an heuristics."},
-	{"optimize",     'O',     "MAX",      0,  "Apply heuristics tests in loop to optimise coefs. It can be used with -T "
+	{"optimize",     'O',     "MAX",      0,  "Apply heuristics tests in loop to optimize coefs. It can be used with -T "
 	                                          "option to provide test case and -d to provide more references than internal once."},
 	{"coefs",        'E',  "STRING",      0,  "Provide the 35 coefs for heuristics (generated with -O option)"},
-	{"heuristics",   'e',      NULL,      0,  "Enable usage of heusitics for new character instead of requesting to the user."},
+	{"heuristics",   'e',      NULL,      0,  "Enable usage of heuristics for new character instead of requesting to the user."},
 	{"whitespace",   'w', "INTEGER",      0,  "Setup width threshold for white space detection (default is 5)."},
-	{"userdb",       'U',      NULL,      0,  "Use default user DB : equlivalent to -o and -d on $HOME/.svpgm2txt.db."},
+	{"userdb",       'U',      NULL,      0,  "Use default user DB : equivalent to -o and -d on $HOME/.svpgm2txt.db."},
 	{ 0 }
 };
 

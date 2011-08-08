@@ -22,7 +22,7 @@ ______________
 
 
 
-This directory contain the requierd files to build the project on distributions, please read this 
+This directory contain the required files to build the project on distributions, please read this 
 file before using it.
 
 
@@ -52,8 +52,8 @@ This project support the ubuntu packing to build .deb files. To build such packa
 files in packaging/ubuntu. First create a directory in your home dir, place the project archive in
 it and rename it to svpgm2txt_1.0.orig.tar.gz.
 
-To setup your working environnement, you will found documentation on 
-https://wiki.ubuntu.com/PbuilderHowto. We mosly need :
+To setup your working environment, you will found documentation on 
+https://wiki.ubuntu.com/PbuilderHowto. We mostly need :
 
 --------------------------------------------------------------------
 sudo apt-get install pbuilder debootstrap devscripts cdbs debhelper
@@ -180,7 +180,7 @@ ___________
 
 
 
-To build packages for Fedora (tested on Fedora 12), you must install de rpm dev tools, please read 
+To build packages for Fedora (tested on Fedora 12), you must install the rpm dev tools, please read 
 the fedora doc to do it. You may install : 
  * rpmdevtools
  * cmake
