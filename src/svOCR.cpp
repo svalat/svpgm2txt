@@ -58,7 +58,7 @@ std::string svOCR::runOnImage(std::string path)
 
 			//check space
 			//cout << "lastm=" << lastm << "  new=" << chr.getMStart() << endl;
-			if (lastm!=-1 && extrChr.getXOffset() - lastm > this->options->getBlankWidth())
+			if (lastm!=-1 && extrChr.getXOffset() - lastm > this->options->getWhitespaceWidth())
 				res+=' ';
 			lastm = extrChr.getXEnd();
 

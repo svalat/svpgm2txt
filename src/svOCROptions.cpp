@@ -44,7 +44,7 @@ static const struct argp_option RS_OPTIONS[] = {
 	                                          "option to provide test case and -d to provide more references than internal once."},
 	{"coefs",        'E',  "STRING",      0,  "Provide the 35 coefs for heuristics (generated with -O option)"},
 	{"heuristics",   'e',      NULL,      0,  "Enable usage of heusitics for new character instead of requesting to the user."},
-	{"blankwidth",   'b', "INTEGER",      0,  "Setup width threshold for space detection (default is 5)."},
+	{"whitespace",   'w', "INTEGER",      0,  "Setup width threshold for white space detection (default is 5)."},
 	{ 0 }
 };
 
@@ -63,7 +63,7 @@ void svOCROptions::init(void)
 	this->displayDist = false;
 	this->testHeuristic = false;
 	this->optimiseCoefs = false;
-	this->blankWidth = SVOCR_OCR_SPACE_DETECTION;
+	this->whitespaceWidth = SVOCR_OCR_SPACE_DETECTION;
 }
 
 /*******************  FUNCTION  *********************/
@@ -86,7 +86,7 @@ error_t svOCROptions::parseOptions(int key, char *arg, struct argp_state *state)
 	{
 		case 'b':
 			if (arg!=NULL)
-				options->blankWidth = atoi(arg);
+				options->whitespaceWidth = atoi(arg);
 			else
 				return ARGP_ERR_UNKNOWN;
 			break;
@@ -164,7 +164,7 @@ void svOCROptions::displayOptions(void) const
 	cout << "output_db     (-o) : " << this->outputDb << endl;
 	cout << "input_list    (-l) : " << this->inputFileList << endl;
 	cout << "mark_db       (-m) : " << this->addEmptyMarkTo << endl;
-	cout << "blankwidth    (-b) : " << this->blankWidth << endl;
+	cout << "whitespace    (-w) : " << this->whitespaceWidth << endl;
 	cout << "files              : ";
 	for (list<string>::const_iterator it=batch.begin();it!=batch.end();it++)
 	{
@@ -332,7 +332,7 @@ bool svOCROptions::hasUseHeuristics(void) const
 }
 
 /*******************  FUNCTION  *********************/
-int svOCROptions::getBlankWidth(void ) const
+int svOCROptions::getWhitespaceWidth(void ) const
 {
-	return blankWidth;
+	return whitespaceWidth;
 }

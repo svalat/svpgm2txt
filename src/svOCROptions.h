@@ -47,7 +47,7 @@ class svOCROptions
 		std::string getCoefs(void) const;
 		bool hasCoefs(void) const;
 		bool hasUseHeuristics(void) const;
-		int getBlankWidth(void) const;
+		int getWhitespaceWidth(void) const;
 	private:
 		static error_t parseOptions(int key, char *arg, struct argp_state *state);
 		void doInternal(void);
@@ -70,7 +70,7 @@ class svOCROptions
 		float optimiseWithMax;
 		std::string coefs;
 		bool useHeuristics;
-		int blankWidth;
+		int whitespaceWidth;
 };
 
 #endif
