@@ -195,18 +195,6 @@ function update_version_exotic_files()
 	sed -i "s/^\.TH svpgm2txt 1  \"[a-zA-Z]* [0-9]*, [0-9]*\" \"version $1\" \"USER COMMANDS\"/.TH svpgm2txt 1  \"$(get_date_formated_for_man)\" \"version $2\" \"USER COMMANDS\"/g" manpages/svpgm2txt.1
 # 	#Doxyfile
 # 	sed -i "s/^PROJECT_NUMBER         = $1\$/PROJECT_NUMBER         = $2/g" Doxyfile
-# 	#pkg-config template
-# 	sed -i "s/Version: $1/Version: $2/g" src/integration/pkg-config/svUnitTest.pc.in
-# 	#define version in svUnitTest.h
-# 	sed -i "s/^#define SVUT_LIBARY_VERSION \"$1\"\$/#define SVUT_LIBARY_VERSION \"$2\"/g" src/lib/svUnitTest.h
-# 	#gollum update script
-# 	sed -i "s/echo \"             VERSION  : $1\"/echo \"             VERSION  : $2\"/g" src/doxygen/update_from_gollum.sh
-# 	#configure.in example
-# 	sed -i "s/$1/$2/g" src/examples/build_with_autotools/configure.in
-# 	#examples in documentation from wiki
-# 	sed -i "s#<LibVersion>$1</LibVersion>#<LibVersion>$2</LibVersion>#g" src/doxygen/dev-doc-formatter.dox
-# 	#file into tests
-# 	sed -i "s/#define SVUT_LIBARY_VERSION \"$1\"/#define SVUT_LIBARY_VERSION \"$2\"/g" src/resources/svUnitTest_fake/include/svUnitTest/svUnitTest.h
 # 	#packaging README
  	sed -i "s/svpgm2txt-$1/svpgm2txt-$2/g" packaging/README.txt
  	sed -i "s/svpgm2txt_$1/svpgm2txt_$2/g" packaging/README.txt
@@ -219,8 +207,7 @@ function update_version_exotic_files()
 function update_date_exotic_files()
 {
 	new_date=`date +%m/%Y`
-	#gollum update script
-	#sed -i -r "s@echo \"             DATE     : [0-9]{2}/[0-9]{4}\"@echo \"             DATE     : ${new_date}\"@g" src/doxygen/update_from_gollum.sh
+	##.....
 }
 
 ########################## FUNCTION ############################
