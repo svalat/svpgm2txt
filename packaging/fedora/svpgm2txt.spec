@@ -1,13 +1,13 @@
 ######################################################
 #            PROJECT  : svpgm2txt                    #
-#            VERSION  : 1.0                          #
-#            DATE     : 2009                         #
+#            VERSION  : 1.1                          #
+#            DATE     : 08/2011                      #
 #            AUTHOR   : Valat Sébastien              #
 #            LICENSE  : CeCILL-C                     #
 ######################################################
 
 Name:           svpgm2txt
-Version:        1.0
+Version:        1.1
 Release:        1%{?dist}
 Summary:        A simple OCR replacement for pgm2txt.
 

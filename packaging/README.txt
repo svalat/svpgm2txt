@@ -1,7 +1,7 @@
 ######################################################
 #            PROJECT  : svpgm2txt                    #
-#            VERSION  : 1.0                          #
-#            DATE     : 2009                         #
+#            VERSION  : 1.1                          #
+#            DATE     : 08/2011                      #
 #            AUTHOR   : Valat Sébastien              #
 #            LICENSE  : CeCILL-C                     #
 ######################################################
@@ -35,7 +35,7 @@ ___________________
 To generate a source archive, as we use git for repository, you just need to execute :
 
 --------------------------------------------------------------------
-$user> git archive --prefix=svpgm2txt-1.0/ v1.0 | gzip > svpgm2txt-1.0.tar.gz
+$user> git archive --prefix=svpgm2txt-1.1/ v1.1 | gzip > svpgm2txt-1.1.tar.gz
 --------------------------------------------------------------------
 
 
@@ -50,7 +50,7 @@ ____________
 
 This project support the ubuntu packing to build .deb files. To build such package you may use the 
 files in packaging/ubuntu. First create a directory in your home dir, place the project archive in
-it and rename it to svpgm2txt_1.0.orig.tar.gz.
+it and rename it to svpgm2txt_1.1.orig.tar.gz.
 
 To setup your working environment, you will found documentation on 
 https://wiki.ubuntu.com/PbuilderHowto. We mostly need :
@@ -63,17 +63,17 @@ sudo pbuilder create
 If you work with git version you can build the archive with :
 
 --------------------------------------------------------------------
-$user> git archive --prefix=svpgm2txt-1.0/ v1.0 | gzip > YOUR_LOCATION/svpgm2txt_1.0.orig.tar.gz
+$user> git archive --prefix=svpgm2txt-1.1/ v1.1 | gzip > YOUR_LOCATION/svpgm2txt_1.1.orig.tar.gz
 --------------------------------------------------------------------
 
-Go to your directory and extract svpgm2txt_1.0.orig.tar.gz with and go in the directory.
+Go to your directory and extract svpgm2txt_1.1.orig.tar.gz with and go in the directory.
 
 --------------------------------------------------------------------
-$user> tar -xvzf svpgm2txt_1.0.orig.tar.gz
-$user> cd svpgm2txt-1.0
+$user> tar -xvzf svpgm2txt_1.1.orig.tar.gz
+$user> cd svpgm2txt-1.1
 --------------------------------------------------------------------
 
-Now go to the  svpgm2txt-1.0 directory and move the packaging/ubuntu into debian :
+Now go to the  svpgm2txt-1.1 directory and move the packaging/ubuntu into debian :
 
 --------------------------------------------------------------------
 $user> mv packaging/ubuntu debian
@@ -139,25 +139,25 @@ Now get the project archive and place it in /usr/portage/distfiles (or correspon
 change it in make.conf). If you work on the git version, you can build the project archive with :
 
 --------------------------------------------------------------------
-$user> git archive --prefix=svpgm2txt-1.0/ v1.0 | gzip > svpgm2txt-1.0.tar.gz
+$user> git archive --prefix=svpgm2txt-1.1/ v1.1 | gzip > svpgm2txt-1.1.tar.gz
 --------------------------------------------------------------------
 
 Now got to the /usr/local/portage/myoverlay/app-text/svpgm2txt and build the Manifest file :
 
 --------------------------------------------------------------------
-#root> ebuild svpgm2txt-1.0.ebuild digest
+#root> ebuild svpgm2txt-1.1.ebuild digest
 --------------------------------------------------------------------
 
 Now you can test the build steps one by one :
 
 --------------------------------------------------------------------
-#root> ebuild svpgm2txt-1.0.ebuild clean
-#root> ebuild svpgm2txt-1.0.ebuild fetch
-#root> ebuild svpgm2txt-1.0.ebuild unpack
-#root> ebuild svpgm2txt-1.0.ebuild prepare
-#root> ebuild svpgm2txt-1.0.ebuild configure
-#root> ebuild svpgm2txt-1.0.ebuild compile
-#root> ebuild svpgm2txt-1.0.ebuild test
+#root> ebuild svpgm2txt-1.1.ebuild clean
+#root> ebuild svpgm2txt-1.1.ebuild fetch
+#root> ebuild svpgm2txt-1.1.ebuild unpack
+#root> ebuild svpgm2txt-1.1.ebuild prepare
+#root> ebuild svpgm2txt-1.1.ebuild configure
+#root> ebuild svpgm2txt-1.1.ebuild compile
+#root> ebuild svpgm2txt-1.1.ebuild test
 --------------------------------------------------------------------
 
 ... I don't do install here bu you also can do preinst, install, postinst, qmerge 
@@ -166,7 +166,7 @@ Now you can test the build steps one by one :
 Or you can simply run :
 
 --------------------------------------------------------------------
-#root> echo "=app-text/svpgm2txt-1.0" >> /etc/portage/package.keywords
+#root> echo "=app-text/svpgm2txt-1.1" >> /etc/portage/package.keywords
 #root> emerge -a svpgm2txt
 --------------------------------------------------------------------
 
@@ -198,7 +198,7 @@ Some URL which can help :
 Start as for other packaging by building your tarball :
 
 --------------------------------------------------------------------
-$user> git archive --prefix=svpgm2txt-1.0/ v1.0 | gzip > YOUR_LOCATION/svpgm2txt-1.0.tar.gz
+$user> git archive --prefix=svpgm2txt-1.1/ v1.1 | gzip > YOUR_LOCATION/svpgm2txt-1.1.tar.gz
 --------------------------------------------------------------------
 
 Check if you already hale the "rpmbuild" dir in your home directory, if not, please use 
@@ -210,7 +210,7 @@ $user> rpmdev-setuptree
 Now copy the tarball to rpmbuild sources dir and .spec file to spec dir :
 
 --------------------------------------------------------------------
-$user> cp YOUR_LOCATION/svpgm2txt-1.0.tar.gz ~/rpmbuild/SOURCES
+$user> cp YOUR_LOCATION/svpgm2txt-1.1.tar.gz ~/rpmbuild/SOURCES
 $user> cp packaging/fedora/svpgm2txt.spec ~/rpmbuild/SPECS
 --------------------------------------------------------------------
 

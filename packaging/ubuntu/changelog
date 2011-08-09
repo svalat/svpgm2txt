@@ -1,8 +1,14 @@
-svpgm2txt (1.1~git1) unstable; urgency=low
+svpgm2txt (1.1-1) unstable; urgency=low
 
-  * CURRENT DEVEL VERSION FROM GIT REPOSITORY (branch master)
+  * Replace Character DB now use map instead of list for memory storage.
+  * Remove option -m
+  * Add manpage for command svpgm2txt
+  * Add -U option to automatically use $HOME/.svpgm2txt.db file as database
+  * Fix warnings in -Wall mode with GCC 4.5
+  * Add -w option to setup space width threshold
+  * Add base files for packaging (Fedora / Ubuntu / Gentoo)
 
- -- Sébastien Valat <sebastien.valat.dev@orange.fr>  Mon, 08 Aug 2011 11:33:26 +0200
+ -- Sébastien Valat <sebastien.valat.dev@orange.fr>  Tue, 09 Aug 2011 22:00:07 +0200
 
 svpgm2txt (1.0-1) unstable; urgency=low
 
