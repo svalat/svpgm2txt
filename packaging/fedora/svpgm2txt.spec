@@ -1,3 +1,11 @@
+######################################################
+#            PROJECT  : svpgm2txt                    #
+#            VERSION  : 1.0                          #
+#            DATE     : 2009                         #
+#            AUTHOR   : Valat Sébastien              #
+#            LICENSE  : CeCILL-C                     #
+######################################################
+
 Name:           svpgm2txt
 Version:        1.0
 Release:        1%{?dist}

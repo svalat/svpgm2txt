@@ -1,6 +1,10 @@
-# Copyright 1999-2010 Gentoo Foundation
-# Distributed under the terms of the GNU General Public License v2
-# $Header: $
+######################################################
+#            PROJECT  : svpgm2txt                    #
+#            VERSION  : 1.0                          #
+#            DATE     : 2009                         #
+#            AUTHOR   : Valat Sébastien              #
+#            LICENSE  : CeCILL-C                     #
+######################################################
 
 EAPI="2"
 

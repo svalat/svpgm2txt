@@ -1,5 +1,5 @@
 /*****************************************************
-             PROJECT  : svPgm2Txt
+             PROJECT  : svpgm2txt
              VERSION  : 1.0
              DATE     : 2009
              AUTHOR   : Gaspard Roland

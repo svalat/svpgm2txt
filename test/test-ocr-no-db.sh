@@ -1,6 +1,6 @@
 #!/bin/bash
 ######################################################
-#            PROJECT  : svPgm2Txt                    #
+#            PROJECT  : svpgm2txt                    #
 #            VERSION  : 1.0                          #
 #            DATE     : 2011                         #
 #            AUTHOR   : Valat Sébastien              #
