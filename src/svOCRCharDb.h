@@ -11,6 +11,7 @@
 
 /********************  HEADERS  *********************/
 #include <list>
+#include <map>
 #include <string>
 #include "svOCRHeuristic.h"
 
@@ -18,7 +19,7 @@
 #define SVOCR_DB_NOT_FOUND "--**== HASH NOT FOUND ==**--"
 
 /*********************  STRUCT  *********************/
-struct svDicEntry
+struct svOCRDicEntry
 {
 	char hpos;
 	std::string hash;
@@ -26,28 +27,31 @@ struct svDicEntry
 	int majSize;
 };
 
+/*********************  TYPES  **********************/
+typedef std::map<std::string,svOCRDicEntry> svOCRCharDbEntryList;
+
 /*********************  CLASS  **********************/
 /**
  * Database of known character, this is done to search exact identification via hashing methods.
  * @brief Database of known characters.
  * @author Valat Sébastien
 **/
-class svCharDb
+class svOCRCharDb
 {
 	public:
-		svCharDb();
+		svOCRCharDb();
 		void addEntry(std::string hash,int majSize,std::string value,bool addToHeur=false);
 		std::string getValue(std::string hash);
 		bool save(std::string filename);
 		bool load(std::string filename);
 		void addEmptyMark(void);
-		std::list<svDicEntry> getDic();
+		svOCRCharDbEntryList getDic();
 		svOCRHeuristicAnswer askToGodOfChar(svOCRHeuristic & heur,bool testMode=false);
 		void displayDistWithAll(svOCRHeuristic & heur);
 	protected:
 		void addHeuristic(std::string hash,int majSize,std::string value);
 		void loadInternalHeurDb(void);
-		std::list<svDicEntry> dic;
+		svOCRCharDbEntryList dic;
 		std::list<svOCRHeuristicSimple> heurDb;
 };
 

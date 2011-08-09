@@ -25,7 +25,7 @@ class svOCR
 	private:
 		std::string requestUnknown(svOCRExtractedChar & extrChr,std::string & hash);
 		bool isMaj(std::string & value);
-		svCharDb db;
+		svOCRCharDb db;
 		const svOCROptions * options;
 		int majSize;
 };

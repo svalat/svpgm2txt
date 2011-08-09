@@ -77,23 +77,25 @@ void normalRun(const svOCROptions & options)
 /*******************  FUNCTION  *********************/
 void calcHeuristic(const svOCROptions & options)
 {
-	svCharDb db;
+	svOCRCharDb db;
 	//load dbs
 	const list<string> & dbs = options.getDbs();
 	for(list<string>::const_iterator it=dbs.begin();it!=dbs.end();it++)
 		db.load(*it);
 
 	//get list
-	list<svDicEntry> lst = db.getDic();
+	svOCRCharDbEntryList lst = db.getDic();
+	const svOCRDicEntry * entry;
 	svOCRHeuristic heur;
-	for(list<svDicEntry>::const_iterator it=lst.begin();it!=lst.end();it++)
+	for(svOCRCharDbEntryList::const_iterator it=lst.begin();it!=lst.end();it++)
 	{
-		if (!options.hasHeuristicChar() || options.getHeuristicChar()==it->value || options.getHeuristicChar()==it->hash)
+		entry = &(it->second);
+		if (!options.hasHeuristicChar() || options.getHeuristicChar()==entry->value || options.getHeuristicChar()==entry->hash)
 		{
-			heur.buildFromHash(it->hash,it->majSize);
-			cout << "#======== " << it->value << " ========" << endl << heur;
-			cout << "#hash = " << it->hash << endl;
-			cout << "#CDEF = {" << heur.getCDefinition() << ",\"" << it->value << "\"}," << endl;
+			heur.buildFromHash(entry->hash,entry->majSize);
+			cout << "#======== " << entry->value << " ========" << endl << heur;
+			cout << "#hash = " << entry->hash << endl;
+			cout << "#CDEF = {" << heur.getCDefinition() << ",\"" << entry->value << "\"}," << endl;
 			if (options.hasHeuristicChar() && options.hasDisplayDist())
 				db.displayDistWithAll(heur);
 		}
@@ -101,12 +103,13 @@ void calcHeuristic(const svOCROptions & options)
 }
 
 /*******************  FUNCTION  *********************/
-TestResStruct runTest(svCharDb & ref,svCharDb & test,bool verbose=true)
+TestResStruct runTest(svOCRCharDb & ref,svOCRCharDb & test,bool verbose=true)
 {
 	//get list
-	list<svDicEntry> lst = test.getDic();
+	svOCRCharDbEntryList lst = test.getDic();
 	svOCRHeuristic heur;
 	svOCRHeuristicAnswer res;
+	const svOCRDicEntry * entry;
 	TestResStruct stat={0,0,0,0,0.0,0.0,0.0,0.0,0.0};
 	int i;
 	if (verbose)
@@ -114,17 +117,18 @@ TestResStruct runTest(svCharDb & ref,svCharDb & test,bool verbose=true)
 		for (i=0;i<SVOCR_HEUR_NB_COORD;i++)
 			stat.maxGood[i]=0.0;
 	}
-	for(list<svDicEntry>::const_iterator it=lst.begin();it!=lst.end();it++)
+	for(svOCRCharDbEntryList::const_iterator it=lst.begin();it!=lst.end();it++)
 	{
-		if (it->hpos=='i')
+		entry = &(it->second);
+		if (entry->hpos=='i')
 			continue;
-		heur.buildFromHash(it->hash,it->majSize);
+		heur.buildFromHash(entry->hash,entry->majSize);
 		res = ref.askToGodOfChar(heur,true);
 		if (res.dist2>10000000)
 			res.dist2=res.dist1;
 		if (res.hasSome==true)
 		{
-			if(res.ans1 == it->value)
+			if(res.ans1 == entry->value)
 			{
 				//if (res.dist2-res.dist1>0.5)
 				stat.cntOk++;
@@ -133,7 +137,7 @@ TestResStruct runTest(svCharDb & ref,svCharDb & test,bool verbose=true)
 					stat.maxOk = res.dist1;
 				if (verbose)
 				{
-					printf("Bonne réponse : %s ( %f ) or %s ( %f ) must be %s ",res.ans1.c_str(),res.dist1,res.ans2.c_str(),res.dist2,it->value.c_str());
+					printf("Bonne réponse : %s ( %f ) or %s ( %f ) must be %s ",res.ans1.c_str(),res.dist1,res.ans2.c_str(),res.dist2,entry->value.c_str());
 					//heur.printCoordDists(*res.heur1);
 					cout << endl;
 					for (i=0;i<SVOCR_HEUR_NB_COORD;i++)
@@ -144,11 +148,11 @@ TestResStruct runTest(svCharDb & ref,svCharDb & test,bool verbose=true)
 				stat.meanBad+=res.dist1;
 				if (res.dist1 < stat.minBad || stat.minBad==0.0)
 					stat.minBad = res.dist1;
-				if (res.ans2 == it->value)
+				if (res.ans2 == entry->value)
 					stat.cntOk2++;
 				if (verbose)
 				{
-					printf("Mauvaise réponse : %s ( %f ) or %s ( %f ) must be %s ",res.ans1.c_str(),res.dist1,res.ans2.c_str(),res.dist2,it->value.c_str());
+					printf("Mauvaise réponse : %s ( %f ) or %s ( %f ) must be %s ",res.ans1.c_str(),res.dist1,res.ans2.c_str(),res.dist2,entry->value.c_str());
 					//heur.printCoordDists(*res.heur1);
 					cout << endl;
 				}
@@ -172,13 +176,13 @@ TestResStruct runTest(svCharDb & ref,svCharDb & test,bool verbose=true)
 /*******************  FUNCTION  *********************/
 void testHeuristic(const svOCROptions & options)
 {
-	svCharDb db;
+	svOCRCharDb db;
 	//load dbs
 	const list<string> & dbs = options.getDbs();
 	for(list<string>::const_iterator it=dbs.begin();it!=dbs.end();it++)
 		db.load(*it);
 
-	svCharDb dbToTest;
+	svOCRCharDb dbToTest;
 	//load dbs
 	const list<string> & dbs2 = options.getDbToTestHeuristic();
 	for(list<string>::const_iterator it=dbs2.begin();it!=dbs2.end();it++)
@@ -197,7 +201,7 @@ void testHeuristic(const svOCROptions & options)
 }
 
 /*******************  FUNCTION  *********************/
-float searchCutPoint(svOCROptions & options,float * coefs,svCharDb &db,svCharDb & dbToTest)
+float searchCutPoint(svOCROptions & options,float * coefs,svOCRCharDb &db,svOCRCharDb & dbToTest)
 {
 	float res=0.01;
 	float pok=100;
@@ -212,13 +216,13 @@ float searchCutPoint(svOCROptions & options,float * coefs,svCharDb &db,svCharDb 
 /*******************  FUNCTION  *********************/
 void searchCoefs(svOCROptions & options)
 {
-	svCharDb db;
+	svOCRCharDb db;
 	//load dbs
 	const list<string> & dbs = options.getDbs();
 	for(list<string>::const_iterator it=dbs.begin();it!=dbs.end();it++)
 		db.load(*it);
 
-	svCharDb dbToTest;
+	svOCRCharDb dbToTest;
 	//load dbs
 	const list<string> & dbs2 = options.getDbToTestHeuristic();
 	for(list<string>::const_iterator it=dbs2.begin();it!=dbs2.end();it++)

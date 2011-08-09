@@ -18,16 +18,16 @@ using namespace std;
 extern const svOCRHeuristicSimpleBase SVOCR_INTERNAL_DB[SVOCR_HEUR_INTERNAL_DB_SIZE];
 
 /*******************  FUNCTION  *********************/
-svCharDb::svCharDb()
+svOCRCharDb::svOCRCharDb()
 {
 	this->loadInternalHeurDb();
 }
 
 /*******************  FUNCTION  *********************/
-void svCharDb::addEntry(std::string hash,int majSize,std::string value,bool addToHeur)
+void svOCRCharDb::addEntry(std::string hash,int majSize,std::string value,bool addToHeur)
 {
 	string res;
-	svDicEntry entry;
+	svOCRDicEntry entry;
 	entry.hpos = hash[0];
 	entry.hash = hash;
 	entry.value = value;
@@ -38,7 +38,7 @@ void svCharDb::addEntry(std::string hash,int majSize,std::string value,bool addT
 	res = this->getValue(hash);
 	if (res == SVOCR_DB_NOT_FOUND)
 	{
-		dic.push_back(entry);
+		dic[entry.hash] = entry;
 		if (addToHeur==true)
 			addHeuristic(hash,majSize,value);
 	} else if (res!=value) {
@@ -47,7 +47,7 @@ void svCharDb::addEntry(std::string hash,int majSize,std::string value,bool addT
 }
 
 /*******************  FUNCTION  *********************/
-void svCharDb::addHeuristic(std::string hash,int majSize,std::string value)
+void svOCRCharDb::addHeuristic(std::string hash,int majSize,std::string value)
 {
 	if (hash[0]=='i')
 		return;
@@ -58,20 +58,20 @@ void svCharDb::addHeuristic(std::string hash,int majSize,std::string value)
 }
 
 /*******************  FUNCTION  *********************/
-string svCharDb::getValue(std::string hash)
+string svOCRCharDb::getValue(std::string hash)
 {
 	if (hash[0]=='i')
 		return SVOCR_DB_NOT_FOUND;
-	for (list<svDicEntry>::iterator it=dic.begin();it!=dic.end();it++)
-	{
-		if (it->hash==hash)
-			return it->value;
-	}
-	return SVOCR_DB_NOT_FOUND;
+	
+	svOCRCharDbEntryList::iterator it = dic.find(hash);
+	if (it == dic.end())
+		return SVOCR_DB_NOT_FOUND;
+	else
+		return it->second.value;
 }
 
 /*******************  FUNCTION  *********************/
-bool svCharDb::save(std::string filename)
+bool svOCRCharDb::save(std::string filename)
 {
 	FILE * fp = fopen(filename.c_str(),"w");
 	if (!fp)
@@ -79,19 +79,21 @@ bool svCharDb::save(std::string filename)
 		perror(filename.c_str());
 		return false;
 	}
-	for (list<svDicEntry>::iterator it=dic.begin();it!=dic.end();it++)
-		fprintf(fp,"%s %04d %s\n",it->hash.c_str(),it->majSize,it->value.c_str());
+	for (svOCRCharDbEntryList::iterator it=dic.begin();it!=dic.end();it++)
+	{
+		fprintf(fp,"%s %04d %s\n",it->second.hash.c_str(),it->second.majSize,it->second.value.c_str());
+	}
 	fclose(fp);
 	return true;
 }
 
 /*******************  FUNCTION  *********************/
-bool svCharDb::load(std::string filename)
+bool svOCRCharDb::load(std::string filename)
 {
 	FILE * fp = fopen(filename.c_str(),"r");
 	char buffer1[2048];
 	char buffer2[2048];
-	svDicEntry entry;
+	svOCRDicEntry entry;
 	int res;
 	int line=1;
 	int majSize;
@@ -112,7 +114,7 @@ bool svCharDb::load(std::string filename)
 			entry.hash=buffer1;
 			entry.value=buffer2;
 			entry.majSize=majSize;
-			this->dic.push_back(entry);
+			this->dic[entry.hash] = entry;
 			this->addHeuristic(entry.hash,majSize,entry.value);
 		}
 		line++;
@@ -124,19 +126,19 @@ bool svCharDb::load(std::string filename)
 }
 
 /*******************  FUNCTION  *********************/
-void svCharDb::addEmptyMark(void)
+void svOCRCharDb::addEmptyMark(void)
 {
 	this->addEntry("i0000000099999999",9999,"-EM-");
 }
 
 /*******************  FUNCTION  *********************/
-std::list<svDicEntry> svCharDb::getDic()
+svOCRCharDbEntryList svOCRCharDb::getDic()
 {
 	return dic;
 }
 
 /*******************  FUNCTION  *********************/
-svOCRHeuristicAnswer svCharDb::askToGodOfChar(svOCRHeuristic & heur,bool testMode)
+svOCRHeuristicAnswer svOCRCharDb::askToGodOfChar(svOCRHeuristic & heur,bool testMode)
 {
 	svOCRHeuristicAnswer res;
 	string * val1=NULL;
@@ -174,7 +176,7 @@ svOCRHeuristicAnswer svCharDb::askToGodOfChar(svOCRHeuristic & heur,bool testMod
 }
 
 /*******************  FUNCTION  *********************/
-void svCharDb::loadInternalHeurDb(void)
+void svOCRCharDb::loadInternalHeurDb(void)
 {
 	svOCRHeuristicSimple simple;
 	for (unsigned int i=0;i<sizeof(SVOCR_INTERNAL_DB)/sizeof(svOCRHeuristicSimpleBase);i++)
@@ -187,7 +189,7 @@ void svCharDb::loadInternalHeurDb(void)
 }
 
 /*******************  FUNCTION  *********************/
-void svCharDb::displayDistWithAll(svOCRHeuristic & heur)
+void svOCRCharDb::displayDistWithAll(svOCRHeuristic & heur)
 {
 	float min = 100000000000.0;
 	string * val = NULL;
