@@ -75,16 +75,6 @@ void normalRun(const svOCROptions & options)
 }
 
 /*******************  FUNCTION  *********************/
-void addMark(const svOCROptions & options)
-{
-	cout << "Add mark to DB " << options.getFileToMark()  << endl;
-	svCharDb db;
-	db.load(options.getFileToMark());
-	db.addEmptyMark();
-	db.save(options.getFileToMark());
-}
-
-/*******************  FUNCTION  *********************/
 void calcHeuristic(const svOCROptions & options)
 {
 	svCharDb db;
@@ -274,9 +264,7 @@ int main(int argc, char *argv[])
 	if (options.hasCoefs())
 		svOCRHeuristic::setCoefs(options.getCoefs());
 
-	if (options.hasAddMark())
-		addMark(options);
-	else if (options.hasCalcHeuristic())
+	if (options.hasCalcHeuristic())
 		calcHeuristic(options);
 	else if (options.hasTestHeuristic() && options.hasOptimizeCoefs())
 		searchCoefs(options);

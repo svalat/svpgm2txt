@@ -33,8 +33,6 @@ static const struct argp_option RS_OPTIONS[] = {
 	{"output-db",    'o',    "FILE",      0,  "Define the file in which to save the final DB which will cumulate all input "
 	                                          "DB plus new entries created by the scan." },
 	{"list",         'l',    "FILE",      0,  "Provide a file listing PGM files to process.." },
-	{"mark",         'm',    "FILE",      0,  "Add an empty entry at the end of the DB. "
-	                                          "(For example to mark DB validation)."},
 	{"calc",         'c',      NULL,      0,  "Generate heuristics parameter for the letters given in the DB."},
 	{"char",         'C',    "CHAR",      0,  "Only display heuristics from the given character."},
 	{"dist",         'D',      NULL,      0,  "Display the distance between the char selected with -C and the list of "
@@ -114,9 +112,6 @@ error_t svOCROptions::parseOptions(int key, char *arg, struct argp_state *state)
 		case 'l':
 			options->inputFileList = arg;
 			break;
-		case 'm':
-			options->addEmptyMarkTo = arg;
-			break;
 		case 'c':
 			options->calcHeuristic = true;
 			break;
@@ -168,7 +163,6 @@ void svOCROptions::displayOptions(void) const
 	cout << endl;
 	cout << "output_db     (-o) : " << this->outputDb << endl;
 	cout << "input_list    (-l) : " << this->inputFileList << endl;
-	cout << "mark_db       (-m) : " << this->addEmptyMarkTo << endl;
 	cout << "whitespace    (-w) : " << this->whitespaceWidth << endl;
 	cout << "files              : ";
 	for (list<string>::const_iterator it=batch.begin();it!=batch.end();it++)
@@ -256,18 +250,6 @@ bool svOCROptions::hasSkipUnknown(void) const
 std::string svOCROptions::getSkipString(void) const
 {
 	return this->paramSkipWith;
-}
-
-/*******************  FUNCTION  *********************/
-bool svOCROptions::hasAddMark(void) const
-{
-	return (this->addEmptyMarkTo!="");
-}
-
-/*******************  FUNCTION  *********************/
-std::string svOCROptions::getFileToMark(void) const
-{
-	return this->addEmptyMarkTo;
 }
 
 /*******************  FUNCTION  *********************/

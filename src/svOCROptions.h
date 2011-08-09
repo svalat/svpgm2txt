@@ -34,8 +34,6 @@ class svOCROptions
 		bool hasSaveEach(void) const;
 		bool hasSkipUnknown(void) const;
 		std::string getSkipString(void) const;
-		bool hasAddMark(void) const;
-		std::string getFileToMark(void) const;
 		bool hasCalcHeuristic(void) const;
 		bool hasHeuristicChar(void) const;
 		std::string getHeuristicChar(void) const;
@@ -61,7 +59,6 @@ class svOCROptions
 		bool paramSaveEach;
 		bool paramSkipUnknown;
 		std::string paramSkipWith;
-		std::string addEmptyMarkTo;
 		bool calcHeuristic;
 		std::string ch;
 		bool displayDist;
