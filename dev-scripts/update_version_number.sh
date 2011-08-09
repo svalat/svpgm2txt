@@ -1,8 +1,8 @@
 #!/bin/bash
 ######################################################
 #            PROJECT  : svpgm2txt                    #
-#            VERSION  : 1.0                          #
-#            DATE     : 2009                         #
+#            VERSION  : 1.1                          #
+#            DATE     : 08/2011                      #
 #            AUTHOR   : Valat Sébastien              #
 #            LICENSE  : CeCILL-C                     #
 ######################################################
