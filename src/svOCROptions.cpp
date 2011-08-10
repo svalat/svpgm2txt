@@ -84,7 +84,7 @@ error_t svOCROptions::parseOptions(int key, char *arg, struct argp_state *state)
 
 	switch (key)
 	{
-		case 'b':
+		case 'w':
 			if (arg!=NULL)
 				options->whitespaceWidth = atoi(arg);
 			else
