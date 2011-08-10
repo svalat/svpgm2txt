@@ -78,7 +78,8 @@ std::string svOCR::runOnImage(std::string path)
 			if (isMaj(cur))
 				majSize = extrChr.getHeight();
 			//add the string
-			res+=cur;
+			if (cur != SVOCR_IGNORE_STRING)
+				res+=cur;
 
 			//mask the done chars
 			//c.drawBorderOnPicture();

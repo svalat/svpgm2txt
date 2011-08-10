@@ -22,4 +22,7 @@
 #define SVOCR_WHILE_CHAR_LIMIT 127
 #define SVOCR_CLEAR_WITH_COLOR 255
 
+/********************  MACRO  ***********************/
+#define SVOCR_IGNORE_STRING "{{IGNORE}}"
+
 #endif
