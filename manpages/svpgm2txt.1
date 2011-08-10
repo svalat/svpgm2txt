@@ -59,6 +59,12 @@ then recompute with coefs with \-\-optimize.
 Provide the 35 coefs for heuristics (generated with \-O option). This is the cut parameters on distances
 computed by the heuristic system.
 .TP
+.B \-i, \-\-ilfix=STRING
+Enable fix mode for I and l distinction, value can be : 
+   - 'none' for disabling the fix,
+   - 'always_ask' to ignore DB and ask every time, 
+   - 'force_l' or 'force_l' to force using one letter.
+.TP
 .B \-l, \-\-list=FILE
 Provide a file listing PGM files to process. Each file must be separated by a line break.
 .TP

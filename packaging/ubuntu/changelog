@@ -7,6 +7,7 @@ svpgm2txt (1.1-1) unstable; urgency=low
   * Fix warnings in -Wall mode with GCC 4.5
   * Add -w option to setup space width threshold
   * Add base files for packaging (Fedora / Ubuntu / Gentoo)
+  * Add two optional fixes for I/l recognition.
 
  -- Sébastien Valat <sebastien.valat.dev@orange.fr>  Tue, 09 Aug 2011 22:00:07 +0200
 

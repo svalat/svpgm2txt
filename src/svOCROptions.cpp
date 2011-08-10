@@ -13,6 +13,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <cstdio>
+#include <cstring>
 
 /**********************  USING  *********************/
 using namespace std;
@@ -44,8 +45,13 @@ static const struct argp_option RS_OPTIONS[] = {
 	{"heuristics",   'e',      NULL,      0,  "Enable usage of heuristics for new character instead of requesting to the user."},
 	{"whitespace",   'w', "INTEGER",      0,  "Setup width threshold for white space detection (default is 5)."},
 	{"userdb",       'U',      NULL,      0,  "Use default user DB : equivalent to -o and -d on $HOME/.svpgm2txt.db."},
+	{"ilfix",        'i',  "STRING",      0,  "Enable fix mode for I and l distinction, value can be : "
+	                                          "'none' for disabling the fix, "
+	                                          "'always_ask' to ignore DB and ask every time, "
+	                                          "'force_l' or 'force_l' to force using one letter."},
 	{ 0 }
 };
+static const char * SVOCR_ILFIX_NAMES[]={"none","always_ask","force_l","force_i"};
 
 /*******************  FUNCTION  *********************/
 svOCROptions::svOCROptions()
@@ -56,14 +62,15 @@ svOCROptions::svOCROptions()
 /*******************  FUNCTION  *********************/
 void svOCROptions::init(void)
 {
-	this->paramSaveEach = false;
+	this->paramSaveEach    = false;
 	this->paramSkipUnknown = false;
-	this->calcHeuristic = false;
-	this->displayDist = false;
-	this->testHeuristic = false;
-	this->optimiseCoefs = false;
-	this->whitespaceWidth = SVOCR_OCR_SPACE_DETECTION;
-	this->useHeuristics = false;
+	this->calcHeuristic    = false;
+	this->displayDist      = false;
+	this->testHeuristic    = false;
+	this->optimiseCoefs    = false;
+	this->whitespaceWidth  = SVOCR_OCR_SPACE_DETECTION;
+	this->useHeuristics    = false;
+	this->ilfix            = SVOCR_IL_FIX_NONE;
 }
 
 /*******************  FUNCTION  *********************/
@@ -102,6 +109,29 @@ error_t svOCROptions::parseOptions(int key, char *arg, struct argp_state *state)
 				options->dbs.push_back(arg);
 			else
 				return ARGP_ERR_UNKNOWN;
+			break;
+		case 'i':
+			if (arg == NULL)
+			{
+				return ARGP_ERR_UNKNOWN;
+			} else {
+				bool find = false;
+				for (unsigned int i = 0 ; i < sizeof(SVOCR_ILFIX_NAMES)/sizeof(char *) ; ++i)
+				{
+					if (strcmp(SVOCR_ILFIX_NAMES[i],arg) == 0)
+					{
+						find = true;
+						options->ilfix = (svOCRILFix)i;
+						break;
+					}
+				}
+				if (find == false)
+				{
+					cerr << "Invalid value for argument -i/--ilfix : " << arg << endl;
+					return ARGP_ERR_UNKNOWN;
+				}
+			}
+						
 			break;
 		case 'o':
 			options->outputDb = arg;
@@ -165,6 +195,7 @@ void svOCROptions::displayOptions(void) const
 	cout << "output_db     (-o) : " << this->outputDb << endl;
 	cout << "input_list    (-l) : " << this->inputFileList << endl;
 	cout << "whitespace    (-w) : " << this->whitespaceWidth << endl;
+	cout << "ilfix         (-i) : " << SVOCR_ILFIX_NAMES[this->ilfix] << endl;
 	cout << "files              : ";
 	for (list<string>::const_iterator it=batch.begin();it!=batch.end();it++)
 	{
@@ -331,4 +362,10 @@ string svOCROptions::getUserDbFile(void )
 	string tmp = getenv("HOME");
 	tmp += "/.svpgm2txt.db";
 	return tmp;
+}
+
+/*******************  FUNCTION  *********************/
+svOCRILFix svOCROptions::getILFix(void ) const
+{
+	return ilfix;
 }

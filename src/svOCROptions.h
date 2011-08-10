@@ -14,6 +14,15 @@
 #include <list>
 #include <argp.h>
 
+/********************  ENUM  ************************/
+enum svOCRILFix
+{
+	SVOCR_IL_FIX_NONE,
+	SVOCR_IL_FIX_ALLWAYS_ASK,
+	SVOCR_IL_FIX_FORCE_L,
+	SVOCR_IL_FIX_FORCE_I
+};
+
 /*********************  CLASS  **********************/
 /**
  * This class manage the program confirugation. Informations will be setup by using program aguement
@@ -47,6 +56,7 @@ class svOCROptions
 		bool hasUseHeuristics(void) const;
 		int getWhitespaceWidth(void) const;
 		static std::string getUserDbFile(void);
+		svOCRILFix getILFix(void) const;
 	private:
 		static error_t parseOptions(int key, char *arg, struct argp_state *state);
 		void doInternal(void);
@@ -69,6 +79,7 @@ class svOCROptions
 		std::string coefs;
 		bool useHeuristics;
 		int whitespaceWidth;
+		svOCRILFix ilfix;
 };
 
 #endif

@@ -15,6 +15,7 @@ Version 1.1 (August 09, 2011)
      * Fix warnings in -Wall mode with GCC 4.5
      * Add -w option to setup space width threshold
      * Add base files for packaging (Fedora / Ubuntu / Gentoo)
+     * Add two optional fixes for I/l recognition.
 
 Version 1.0 (August 09, 2011)
 

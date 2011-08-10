@@ -53,8 +53,20 @@ std::string svOCR::runOnImage(std::string path)
 			//get the string
 			hash=extrChr.getHash(majSize);
 			cur=this->db.getValue(hash);
+			
+			//special fix, ask for each I/l
+			if ((cur == "I" || cur == "l") && options->getILFix() == SVOCR_IL_FIX_ALLWAYS_ASK)
+				cur = requestUnknown(extrChr,hash);
+			
+			//if not found
 			if (cur==SVOCR_DB_NOT_FOUND)
 				cur = requestUnknown(extrChr,hash);
+			
+			//special fix, force I/l value
+			if (cur == "I" && options->getILFix() == SVOCR_IL_FIX_FORCE_L)
+				cur = "l";
+			else if (cur == "l" && options->getILFix() == SVOCR_IL_FIX_FORCE_I)
+				cur = "I";
 
 			//check space
 			//cout << "lastm=" << lastm << "  new=" << chr.getMStart() << endl;
