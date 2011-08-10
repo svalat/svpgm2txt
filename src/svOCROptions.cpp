@@ -63,6 +63,7 @@ void svOCROptions::init(void)
 	this->testHeuristic = false;
 	this->optimiseCoefs = false;
 	this->whitespaceWidth = SVOCR_OCR_SPACE_DETECTION;
+	this->useHeuristics = false;
 }
 
 /*******************  FUNCTION  *********************/

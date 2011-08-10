@@ -98,7 +98,7 @@ void svOCRImage::copy(const svOCRImage &image)
 /*******************  FUNCTION  *********************/
 SVOCR_COLOR svOCRImage::getColor(int x,int y)const
 {
-	if (x>(int)lwidth || x<0 || y>(int)lheight || y<0)
+	if (x>=(int)lwidth || x<0 || y>=(int)lheight || y<0)
 		return SVOCR_DEFAULT_COLOR;
 	return this->bitmap[coord(x,y)];
 }
@@ -106,7 +106,7 @@ SVOCR_COLOR svOCRImage::getColor(int x,int y)const
 /*******************  FUNCTION  *********************/
 void svOCRImage::setColor(int x, int y, SVOCR_COLOR value)
 {
-	if (x>(int)lwidth || x<0 || y>(int)lheight || y<0)
+	if (x>=(int)lwidth || x<0 || y>=(int)lheight || y<0)
 		return;
 	this->bitmap[coord(x,y)]=value;
 }
