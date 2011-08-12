@@ -48,10 +48,11 @@ static const struct argp_option RS_OPTIONS[] = {
 	{"ilfix",        'i',  "STRING",      0,  "Enable fix mode for I and l distinction, value can be : "
 	                                          "'none' for disabling the fix, "
 	                                          "'always_ask' to ignore DB and ask every time, "
-	                                          "'force_l' or 'force_l' to force using one letter."},
+	                                          "'force_l' or 'force_l' to force using one letter, "
+											  "'upper_case' to detect if we are at begening of a work, an upper cased word..."},
 	{ 0 }
 };
-static const char * SVOCR_ILFIX_NAMES[]={"none","always_ask","force_l","force_i"};
+static const char * SVOCR_ILFIX_NAMES[]={"none","always_ask","force_l","force_i","upper_case"};
 
 /*******************  FUNCTION  *********************/
 svOCROptions::svOCROptions()

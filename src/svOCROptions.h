@@ -20,7 +20,8 @@ enum svOCRILFix
 	SVOCR_IL_FIX_NONE,
 	SVOCR_IL_FIX_ALLWAYS_ASK,
 	SVOCR_IL_FIX_FORCE_L,
-	SVOCR_IL_FIX_FORCE_I
+	SVOCR_IL_FIX_FORCE_I,
+	SVOCR_IL_FIX_UPPER_CASE,
 };
 
 /*********************  CLASS  **********************/
