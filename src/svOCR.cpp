@@ -10,6 +10,7 @@
 #include "svOCR.h"
 #include "svOCRImage.h"
 #include "svOCRGlobalConfig.h"
+#include "svOCRILUpperCaseFixer.h"
 
 /**********************  USING  *********************/
 using namespace std;
@@ -25,6 +26,7 @@ svOCR::svOCR(const svOCROptions & options)
 std::string svOCR::runOnImage(std::string path)
 {
 	svOCRImage img(1,1);
+	svOCRILUpperCaseFixer ilFixer;
 	if (!img.load(path.c_str()))
 	{
 		perror("");
@@ -79,7 +81,11 @@ std::string svOCR::runOnImage(std::string path)
 				majSize = extrChr.getHeight();
 			//add the string
 			if (cur != SVOCR_IGNORE_STRING)
+			{
+				if ((cur == "I" || cur == "l") && this->options->getILFix() ==  SVOCR_IL_FIX_UPPER_CASE)
+					ilFixer.registerPos(res.size());
 				res+=cur;
+			}
 
 			//mask the done chars
 			//c.drawBorderOnPicture();
@@ -89,6 +95,10 @@ std::string svOCR::runOnImage(std::string path)
 		chr.reset();
 		lastm = -1;
 	}
+	
+	//final fixes
+	if(this->options->getILFix() ==  SVOCR_IL_FIX_UPPER_CASE)
+		res = ilFixer.fixString(res);
 
 	return res;
 }

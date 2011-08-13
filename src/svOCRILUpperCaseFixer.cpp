@@ -54,28 +54,35 @@ void svOCRILUpperCaseFixer::registerPos ( int pos )
 bool svOCRILUpperCaseFixer::isAFirstWordInSentance ( const std::string& value, int pos ) const
 {
 	//find start pos of word
-	int i = 0;
-	while (i > 0 && !isSeparator(value[i]))
-		--i;
+	int i = pos - 1;
+	if (pos == 0)
+		return true;
+	else if (!isSeparator(value[i]))
+		return false;
 	
 	//find previous word or a end sentance separator
-	while(i > 0 && isSeparator(value[i]))
+	while(i >= 0 && isSeparator(value[i]))
 	{
 		if (isFollowedByUpperCase(value[i]))
 			return true;
 		--i;
 	}
 	
-	return (i==0);
+	return (i==-1);
 }
 
 /*******************  FUNCTION  *********************/
 bool svOCRILUpperCaseFixer::isAnUpperWord ( const std::string& value, int pos ) const
 {
-	unsigned int i = pos;
+	int i = pos;
+	int cnt = 1;
 	//search starting pos
 	while (pos > 0 && !isSeparator(value[i]))
 		--i;
+	
+	//return to the first letter
+	if (pos != 0)
+		++i;
 	
 	//move until end of word an check if get only uppercase (return false if found a lower case char).
 	while (pos < (int)value.size() && !isSeparator(value[i]))
@@ -83,9 +90,11 @@ bool svOCRILUpperCaseFixer::isAnUpperWord ( const std::string& value, int pos ) 
 		if (isUpperCase(value[i]) == false)
 			return false;
 		++i;
+		cnt++;
 	}
 	
-	return true;
+	//consider upper word only if more than 2 letter, for two we can't be sure (example, in french ; Il)
+	return cnt>2;
 }
 
 /*******************  FUNCTION  *********************/
@@ -107,7 +116,7 @@ bool svOCRILUpperCaseFixer::isFollowedByUpperCase ( char value ) const
 /*******************  FUNCTION  *********************/
 bool svOCRILUpperCaseFixer::isSeparator ( char value ) const
 {
-	const char separators[] = "\n:;,()[]=+*{} .!?";
+	const char separators[] = "\n:;,()[]=+*{} .!?-";
 	for (unsigned int i = 0 ; i <= sizeof(separators) ; ++i)
 		if (separators[i] == value)
 			return true;
