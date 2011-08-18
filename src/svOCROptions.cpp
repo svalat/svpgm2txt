@@ -49,10 +49,12 @@ static const struct argp_option RS_OPTIONS[] = {
 	                                          "'none' for disabling the fix, "
 	                                          "'always_ask' to ignore DB and ask every time, "
 	                                          "'force_l' or 'force_l' to force using one letter, "
-											  "'upper_case' to detect if we are at begening of a work, an upper cased word..."},
+	                                          "'aspell' use apsell as spell checker for I/l distinction, "
+	                                          "'upper_case' to detect if we are at begening of a work, an upper cased word...,"},
+	{"lang",          'L', "STRING",      0,  "Define the language to use for spell checking in conjunction of -i aspell only."},
 	{ 0 }
 };
-static const char * SVOCR_ILFIX_NAMES[]={"none","always_ask","force_l","force_i","upper_case"};
+static const char * SVOCR_ILFIX_NAMES[]={"none","always_ask","force_l","force_i","upper_case","aspell"};
 
 /*******************  FUNCTION  *********************/
 svOCROptions::svOCROptions()
@@ -72,6 +74,7 @@ void svOCROptions::init(void)
 	this->whitespaceWidth  = SVOCR_OCR_SPACE_DETECTION;
 	this->useHeuristics    = false;
 	this->ilfix            = SVOCR_IL_FIX_NONE;
+	this->spellLang        = "Undefined";
 }
 
 /*******************  FUNCTION  *********************/
@@ -108,6 +111,12 @@ error_t svOCROptions::parseOptions(int key, char *arg, struct argp_state *state)
 		case 'd':
 			if (arg!=NULL)
 				options->dbs.push_back(arg);
+			else
+				return ARGP_ERR_UNKNOWN;
+			break;
+		case 'L':
+			if (arg!=NULL)
+				options->spellLang = arg;
 			else
 				return ARGP_ERR_UNKNOWN;
 			break;
@@ -197,6 +206,7 @@ void svOCROptions::displayOptions(void) const
 	cout << "input_list    (-l) : " << this->inputFileList << endl;
 	cout << "whitespace    (-w) : " << this->whitespaceWidth << endl;
 	cout << "ilfix         (-i) : " << SVOCR_ILFIX_NAMES[this->ilfix] << endl;
+	cout << "lang          (-L) : " << this->spellLang << endl;
 	cout << "files              : ";
 	for (list<string>::const_iterator it=batch.begin();it!=batch.end();it++)
 	{
@@ -369,4 +379,16 @@ string svOCROptions::getUserDbFile(void )
 svOCRILFix svOCROptions::getILFix(void ) const
 {
 	return ilfix;
+}
+
+/*******************  FUNCTION  *********************/
+string svOCROptions::getSpellLang(void ) const
+{
+	return spellLang;
+}
+
+/*******************  FUNCTION  *********************/
+void svOCROptions::setSpellLang(string lang)
+{
+	this->spellLang = lang;
 }

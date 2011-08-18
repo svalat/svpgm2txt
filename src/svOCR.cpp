@@ -11,6 +11,7 @@
 #include "svOCRImage.h"
 #include "svOCRGlobalConfig.h"
 #include "svOCRILUpperCaseFixer.h"
+#include "svOCRILSpellFixer.h"
 
 /**********************  USING  *********************/
 using namespace std;
@@ -27,6 +28,7 @@ std::string svOCR::runOnImage(std::string path)
 {
 	svOCRImage img(1,1);
 	svOCRILUpperCaseFixer ilFixer;
+	svOCRILSpellFixer * spellFixer = NULL;
 	if (!img.load(path.c_str()))
 	{
 		perror("");
@@ -41,6 +43,9 @@ std::string svOCR::runOnImage(std::string path)
 	string hash;
 	string cur;
 	int lastm = -1;
+	
+	if (options->getILFix() == SVOCR_IL_FIX_ASPELL)
+		spellFixer = new svOCRILSpellFixer(options->getSpellLang());
 
 	while (line.buildLine(img,line.getEnd()+1))
 	{
@@ -84,6 +89,8 @@ std::string svOCR::runOnImage(std::string path)
 			{
 				if ((cur == "I" || cur == "l") && this->options->getILFix() ==  SVOCR_IL_FIX_UPPER_CASE)
 					ilFixer.registerPos(res.size());
+				if ((cur == "I" || cur == "l") && spellFixer != NULL)
+					spellFixer->registerPos(res.size());
 				res+=cur;
 			}
 
@@ -99,6 +106,10 @@ std::string svOCR::runOnImage(std::string path)
 	//final fixes
 	if(this->options->getILFix() ==  SVOCR_IL_FIX_UPPER_CASE)
 		res = ilFixer.fixString(res);
+	
+	//final fixes
+	if (spellFixer != NULL)
+		res = spellFixer->fixString(res);
 
 	return res;
 }

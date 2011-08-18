@@ -22,6 +22,7 @@ enum svOCRILFix
 	SVOCR_IL_FIX_FORCE_L,
 	SVOCR_IL_FIX_FORCE_I,
 	SVOCR_IL_FIX_UPPER_CASE,
+	SVOCR_IL_FIX_ASPELL,
 };
 
 /*********************  CLASS  **********************/
@@ -58,6 +59,8 @@ class svOCROptions
 		int getWhitespaceWidth(void) const;
 		static std::string getUserDbFile(void);
 		svOCRILFix getILFix(void) const;
+		void setSpellLang(std::string lang);
+		std::string getSpellLang(void) const;
 	private:
 		static error_t parseOptions(int key, char *arg, struct argp_state *state);
 		void doInternal(void);
@@ -81,6 +84,7 @@ class svOCROptions
 		bool useHeuristics;
 		int whitespaceWidth;
 		svOCRILFix ilfix;
+		std::string spellLang;
 };
 
 #endif
