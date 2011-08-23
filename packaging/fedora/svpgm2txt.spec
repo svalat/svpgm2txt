@@ -1,13 +1,13 @@
 ######################################################
 #            PROJECT  : svpgm2txt                    #
-#            VERSION  : 1.1                          #
+#            VERSION  : 1.2                          #
 #            DATE     : 08/2011                      #
 #            AUTHOR   : Valat Sébastien              #
 #            LICENSE  : CeCILL-C                     #
 ######################################################
 
 Name:           svpgm2txt
-Version:        1.1
+Version:        1.2
 Release:        1%{?dist}
 Summary:        A simple OCR replacement for pgm2txt.
 
@@ -17,8 +17,8 @@ URL:            file:///svpgm2txt/%{name}-%{version}.tar.gz
 Source0:        %{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  cmake, gcc-c++, gzip
-Requires:       
+BuildRequires:  cmake, gcc-c++, gzip, aspell-devel
+Requires:       aspell
 
 %description
 Quick OCR to extract perfect formed text from PGM files instead of use gocr to get less error when working on perfect files. This is to fix issues of default pgm2txt command.

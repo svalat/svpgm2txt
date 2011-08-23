@@ -1,6 +1,6 @@
 /*****************************************************
              PROJECT  : svpgm2txt
-             VERSION  : 1.1
+             VERSION  : 1.2
              DATE     : 08/2011
              AUTHOR   : Valat Sébastien
              LICENSE  : CeCILL-C

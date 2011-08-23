@@ -1,6 +1,6 @@
 /*****************************************************
              PROJECT  : svpgm2txt
-             VERSION  : 1.1
+             VERSION  : 1.2
              DATE     : 08/2011
              AUTHOR   : Valat Sébastien
              LICENSE  : CeCILL-C
@@ -19,7 +19,7 @@
 using namespace std;
 
 /*********************  CONSTS  *********************/
-const char * argp_program_version="svPgm2Txt version " VERSION;
+const char * argp_program_version="svpgm2txt version " VERSION;
 const char *argp_program_bug_address = "<sebastien.valat.dev@orange.fr>";
 /* Program documentation. */
 static const char RS_ARGP_DOC[] ="svPgm1Txt -- Tools for text extraction from PGM files (OCR). "

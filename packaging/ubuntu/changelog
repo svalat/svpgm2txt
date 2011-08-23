@@ -1,3 +1,12 @@
+svpgm2txt (1.2-1) unstable; urgency=low
+
+  * Add optional fix to distinguish I/l using aspell.
+  * Add optional fix to distinguish I/l using upper case/lower case rules.
+  * Add optional fix to distinguish I/l by forcing using I or l.
+  * Add optional fix to distinguish I/l by asking every time.
+
+ -- Sébastien Valat <sebastien.valat.dev@orange.fr>  Tue, 23 Aug 2011 21:23:20 +0200
+
 svpgm2txt (1.1-1) unstable; urgency=low
 
   * Replace Character DB now use map instead of list for memory storage.

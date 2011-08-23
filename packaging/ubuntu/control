@@ -2,13 +2,14 @@ Source: svpgm2txt
 Section: graphics
 Priority: optional
 Maintainer: Sébastien Valat <sebastien.valat.dev@orange.fr>
-Build-Depends: debhelper (>= 7), cmake, cdbs, gzip
+Build-Depends: debhelper (>= 7), cmake, cdbs, gzip, libaspell-dev
 Standards-Version: 3.9.1
 Homepage: https://github.com/svalat/svpgm2txt
 
 Package: svpgm2txt
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Quick OCR to extract perfect formed text from PGM files instead 
+Depends: ${shlibs:Depends}, ${misc:Depends}, libaspell15
+Description: Simple OCR to extract text from PGM files.
+ Quick OCR to extract perfect formed text from PGM files instead 
  of use gocr to get less error when working on perfect files. This is to fix 
  issues of default pgm2txt command.

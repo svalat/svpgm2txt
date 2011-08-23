@@ -1,6 +1,6 @@
 ######################################################
 #            PROJECT  : svpgm2txt                    #
-#            VERSION  : 1.1                          #
+#            VERSION  : 1.2                          #
 #            DATE     : 08/2011                      #
 #            AUTHOR   : Valat Sébastien              #
 #            LICENSE  : CeCILL-C                     #
@@ -19,5 +19,5 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE=""
 
-DEPEND="gzip"
-RDEPEND=""
+DEPEND="gzip aspell"
+RDEPEND="aspell"
