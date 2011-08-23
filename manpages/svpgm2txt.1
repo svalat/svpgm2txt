@@ -63,10 +63,14 @@ computed by the heuristic system.
 Enable fix mode for I and l distinction, value can be : 
    - 'none' for disabling the fix,
    - 'always_ask' to ignore DB and ask every time, 
-   - 'force_l' or 'force_l' to force using one letter.
+   - 'force_l' or 'force_i' to force using one letter.
+   - 'aspell' to use aspell, you must provide the related language to use with -L/--lang.
 .TP
 .B \-l, \-\-list=FILE
 Provide a file listing PGM files to process. Each file must be separated by a line break.
+.TP
+.B \-L, \-\-lang=STRING
+Define the language to use for spell checking in conjunction of -i aspell only. You may use values like en_US of fr_FR...
 .TP
 .B \-o, \-\-output-db=FILE
 Define the file in which to save the final DB which will cumulate all input DB plus new entries created by the scan.
@@ -132,6 +136,11 @@ Convert multiple files :
 Use default DB in $HOME/.svpgm2txt.db and save after each file :
 .B svpgm2txt
 \-U -s *.pgm
+.PP
+.TP
+Use aspell to fix I/l bug due to identical shape depending on the font :
+.B svpgm2txt 
+\-U \-i aspell \-L en_US *.pgm
 .PP
 ."""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 .SH EXIT STATUS

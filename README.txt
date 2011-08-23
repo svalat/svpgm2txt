@@ -50,3 +50,6 @@ $> svpgm2txt -s -o db.txt -d db.txt test-data-ascii.pgm
 
 $> svpgm2txt -d db.txt *.pgm
 
+6) Use aspell to fix I/l bug due to identical shape depending on the font :
+
+$> svpgm2txt -U -i aspell -L en_US *.pgm
