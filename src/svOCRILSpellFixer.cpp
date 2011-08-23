@@ -40,26 +40,6 @@ svOCRILSpellFixer::~svOCRILSpellFixer(void )
 }
 
 /*******************  FUNCTION  *********************/
-void svOCRILSpellFixer::clear ( void )
-{
-	registredPos.clear();
-}
-
-/*******************  FUNCTION  *********************/
-string svOCRILSpellFixer::fixString ( string value ) const
-{
-	for (list<int>::const_iterator it = registredPos.begin() ; it != registredPos.end() ; ++it)
-		fixCharInString(value,*it);
-	return value;
-}
-
-/*******************  FUNCTION  *********************/
-void svOCRILSpellFixer::registerPos ( int pos )
-{
-	registredPos.push_back(pos);
-}
-
-/*******************  FUNCTION  *********************/
 bool svOCRILSpellFixer::isSeparator ( char value ) const
 {
 	const char separators[] = "\n:;,()[]=+*{} .!?-";
@@ -76,12 +56,10 @@ void svOCRILSpellFixer::fixCharInString(string& value, int pos) const
 	int variant_l = aspell_speller_check(spell_checker, word.variant_l.c_str(), word.variant_l.size());
 	int variant_I = aspell_speller_check(spell_checker, word.variant_I.c_str(), word.variant_I.size());
 	
-	cerr << "default is : " << value[pos]  << endl;
 	if (variant_l == 0 && variant_I != 0)
 		value[pos] = 'I';
 	else if (variant_l != 0 && variant_I == 0)
 		value[pos] = 'l';
-	cerr << "final is : " << value[pos]  << endl;
 }
 
 /*******************  FUNCTION  *********************/

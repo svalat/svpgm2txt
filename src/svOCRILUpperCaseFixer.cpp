@@ -13,20 +13,6 @@
 using namespace std;
 
 /*******************  FUNCTION  *********************/
-void svOCRILUpperCaseFixer::clear ( void )
-{
-	registredPos.clear();
-}
-
-/*******************  FUNCTION  *********************/
-string svOCRILUpperCaseFixer::fixString ( string value ) const
-{
-	for (list<int>::const_iterator it = registredPos.begin() ; it != registredPos.end() ; ++it)
-		fixCharInString(value,*it);
-	return value;
-}
-
-/*******************  FUNCTION  *********************/
 void svOCRILUpperCaseFixer::fixCharInString ( string& value, int pos ) const
 {
 	//errors
@@ -42,12 +28,6 @@ void svOCRILUpperCaseFixer::fixCharInString ( string& value, int pos ) const
 		value[pos] = 'I';
 	else
 		value[pos] = 'l';
-}
-
-/*******************  FUNCTION  *********************/
-void svOCRILUpperCaseFixer::registerPos ( int pos )
-{
-	registredPos.push_back(pos);
 }
 
 /*******************  FUNCTION  *********************/

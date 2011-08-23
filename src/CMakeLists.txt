@@ -13,7 +13,7 @@ find_package(ASPELL)
 add_definitions(-I${ASPELL_INCLUDE_DIR})
 
 ##################### TARGETS ########################
-set(SVPGM2TXT_SOUCRES svOCRILSpellFixer.cpp svOCRILUpperCaseFixer.cpp main.cpp svOCROptions.cpp svOCR.cpp svOCRLine.cpp svOCRHeuristic.cpp 
+set(SVPGM2TXT_SOUCRES svOCRILSimpleFixer.cpp svOCRILFixerBase.cpp svOCRILSpellFixer.cpp svOCRILUpperCaseFixer.cpp main.cpp svOCROptions.cpp svOCR.cpp svOCRLine.cpp svOCRHeuristic.cpp 
 	svOCRExtractedChar.cpp svOCRCharDb.cpp svOCRChar.cpp svOCRImage.cpp svOCRPgmHeader.cpp)
 add_executable(svpgm2txt ${SVPGM2TXT_SOUCRES})
 

@@ -10,8 +10,7 @@
 #define SVOCRILSPELLFIXER_H
 
 /********************  HEADERS  *********************/
-#include <list>
-#include <string>
+#include "svOCRILFixerBase.h"
 
 /*********************  STRUCT  *********************/
 struct svOCRILSpellFixerWordVariant
@@ -21,19 +20,15 @@ struct svOCRILSpellFixerWordVariant
 };
 
 /*********************  CLASS  **********************/
-class svOCRILSpellFixer
+class svOCRILSpellFixer : public svOCRILFixerBase
 {
 	public:
 		svOCRILSpellFixer(std::string lang);
 		~svOCRILSpellFixer(void);
-		void registerPos(int pos);
-		std::string fixString(std::string value) const;
-		void clear(void);
 	protected:
 		void fixCharInString(std::string & value,int pos) const;
 		bool isSeparator(char value) const;
 		svOCRILSpellFixerWordVariant getWord(std::string value,int pos) const;
-		std::list<int> registredPos;
 	private:
 		struct AspellConfig * spell_config;
 		struct AspellSpeller * spell_checker;

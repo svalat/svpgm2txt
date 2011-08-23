@@ -12,6 +12,8 @@
 #include "svOCRGlobalConfig.h"
 #include "svOCRILUpperCaseFixer.h"
 #include "svOCRILSpellFixer.h"
+#include "svOCRILSimpleFixer.h"
+#include <cstdlib>
 
 /**********************  USING  *********************/
 using namespace std;
@@ -21,14 +23,57 @@ svOCR::svOCR(const svOCROptions & options)
 {
 	this->options = & options;
 	this->majSize = 0;
+	this->buildDefaultFixer();
+	this->fixer = this->defaultFixer;
+}
+
+/*******************  FUNCTION  *********************/
+svOCR::~svOCR(void )
+{
+	if (defaultFixer != NULL)
+		delete defaultFixer;
+}
+
+/*******************  FUNCTION  *********************/
+void svOCR::buildDefaultFixer(void )
+{
+	switch(options->getILFix())
+	{
+		case SVOCR_IL_FIX_NONE:
+			defaultFixer = new svOCRILNullFixer();
+			break;
+		case SVOCR_IL_FIX_ALLWAYS_ASK:
+			defaultFixer = new svOCRILAskFixer();
+			break;
+		case SVOCR_IL_FIX_ASPELL:
+			defaultFixer = new svOCRILSpellFixer(options->getSpellLang());
+			break;
+		case SVOCR_IL_FIX_FORCE_I:
+			defaultFixer = new svOCRILForceValueFixer("I");
+			break;
+		case SVOCR_IL_FIX_FORCE_L:
+			defaultFixer = new svOCRILForceValueFixer("l");
+			break;
+		case SVOCR_IL_FIX_UPPER_CASE:
+			defaultFixer = new svOCRILUpperCaseFixer();
+			break;
+		default:
+			cerr << "Unsupported I/l fixer " << options->getILFix() << endl;
+			abort();
+			break;
+	};
+}
+
+/*******************  FUNCTION  *********************/
+void svOCR::setFixer(svOCRILFixerBase* fixer)
+{
+	this->fixer = fixer;
 }
 
 /*******************  FUNCTION  *********************/
 std::string svOCR::runOnImage(std::string path)
 {
 	svOCRImage img(1,1);
-	svOCRILUpperCaseFixer ilFixer;
-	svOCRILSpellFixer * spellFixer = NULL;
 	if (!img.load(path.c_str()))
 	{
 		perror("");
@@ -43,9 +88,6 @@ std::string svOCR::runOnImage(std::string path)
 	string hash;
 	string cur;
 	int lastm = -1;
-	
-	if (options->getILFix() == SVOCR_IL_FIX_ASPELL)
-		spellFixer = new svOCRILSpellFixer(options->getSpellLang());
 
 	while (line.buildLine(img,line.getEnd()+1))
 	{
@@ -58,27 +100,24 @@ std::string svOCR::runOnImage(std::string path)
 			extrChr.applyCrop();
 
 			//get the string
-			hash=extrChr.getHash(majSize);
-			cur=this->db.getValue(hash);
+			hash = extrChr.getHash(majSize);
+			cur = this->db.getValue(hash);
 			
 			//special fix, ask for each I/l
-			if ((cur == "I" || cur == "l") && options->getILFix() == SVOCR_IL_FIX_ALLWAYS_ASK)
+			if (fixer->forceAskingToUser(cur))
 				cur = requestUnknown(extrChr,hash);
 			
 			//if not found
-			if (cur==SVOCR_DB_NOT_FOUND)
+			if (cur == SVOCR_DB_NOT_FOUND)
 				cur = requestUnknown(extrChr,hash);
 			
 			//special fix, force I/l value
-			if (cur == "I" && options->getILFix() == SVOCR_IL_FIX_FORCE_L)
-				cur = "l";
-			else if (cur == "l" && options->getILFix() == SVOCR_IL_FIX_FORCE_I)
-				cur = "I";
+			cur = fixer->hardFix(cur);
 
 			//check space
 			//cout << "lastm=" << lastm << "  new=" << chr.getMStart() << endl;
 			if (lastm!=-1 && extrChr.getXOffset() - lastm > this->options->getWhitespaceWidth())
-				res+=' ';
+				res += ' ';
 			lastm = extrChr.getXEnd();
 
 			//if maj we take the size
@@ -87,10 +126,8 @@ std::string svOCR::runOnImage(std::string path)
 			//add the string
 			if (cur != SVOCR_IGNORE_STRING)
 			{
-				if ((cur == "I" || cur == "l") && this->options->getILFix() ==  SVOCR_IL_FIX_UPPER_CASE)
-					ilFixer.registerPos(res.size());
-				if ((cur == "I" || cur == "l") && spellFixer != NULL)
-					spellFixer->registerPos(res.size());
+				if (cur == "I" || cur == "l")
+					fixer->registerPos(res.size());
 				res+=cur;
 			}
 
@@ -104,12 +141,10 @@ std::string svOCR::runOnImage(std::string path)
 	}
 	
 	//final fixes
-	if(this->options->getILFix() ==  SVOCR_IL_FIX_UPPER_CASE)
-		res = ilFixer.fixString(res);
+	res = fixer->fixString(res);
 	
-	//final fixes
-	if (spellFixer != NULL)
-		res = spellFixer->fixString(res);
+	//final clear of fixer
+	fixer->clear();
 
 	return res;
 }

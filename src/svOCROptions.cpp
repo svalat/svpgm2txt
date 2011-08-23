@@ -48,7 +48,7 @@ static const struct argp_option RS_OPTIONS[] = {
 	{"ilfix",        'i',  "STRING",      0,  "Enable fix mode for I and l distinction, value can be : "
 	                                          "'none' for disabling the fix, "
 	                                          "'always_ask' to ignore DB and ask every time, "
-	                                          "'force_l' or 'force_l' to force using one letter, "
+	                                          "'force_l' or 'force_i' to force using one letter, "
 	                                          "'aspell' use apsell as spell checker for I/l distinction, "
 	                                          "'upper_case' to detect if we are at begening of a work, an upper cased word...,"},
 	{"lang",          'L', "STRING",      0,  "Define the language to use for spell checking in conjunction of -i aspell only."},
