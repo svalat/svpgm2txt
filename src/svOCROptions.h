@@ -61,10 +61,12 @@ class svOCROptions
 		svOCRILFix getILFix(void) const;
 		void setSpellLang(std::string lang);
 		std::string getSpellLang(void) const;
+		bool getTermColor(void) const;
 	private:
 		static error_t parseOptions(int key, char *arg, struct argp_state *state);
 		void doInternal(void);
 		void loadInputFileList(void);
+		void setTermColorAuto(void);
 		void init(void);
 		std::list<std::string> dbs;
 		std::string outputDb;
@@ -85,6 +87,7 @@ class svOCROptions
 		int whitespaceWidth;
 		svOCRILFix ilfix;
 		std::string spellLang;
+		bool termColor;
 };
 
 #endif

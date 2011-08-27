@@ -172,7 +172,7 @@ std::string svOCR::requestUnknown(svOCRExtractedChar & extrChr,std::string & has
 	}
 	if (found==false)
 	{
-		value = extrChr.askWhatItIs();
+		value = extrChr.askWhatItIs(options->getTermColor());
 		if (majSize>0)
 			this->db.addEntry(hash,majSize,value,true);
 	}
@@ -196,4 +196,3 @@ bool svOCR::saveDb(std::string filename)
 {
 	return this->db.save(filename);
 }
-

@@ -14,6 +14,7 @@
 #include <iostream>
 #include <cstdio>
 #include <cstring>
+#include <unistd.h>
 
 /**********************  USING  *********************/
 using namespace std;
@@ -52,6 +53,7 @@ static const struct argp_option RS_OPTIONS[] = {
 	                                          "'aspell' use apsell as spell checker for I/l distinction, "
 	                                          "'upper_case' to detect if we are at begening of a work, an upper cased word...,"},
 	{"lang",          'L', "STRING",      0,  "Define the language to use for spell checking in conjunction of -i aspell only."},
+	{"mode",          'm', "STRING",      0,  "Define the terminal mode to use to enable or disable color support : color, std, auto."},
 	{ 0 }
 };
 static const char * SVOCR_ILFIX_NAMES[]={"none","always_ask","force_l","force_i","upper_case","aspell"};
@@ -75,6 +77,7 @@ void svOCROptions::init(void)
 	this->useHeuristics    = false;
 	this->ilfix            = SVOCR_IL_FIX_NONE;
 	this->spellLang        = "Undefined";
+	this->setTermColorAuto();
 }
 
 /*******************  FUNCTION  *********************/
@@ -119,6 +122,21 @@ error_t svOCROptions::parseOptions(int key, char *arg, struct argp_state *state)
 				options->spellLang = arg;
 			else
 				return ARGP_ERR_UNKNOWN;
+			break;
+		case 'm':
+			if (arg==NULL)
+			{
+				return ARGP_ERR_UNKNOWN;
+			} else if (strcmp(arg,"auto")==0) {
+				options->setTermColorAuto();
+			} else if (strcmp(arg,"color")==0) {
+				options->termColor = true;
+			} else if (strcmp(arg,"std")==0) {
+				options->termColor = false;
+			} else {
+				cerr << "Unknown terminal color mode : " << arg << endl;
+				return ARGP_ERR_UNKNOWN;
+			}
 			break;
 		case 'i':
 			if (arg == NULL)
@@ -391,4 +409,19 @@ string svOCROptions::getSpellLang(void ) const
 void svOCROptions::setSpellLang(string lang)
 {
 	this->spellLang = lang;
+}
+
+/*******************  FUNCTION  *********************/
+bool svOCROptions::getTermColor(void ) const
+{
+	return this->termColor;
+}
+
+/*******************  FUNCTION  *********************/
+void svOCROptions::setTermColorAuto(void )
+{
+	if (isatty(STDOUT_FILENO))
+		this->termColor = true;
+	else
+		this->termColor = false;
 }

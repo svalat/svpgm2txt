@@ -193,10 +193,15 @@ std::string svOCRExtractedChar::getHash(int majSize)
 }
 
 /*******************  FUNCTION  *********************/
-std::string svOCRExtractedChar::askWhatItIs(void)
+std::string svOCRExtractedChar::askWhatItIs(bool useTermColor)
 {
 	int startx=this->source->getStart()-40;
 	int endx=this->source->getStart()+img.getWidth()+40;
+	const char * selected = NULL;
+	if (useTermColor)
+		selected = "\e[47m#\e[0m";
+	else
+		selected = "#";
 	SVOCR_COLOR color;
 	if (startx<0)
 	{
@@ -221,7 +226,7 @@ std::string svOCRExtractedChar::askWhatItIs(void)
 			if (color==255)
 				printf(".");
 			else if (x >= xoffset && x < xoffset + (int)img.getWidth() && img.getColor(x-xoffset,y-yoffset)==0 && color<127)
-				printf("\e[47m#\e[0m");
+				printf("%s",selected);
 			else
 				printf("+");
 		}

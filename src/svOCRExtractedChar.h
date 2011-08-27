@@ -27,7 +27,7 @@ class svOCRExtractedChar
 		void buildExtractedChar(svOCRChar & source);
 		void applyCrop(void);
 		std::string getHash(int majSize);
-		std::string askWhatItIs(void);
+		std::string askWhatItIs(bool useTermColor);
 		int getXOffset();
 		int getXEnd();
 		svOCRImage getImage();
